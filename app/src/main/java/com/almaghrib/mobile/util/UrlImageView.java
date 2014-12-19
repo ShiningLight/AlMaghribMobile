@@ -43,11 +43,11 @@ public class UrlImageView extends LinearLayout {
         mContext = context;
 
         mImage = new ImageView(mContext);
-        mImage.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
+        //mImage.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
         mImage.setVisibility(View.GONE);
         
         mSpinner = new ProgressBar(mContext);
-        mSpinner.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
+        //mSpinner.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
 
         mSpinner.setIndeterminate(true);
 
@@ -108,8 +108,10 @@ public class UrlImageView extends LinearLayout {
      * @throws IOException
      * @throws MalformedURLException
      */
-    private static Drawable getDrawableFromUrl(final String url) throws IOException, MalformedURLException {
-        return Drawable.createFromStream(((java.io.InputStream) new java.net.URL(url).getContent()), "name");
+    private static Drawable getDrawableFromUrl(final String url)
+    		throws IOException, MalformedURLException {
+        return Drawable.createFromStream(
+        		((java.io.InputStream) new java.net.URL(url).getContent()), "name");
     }
 
 }

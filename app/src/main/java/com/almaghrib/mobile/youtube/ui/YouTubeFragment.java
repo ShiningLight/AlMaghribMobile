@@ -9,14 +9,13 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.TextView;
 
 import com.almaghrib.mobile.R;
 import com.almaghrib.mobile.youtube.tasks.GetYouTubeUserVideosTask;
 import com.almaghrib.mobile.youtube.tasks.YouTubeVideoLibrary;
 
 public class YouTubeFragment extends Fragment {
-    int fragVal;
+    private int fragVal;
     private YouTubeVideoListView listView;
 
     public static YouTubeFragment init(int val) {
@@ -37,14 +36,14 @@ public class YouTubeFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
-        View layoutView = inflater.inflate(R.layout.youtube_page, container,
+        final View layoutView = inflater.inflate(R.layout.youtube_page, container,
                 false);
-        listView = (YouTubeVideoListView) layoutView
-                .findViewById(R.id.videosListView);
-        Button b = (Button) layoutView.findViewById(R.id.getFeedButton);
+        listView = (YouTubeVideoListView) layoutView.findViewById(R.id.videosListView);
+        final Button b = (Button) layoutView.findViewById(R.id.getFeedButton);
         b.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
+                // TODO: get id from file matching text on spinner (to add)
                 getUserYouTubeFeed(v);
             }
         });
@@ -64,7 +63,7 @@ public class YouTubeFragment extends Fragment {
         // We pass in a handler that will be called when the task has finished
         // We also pass in the name of the user we are searching YouTube for
         new Thread(new GetYouTubeUserVideosTask(
-                responseHandler, "AlMaghribTrailers")).start();
+                responseHandler, "UC1B7kOnMRdPuP0rxW6mS7_A")).start(); // TODO: remove hardcoded string for AlMaghribTrailers
     }
     
     /**

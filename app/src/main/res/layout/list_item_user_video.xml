@@ -1,21 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="center_vertical"
-    android:orientation="horizontal" >
+    android:orientation="horizontal"
+    android:padding="10dp"
+    android:background="@android:color/white" >
 
     <com.almaghrib.mobile.util.UrlImageView
-        android:id="@+id/userVideoThumbImageView"
+        android:id="@+id/videoThumbImageView"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
         android:contentDescription="YouTube video thumbnail"
-        android:src="@drawable/ic_launcher" />
+        android:paddingEnd="15dp"
+        android:paddingRight="15dp" />
 
     <TextView
-        android:id="@+id/userVideoTitleTextView"
-        android:layout_width="match_parent"
+        android:id="@+id/videoTitleTextView"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Video Title Not Found" />
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_toEndOf="@+id/videoThumbImageView"
+        android:layout_toRightOf="@+id/videoThumbImageView"
+        android:text="Video Title Not Found"
+        android:paddingBottom="10dp" />
 
-</LinearLayout>
+    <TextView
+        android:id="@+id/videoPublishedAtTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_toEndOf="@+id/videoThumbImageView"
+        android:layout_toRightOf="@+id/videoThumbImageView"
+        android:layout_below="@+id/videoTitleTextView"
+        android:text="Published date" />
+
+</RelativeLayout>

@@ -14,11 +14,14 @@ public class YouTubeVideo implements Serializable {
     private String url;
     // A link to a still image of the youtube video
     private String thumbUrl;
+    // The published date of the video
+    private String publishedDate;
      
-    public YouTubeVideo(String title, String url, String thumbUrl) {
+    public YouTubeVideo(String title, String url, String thumbUrl, String publishedDate) {
         this.title = title;
         this.url = url;
         this.thumbUrl = thumbUrl;
+        this.publishedDate = publishedDate;
     }
  
     /**
@@ -42,4 +45,10 @@ public class YouTubeVideo implements Serializable {
         return thumbUrl;
     }
     
+    /**
+     * @return the published date of the video
+     */
+    public String getpublishedDate() {
+        return publishedDate;
+    }
 }

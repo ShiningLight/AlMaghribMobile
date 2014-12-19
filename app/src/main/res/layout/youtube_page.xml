@@ -2,13 +2,14 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:orientation="vertical" >
+    android:orientation="vertical"
+    android:background="@android:color/white" >
 
     <Button
         android:id="@+id/getFeedButton"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="Get YouTube Feed for &apos;blundellp&apos;" />
+        android:text="Get YouTube Feed" />
 
     <com.almaghrib.mobile.youtube.ui.YouTubeVideoListView
         android:id="@+id/videosListView"
