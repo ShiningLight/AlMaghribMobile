@@ -2,10 +2,10 @@ package com.almaghrib.mobile.youtube.ui;
 
 import android.widget.TextView;
 
-import com.almaghrib.mobile.util.UrlImageView;
+import com.android.volley.toolbox.NetworkImageView;
 
 public class YouTubeViewHolder {
-	UrlImageView thumb;
+    NetworkImageView thumb;
 	TextView title;
 	TextView publishedAt;
 }

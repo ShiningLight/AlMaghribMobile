@@ -1,7 +1,5 @@
 package com.almaghrib.mobile.youtube.ui;
 
-import java.util.List;
-
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -11,11 +9,15 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
- 
+
 import com.almaghrib.mobile.R;
-import com.almaghrib.mobile.util.UrlImageView;
+import com.almaghrib.mobile.RequestQueueSingleton;
 import com.almaghrib.mobile.youtube.tasks.YouTubeVideo;
- 
+import com.android.volley.toolbox.ImageLoader;
+import com.android.volley.toolbox.NetworkImageView;
+
+import java.util.List;
+
 /**
  * This adapter is used to show our Video objects in a ListView
  * It hasn't got many memory optimisations, if your list is getting bigger or more complex
@@ -23,6 +25,9 @@ import com.almaghrib.mobile.youtube.tasks.YouTubeVideo;
  * @author paul.blundell
  */
 public class YouTubeVideoAdapter extends BaseAdapter {
+    private Context mContext;
+    private ImageLoader mImageLoader;
+
     // The list of videos to display
     List<YouTubeVideo> videos;
     // An inflator to use when creating rows
@@ -33,6 +38,9 @@ public class YouTubeVideoAdapter extends BaseAdapter {
      * @param videos this is a list of videos to display
      */
     public YouTubeVideoAdapter(Context context, List<YouTubeVideo> videos) {
+        mContext = context;
+        // Get the ImageLoader through your singleton class.
+        mImageLoader = RequestQueueSingleton.getInstance(context).getImageLoader();
         this.videos = videos;
         this.mInflater = LayoutInflater.from(context);
     }
@@ -65,7 +73,8 @@ public class YouTubeVideoAdapter extends BaseAdapter {
             holder = new YouTubeViewHolder();
             // We are using a custom imageview so that we can load images using urls
             // For further explanation see: http://blog.blundell-apps.com/imageview-with-loading-spinner/
-            holder.thumb = (UrlImageView) convertView.findViewById(R.id.videoThumbImageView);
+            holder.thumb = (NetworkImageView) convertView.findViewById(R.id.videoThumbImageView);
+            holder.thumb.setTag(YouTubeFragment.TAG); // set tag so we can cancel unnecessary requests
             holder.title = (TextView) convertView.findViewById(R.id.videoTitleTextView);
             holder.publishedAt = (TextView) convertView.findViewById(R.id.videoPublishedAtTextView);
         
@@ -76,8 +85,14 @@ public class YouTubeVideoAdapter extends BaseAdapter {
         }
         // Get a single video from our list
         final YouTubeVideo video = videos.get(position);
+
+        holder.thumb.setDefaultImageResId(R.drawable.youtube_default_image);
+        // Set the URL of the image that should be loaded into this view, and
+        // specify the ImageLoader that will be used to make the request.
+        holder.thumb.setImageUrl(video.getThumbUrl(), mImageLoader);
         // Set the image for the list item
-        holder.thumb.setImageDrawable(video.getThumbUrl());
+        //holder.thumb.setImageDrawable(video.getThumbUrl());
+
         // Set the title for the list item
         holder.title.setText(video.getTitle());
         holder.publishedAt.setText(video.getpublishedDate());
