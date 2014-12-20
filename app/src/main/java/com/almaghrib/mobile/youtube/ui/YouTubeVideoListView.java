@@ -1,14 +1,13 @@
 package com.almaghrib.mobile.youtube.ui;
 
-import java.util.List;
-
 import android.content.Context;
 import android.util.AttributeSet;
-import android.widget.ListAdapter;
+import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.ListView;
- 
-import com.almaghrib.mobile.youtube.tasks.YouTubeVideo;
- 
+
+import com.almaghrib.mobile.R;
+
 /**
  * A custom ListView that takes a list of videos to display</br>
  * As you can see you don't call setAdapter you should call setVideos and
@@ -24,6 +23,8 @@ import com.almaghrib.mobile.youtube.tasks.YouTubeVideo;
  *
  */
 public class YouTubeVideoListView extends ListView {
+    final View mLoadingFooterView =
+            LayoutInflater.from(getContext()).inflate(R.layout.footer_loading_spinner, null);
  
     public YouTubeVideoListView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
@@ -36,15 +37,12 @@ public class YouTubeVideoListView extends ListView {
     public YouTubeVideoListView(Context context) {
         super(context);
     }
- 
-    public void setVideos(List<YouTubeVideo> videos){
-        YouTubeVideoAdapter adapter =
-                new YouTubeVideoAdapter(getContext(), videos);
-        setAdapter(adapter);
+
+    public void removeLoadingFooterView() {
+        removeFooterView(mLoadingFooterView);
     }
-     
-    @Override
-    public void setAdapter(ListAdapter adapter) {
-        super.setAdapter(adapter);
+
+    public void addLoadingFooterView() {
+        addFooterView(mLoadingFooterView);
     }
 }

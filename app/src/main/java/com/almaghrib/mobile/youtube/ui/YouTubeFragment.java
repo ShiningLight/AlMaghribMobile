@@ -1,5 +1,7 @@
 package com.almaghrib.mobile.youtube.ui;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Message;
 import android.support.v4.app.Fragment;
@@ -8,15 +10,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.Button;
-import android.widget.Toast;
 
 import com.almaghrib.mobile.R;
 import com.almaghrib.mobile.RequestQueueSingleton;
 import com.almaghrib.mobile.util.GsonRequest;
+import com.almaghrib.mobile.youtube.jsonModels.YouTubeSearchItemSnippetModel;
 import com.almaghrib.mobile.youtube.jsonModels.YouTubeSearchModelContainer;
 import com.almaghrib.mobile.youtube.jsonModels.YouTubeSearchResultItemsModel;
-import com.almaghrib.mobile.youtube.tasks.GetYouTubeUserVideosTask;
 import com.almaghrib.mobile.youtube.tasks.YouTubeConstants;
 import com.almaghrib.mobile.youtube.tasks.YouTubeVideo;
 import com.almaghrib.mobile.youtube.tasks.YouTubeVideoLibrary;
@@ -28,10 +30,9 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 
-public class YouTubeFragment extends Fragment {
+public class YouTubeFragment extends Fragment implements AbsListView.OnScrollListener {
     protected final static String TAG = YouTubeFragment.class.getSimpleName();
 
     private static final SimpleDateFormat RETRIEVED_DATE_FORMAT =
@@ -40,7 +41,16 @@ public class YouTubeFragment extends Fragment {
             new SimpleDateFormat("dd-MM-yyyy");
 
     private int fragVal;
+
     private YouTubeVideoListView listView;
+    private YouTubeVideoAdapter mYouTubeVideoAdapter;
+
+    private String mChannelId;
+    private YouTubeVideoLibrary mLibrary;
+
+    private boolean mIsUserScrolling = false;
+    private String mNextPageToken;
+    private boolean isLoading;
 
     public static YouTubeFragment init(int val) {
         YouTubeFragment truitonFrag = new YouTubeFragment();
@@ -63,25 +73,36 @@ public class YouTubeFragment extends Fragment {
         final View layoutView = inflater.inflate(R.layout.youtube_page, container, false);
 
         listView = (YouTubeVideoListView) layoutView.findViewById(R.id.videosListView);
+        listView.setOnScrollListener(this);
+        mYouTubeVideoAdapter = new YouTubeVideoAdapter(getActivity(), new ArrayList<YouTubeVideo>());
+        listView.setAdapter(mYouTubeVideoAdapter);
+
         final Button b = (Button) layoutView.findViewById(R.id.getFeedButton);
         b.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 // TODO: get id from file matching text on spinner (to add)
-                getUserYouTubeFeed(v);
+                mChannelId = "UC1B7kOnMRdPuP0rxW6mS7_A"; // TODO: remove hardcoded string for AlMaghribTrailers
+                // Create a library to hold our videos
+                mLibrary = new YouTubeVideoLibrary(mChannelId, new ArrayList<YouTubeVideo>());
+                mNextPageToken = null;
+                getUserYouTubeFeed(v.getContext());
             }
         });
         return layoutView;
     }
-    
 
-    // This is the XML onClick listener to retreive a users video feed
-    public void getUserYouTubeFeed(View v){
-        final String channelId = "UC1B7kOnMRdPuP0rxW6mS7_A"; // TODO: remove hardcoded string for AlMaghribTrailers
-
+    /**
+     * onClick listener to retrieve a users video feed
+     * @param context
+     */
+    public void getUserYouTubeFeed(Context context){
         String url = YouTubeConstants.BASE_REQUEST_URL + YouTubeConstants.SEARCH_REQUEST +
-                "?key=AIzaSyCq5TVzGp1J6_nPCLwaiHfs6C4gSSbHzuM&channelId=" + channelId + "&part=snippet,id&order=date&maxResults=20";
-
+                "?key=AIzaSyCq5TVzGp1J6_nPCLwaiHfs6C4gSSbHzuM&channelId=" + mChannelId +
+                "&part=snippet,id&order=date&maxResults=15&type=video";
+        if (mNextPageToken != null) {
+            url += "&pageToken=" + mNextPageToken;
+        }
 /*        // Create parameters
         HashMap<String, String> params = new HashMap<String, String>();
         params.put("key", "AIzaSyCq5TVzGp1J6_nPCLwaiHfs6C4gSSbHzuM");
@@ -90,45 +111,66 @@ public class YouTubeFragment extends Fragment {
         params.put("order", "date");
         params.put("maxResults", "20");*/
 
-        final GsonRequest<YouTubeSearchModelContainer> myReq =
+        final GsonRequest<YouTubeSearchModelContainer> request =
                 new GsonRequest<YouTubeSearchModelContainer>(
                         Request.Method.GET,
                         url,
                         YouTubeSearchModelContainer.class,
                         //params,
-                        createMyReqSuccessListener(channelId),
-                        createMyReqErrorListener());
-
-        RequestQueueSingleton.getInstance(v.getContext().getApplicationContext())
-                .addToRequestQueue(myReq);
+                        createSearchRequestSuccessListener(),
+                        createSearchRequestErrorListener());
+        request.setTag(TAG);
+        RequestQueueSingleton.getInstance(context.getApplicationContext())
+                .addToRequestQueue(request);
     }
 
-    private Response.Listener<YouTubeSearchModelContainer> createMyReqSuccessListener(final String channelId) {
+    private Response.Listener<YouTubeSearchModelContainer> createSearchRequestSuccessListener() {
         return new Response.Listener<YouTubeSearchModelContainer>() {
             @Override
             public void onResponse(YouTubeSearchModelContainer response) {
                 try {
                     Log.d(TAG, response.toString());
-                    populateListWithVideos(response.getItems(), channelId);
+                    mNextPageToken = response.getNextPageToken();
+                    populateListWithVideos(response.getItems());
                 } catch (Exception e) {
                     Log.e(TAG, e.getMessage(), e);
                 }
+                isLoading = false;
+                listView.removeLoadingFooterView();
             };
         };
     }
 
-    private void populateListWithVideos(ArrayList<YouTubeSearchResultItemsModel> items, String channelId) {
+    private Response.ErrorListener createSearchRequestErrorListener() {
+        return new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                //Toast.makeText(getActivity(), error.getMessage(), Toast.LENGTH_LONG).show();
+                Log.e(TAG, error.getMessage(), error);
+                isLoading = false;
+                listView.removeLoadingFooterView();
+            }
+        };
+    }
+
+    /**
+     * This method retrieves the Library of videos from the retrieved items and
+     * passes them to our ListView
+     * @param items
+     */
+    private void populateListWithVideos(ArrayList<YouTubeSearchResultItemsModel> items) {
         // Create a list to store are videos in
         final List<YouTubeVideo> videos = new ArrayList<YouTubeVideo>();
         for (int i = 0; i < items.size(); i++) {
             final YouTubeSearchResultItemsModel itemsModel = items.get(i);
-            final String title = itemsModel.getSnippet().getTitle();
+
+            final YouTubeSearchItemSnippetModel itemSnippet = itemsModel.getSnippet();
+            final String title = itemSnippet.getTitle();
             final String videoId = itemsModel.getId().getVideoId();
-            final String thumbUrl = itemsModel.getSnippet().getThumbnails()
-                    .getDefaultThumbnail().getUrl();
+            final String thumbUrl = itemSnippet.getThumbnails().getDefaultThumbnail().getUrl();
             Date d = null;
             try {
-                d = RETRIEVED_DATE_FORMAT.parse(itemsModel.getSnippet().getPublishedAt());
+                d = RETRIEVED_DATE_FORMAT.parse(itemSnippet.getPublishedAt());
             } catch (ParseException e) {
                 Log.e(TAG, e.getMessage(), e);
             }
@@ -137,45 +179,59 @@ public class YouTubeFragment extends Fragment {
             videos.add(new YouTubeVideo(
                     title, YouTubeConstants.WATCH_BASE_URL + videoId, thumbUrl, formattedTime));
         }
-        // Create a library to hold our videos
-        final YouTubeVideoLibrary lib = new YouTubeVideoLibrary(channelId, videos);
-        // Because we have created a custom ListView we don't have to worry about setting the adapter
-        // in the activity we can just call our custom method with the list of items we want to display
-        listView.setVideos(lib.getVideos());
+        mLibrary.addVideos(videos);
+
+        mYouTubeVideoAdapter.updateAdapter(mLibrary.getVideos());
     }
 
-    private Response.ErrorListener createMyReqErrorListener() {
-        return new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                //Toast.makeText(getActivity(), error.getMessage(), Toast.LENGTH_LONG).show();
-                Log.e(TAG, error.getMessage(), error);
-            }
-        };
-    }
-    
-    /**
-     * This method retrieves the Library of videos from the task and passes them to our ListView
-     * @param msg
-     */
-    private void populateListWithVideos(Message msg) {
-        // Retreive the videos are task found from the data bundle sent back
-        YouTubeVideoLibrary lib = (YouTubeVideoLibrary) msg.getData().get(
-                GetYouTubeUserVideosTask.LIBRARY);
-        // Because we have created a custom ListView we don't have to worry about setting the adapter in the activity
-        // we can just call our custom method with the list of items we want to display
-        listView.setVideos(lib.getVideos());
-    }
-     
     @Override
     public void onStop() {
-        // Make sure we null our handler when the activity has stopped
-        // because who cares if we get a callback once the activity has stopped? not me!
-        //responseHandler = null;
         super.onStop();
         // Only cancel requests from this fragment
         RequestQueueSingleton.getInstance(getActivity().getApplicationContext())
                 .cancelPendingRequests(TAG);
     }
-    
+
+    @Override
+    public void onDestroy() {
+        listView.destroyDrawingCache();
+        listView = null;
+        mYouTubeVideoAdapter.notifyDataSetInvalidated();
+        mYouTubeVideoAdapter = null;
+        mLibrary = null;
+
+        super.onDestroy();
+    }
+
+    @Override
+    public void onScrollStateChanged(AbsListView view, int scrollState) {
+        switch(scrollState) {
+            case SCROLL_STATE_FLING:
+            case SCROLL_STATE_TOUCH_SCROLL:
+                mIsUserScrolling = true;
+                break;
+            case SCROLL_STATE_IDLE:
+            default:
+                mIsUserScrolling = false;
+                break;
+        }
+    }
+
+    @Override
+    public void onScroll(AbsListView view, int firstVisibleItem,
+                         int visibleItemCount, int totalItemCount) {
+        if(mNextPageToken != null) {
+            // If the first page is not full, or the user is scrolling and they are
+            // less than one page from the end of the list, then load more items
+            final int lastVisibleItem = firstVisibleItem + visibleItemCount;
+            final boolean pageNotFull = visibleItemCount == totalItemCount;
+            final boolean onePageFromEnd = lastVisibleItem + visibleItemCount > totalItemCount;
+            if(!isLoading && (pageNotFull || (mIsUserScrolling && onePageFromEnd))) {
+                isLoading = true;
+                listView.addLoadingFooterView();
+                getUserYouTubeFeed(getActivity());
+            }
+        }
+    }
+
 }

@@ -33,5 +33,8 @@ public class YouTubeVideoLibrary implements Serializable{
     public List<YouTubeVideo> getVideos() {
         return videos;
     }
-    
+
+    public void addVideos(List<YouTubeVideo> videos) {
+        this.videos.addAll(videos);
+    }
 }

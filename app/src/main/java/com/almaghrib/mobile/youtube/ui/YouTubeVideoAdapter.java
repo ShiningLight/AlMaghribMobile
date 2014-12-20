@@ -86,7 +86,7 @@ public class YouTubeVideoAdapter extends BaseAdapter {
         // Get a single video from our list
         final YouTubeVideo video = videos.get(position);
 
-        holder.thumb.setDefaultImageResId(R.drawable.youtube_default_image);
+        holder.thumb.setDefaultImageResId(R.drawable.loading_small);
         // Set the URL of the image that should be loaded into this view, and
         // specify the ImageLoader that will be used to make the request.
         holder.thumb.setImageUrl(video.getThumbUrl(), mImageLoader);
@@ -114,5 +114,14 @@ public class YouTubeVideoAdapter extends BaseAdapter {
 			}
 		});
 	}
+
+    /**
+     * Update adapter with new list of videos
+     * @param videos
+     */
+    public void updateAdapter(List<YouTubeVideo> videos) {
+        this.videos = videos;
+        notifyDataSetChanged();
+    }
     
 }
