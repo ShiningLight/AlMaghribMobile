@@ -110,9 +110,6 @@ public class YouTubeFragment extends Fragment implements
         mCurrChannelPos = pos;
 
         getActivity().setProgressBarIndeterminateVisibility(true);
-
-        RequestQueueSingleton.getInstance(getActivity().getApplicationContext())
-                .cancelPendingRequests(TAG);
         // Create a library to hold our videos
         mLibrary = new YouTubeVideoLibrary(
                 mChannelIds[mCurrChannelPos].toString(), new ArrayList<YouTubeVideo>());
