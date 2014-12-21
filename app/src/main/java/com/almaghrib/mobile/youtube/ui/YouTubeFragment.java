@@ -1,9 +1,7 @@
 package com.almaghrib.mobile.youtube.ui;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
-import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -11,7 +9,10 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.Spinner;
 
 import com.almaghrib.mobile.R;
 import com.almaghrib.mobile.RequestQueueSingleton;
@@ -32,7 +33,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class YouTubeFragment extends Fragment implements AbsListView.OnScrollListener {
+public class YouTubeFragment extends Fragment implements
+        AbsListView.OnScrollListener, AdapterView.OnItemSelectedListener {
+
     protected final static String TAG = YouTubeFragment.class.getSimpleName();
 
     private static final SimpleDateFormat RETRIEVED_DATE_FORMAT =
@@ -44,12 +47,15 @@ public class YouTubeFragment extends Fragment implements AbsListView.OnScrollLis
 
     private YouTubeVideoListView listView;
     private YouTubeVideoAdapter mYouTubeVideoAdapter;
+    private Spinner mSpinner;
 
-    private String mChannelId;
+    private CharSequence[] mChannelIds;
+    private String mNextPageToken;
     private YouTubeVideoLibrary mLibrary;
 
+    private int mPrevChannelPos = 0;
+    private int mCurrChannelPos = 0;
     private boolean mIsUserScrolling = false;
-    private String mNextPageToken;
     private boolean isLoading;
 
     public static YouTubeFragment init(int val) {
@@ -77,28 +83,56 @@ public class YouTubeFragment extends Fragment implements AbsListView.OnScrollLis
         mYouTubeVideoAdapter = new YouTubeVideoAdapter(getActivity(), new ArrayList<YouTubeVideo>());
         listView.setAdapter(mYouTubeVideoAdapter);
 
-        final Button b = (Button) layoutView.findViewById(R.id.getFeedButton);
-        b.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // TODO: get id from file matching text on spinner (to add)
-                mChannelId = "UC1B7kOnMRdPuP0rxW6mS7_A"; // TODO: remove hardcoded string for AlMaghribTrailers
-                // Create a library to hold our videos
-                mLibrary = new YouTubeVideoLibrary(mChannelId, new ArrayList<YouTubeVideo>());
-                mNextPageToken = null;
-                getUserYouTubeFeed(v.getContext());
-            }
-        });
+        mSpinner = (Spinner) layoutView.findViewById(R.id.getFeedSpinner);
+        // TODO: get id from file matching text on spinner
+        mChannelIds = getActivity().getResources().getTextArray(R.array.channel_ids);
+        // Create an ArrayAdapter using the string array and a default spinner layout
+        final ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(),
+                R.array.channel_titles, android.R.layout.simple_spinner_item);
+        // Specify the layout to use when the list of choices appears
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        // Apply the adapter to the spinner
+        mSpinner.setAdapter(adapter);
+        mSpinner.setOnItemSelectedListener(this);
+
         return layoutView;
     }
 
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
+        if (mLibrary != null) {
+            // Need to allow first time user enters page so check library for null
+            // Prevent users from choosing another channel and triggering a new
+            // request until previous/current one finishes
+            mSpinner.setEnabled(false);
+        }
+        mPrevChannelPos = mCurrChannelPos;
+        mCurrChannelPos = pos;
+
+        getActivity().setProgressBarIndeterminateVisibility(true);
+
+        RequestQueueSingleton.getInstance(getActivity().getApplicationContext())
+                .cancelPendingRequests(TAG);
+        // Create a library to hold our videos
+        mLibrary = new YouTubeVideoLibrary(
+                mChannelIds[mCurrChannelPos].toString(), new ArrayList<YouTubeVideo>());
+        mNextPageToken = null;
+
+        getUserYouTubeFeed(view.getContext());
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+    }
+
     /**
-     * onClick listener to retrieve a users video feed
+     * Retrieve a users video feed
      * @param context
      */
     public void getUserYouTubeFeed(Context context){
+        //TODO: Make YouTubeApiRequestBuilder
         String url = YouTubeConstants.BASE_REQUEST_URL + YouTubeConstants.SEARCH_REQUEST +
-                "?key=AIzaSyCq5TVzGp1J6_nPCLwaiHfs6C4gSSbHzuM&channelId=" + mChannelId +
+                "?key=AIzaSyCq5TVzGp1J6_nPCLwaiHfs6C4gSSbHzuM&channelId=" + mChannelIds[mCurrChannelPos].toString() +
                 "&part=snippet,id&order=date&maxResults=15&type=video";
         if (mNextPageToken != null) {
             url += "&pageToken=" + mNextPageToken;
@@ -134,9 +168,13 @@ public class YouTubeFragment extends Fragment implements AbsListView.OnScrollLis
                     populateListWithVideos(response.getItems());
                 } catch (Exception e) {
                     Log.e(TAG, e.getMessage(), e);
+                    getActivity().setProgressBarIndeterminateVisibility(false);
+                    mSpinner.setSelection(mPrevChannelPos);
+                    mCurrChannelPos = mPrevChannelPos;
                 }
                 isLoading = false;
                 listView.removeLoadingFooterView();
+                mSpinner.setEnabled(true);
             };
         };
     }
@@ -147,8 +185,12 @@ public class YouTubeFragment extends Fragment implements AbsListView.OnScrollLis
             public void onErrorResponse(VolleyError error) {
                 //Toast.makeText(getActivity(), error.getMessage(), Toast.LENGTH_LONG).show();
                 Log.e(TAG, error.getMessage(), error);
+                getActivity().setProgressBarIndeterminateVisibility(false);
                 isLoading = false;
                 listView.removeLoadingFooterView();
+                mSpinner.setSelection(mPrevChannelPos);
+                mCurrChannelPos = mPrevChannelPos;
+                mSpinner.setEnabled(true);
             }
         };
     }
@@ -181,6 +223,7 @@ public class YouTubeFragment extends Fragment implements AbsListView.OnScrollLis
         }
         mLibrary.addVideos(videos);
 
+        getActivity().setProgressBarIndeterminateVisibility(false);
         mYouTubeVideoAdapter.updateAdapter(mLibrary.getVideos());
     }
 
@@ -198,6 +241,7 @@ public class YouTubeFragment extends Fragment implements AbsListView.OnScrollLis
         listView = null;
         mYouTubeVideoAdapter.notifyDataSetInvalidated();
         mYouTubeVideoAdapter = null;
+        mSpinner = null;
         mLibrary = null;
 
         super.onDestroy();

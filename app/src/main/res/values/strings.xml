@@ -32,4 +32,26 @@
         <item>@drawable/ic_launcher</item>
         <item>@drawable/ic_launcher</item>
     </array>
+
+    <!-- Channel Titles -->
+    <!-- TODO: move to a file on disk to retrieve from a server -->
+    <string-array name="channel_titles">
+        <item>Al Maghrib Trailers</item>
+        <item>Yasir Qadhi</item>
+        <item>Saad Tasleem</item>
+        <item> Riad Ouarzazi</item>
+        <item>Yasmin Mogahed</item>
+    </string-array>
+
+    <!-- Channel Ids -->
+    <!-- Keep them in order as the channel titles are in -->
+    <!-- TODO: move to a file on disk to retrieve from a server -->
+    <string-array name="channel_ids">
+        <item>UC1B7kOnMRdPuP0rxW6mS7_A</item>
+        <item>UClUa7-iHJNKEM2e_zWYSPQg</item>
+        <item>UCGzdb458mefm-8w-kV_qv6g</item>
+        <item>UCQcNSBFpNa6vdGzZ6TJI-MA</item>
+        <item>UCjr67rJYy3mtZgF-hx6lQhA</item>
+    </string-array>
+
 </resources>

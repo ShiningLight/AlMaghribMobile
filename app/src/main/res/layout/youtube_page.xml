@@ -5,11 +5,16 @@
     android:orientation="vertical"
     android:background="@android:color/white" >
 
-    <Button
+<!--    <Button
         android:id="@+id/getFeedButton"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Get YouTube Feed" />
+        android:text="Get YouTube Feed" />-->
+
+    <Spinner
+        android:id="@+id/getFeedSpinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
     <com.almaghrib.mobile.youtube.ui.YouTubeVideoListView
         android:id="@+id/videosListView"
