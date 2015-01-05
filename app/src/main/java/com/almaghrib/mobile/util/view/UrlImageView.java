@@ -1,4 +1,4 @@
-package com.almaghrib.mobile.util;
+package com.almaghrib.mobile.util.view;
 
 import static android.app.Activity.RESULT_CANCELED;
 import static android.app.Activity.RESULT_OK;

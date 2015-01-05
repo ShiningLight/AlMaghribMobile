@@ -17,6 +17,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import com.almaghrib.mobile.facebook.ui.FacebookFragment;
 import com.almaghrib.mobile.youtube.ui.YouTubeFragment;
 
 public class HomePageActivity extends FragmentActivity {
@@ -213,8 +214,8 @@ public class HomePageActivity extends FragmentActivity {
             switch (position) {
             case 0: 
                 return YouTubeFragment.init(position);
-            /*case 1: // Fragment # 1 - This will show image
-                return ImageFragment.init(position);*/
+            case 1:
+                return FacebookFragment.init(position);
             default:// Fragment # 2-9 - Will show list
                 return YouTubeFragment.init(position);//ArrayListFragment.init(position);
             }

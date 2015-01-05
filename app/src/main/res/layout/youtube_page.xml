@@ -16,7 +16,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
-    <com.almaghrib.mobile.youtube.ui.YouTubeVideoListView
+    <com.almaghrib.mobile.util.view.PaginatingListView
         android:id="@+id/videosListView"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent" />

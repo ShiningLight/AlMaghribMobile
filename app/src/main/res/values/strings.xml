@@ -39,7 +39,7 @@
         <item>Al Maghrib Trailers</item>
         <item>Yasir Qadhi</item>
         <item>Saad Tasleem</item>
-        <item> Riad Ouarzazi</item>
+        <item>Riad Ouarzazi</item>
         <item>Yasmin Mogahed</item>
     </string-array>
 
@@ -52,6 +52,27 @@
         <item>UCGzdb458mefm-8w-kV_qv6g</item>
         <item>UCQcNSBFpNa6vdGzZ6TJI-MA</item>
         <item>UCjr67rJYy3mtZgF-hx6lQhA</item>
+    </string-array>
+
+    <!-- Facebook Feed Titles -->
+    <!-- TODO: move to a file on disk to retrieve from a server -->
+    <string-array name="facebook_feed_titles">
+        <item>AlMaghrib Institute</item>
+        <item>Abu Eesa</item>
+        <item>Muhammad Alshareef</item>
+        <item>Yasir Qadhi</item>
+        <item>Omar Suleiman</item>
+    </string-array>
+
+    <!-- Facebook Feed Ids -->
+    <!-- Keep them in order as the facebook feed titles are in -->
+    <!-- TODO: move to a file on disk to retrieve from a server -->
+    <string-array name="facebook_feed_ids">
+        <item>almaghribworld</item>
+        <item>AbuEesaPersonal</item>
+        <item>nationbuilder.prime</item>
+        <item>yasir.qadhi</item>
+        <item>imamomarsuleiman</item>
     </string-array>
 
 </resources>

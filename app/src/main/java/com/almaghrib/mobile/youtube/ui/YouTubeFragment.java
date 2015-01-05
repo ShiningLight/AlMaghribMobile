@@ -6,17 +6,16 @@ import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.Spinner;
 
 import com.almaghrib.mobile.R;
 import com.almaghrib.mobile.RequestQueueSingleton;
 import com.almaghrib.mobile.util.GsonRequest;
+import com.almaghrib.mobile.util.view.PaginatingListView;
 import com.almaghrib.mobile.youtube.jsonModels.YouTubeSearchItemSnippetModel;
 import com.almaghrib.mobile.youtube.jsonModels.YouTubeSearchModelContainer;
 import com.almaghrib.mobile.youtube.jsonModels.YouTubeSearchResultItemsModel;
@@ -45,7 +44,7 @@ public class YouTubeFragment extends Fragment implements
 
     private int fragVal;
 
-    private YouTubeVideoListView listView;
+    private PaginatingListView listView;
     private YouTubeVideoAdapter mYouTubeVideoAdapter;
     private Spinner mSpinner;
 
@@ -78,7 +77,7 @@ public class YouTubeFragment extends Fragment implements
             Bundle savedInstanceState) {
         final View layoutView = inflater.inflate(R.layout.youtube_page, container, false);
 
-        listView = (YouTubeVideoListView) layoutView.findViewById(R.id.videosListView);
+        listView = (PaginatingListView) layoutView.findViewById(R.id.videosListView);
         listView.setOnScrollListener(this);
         mYouTubeVideoAdapter = new YouTubeVideoAdapter(getActivity(), new ArrayList<YouTubeVideo>());
         listView.setAdapter(mYouTubeVideoAdapter);
