@@ -215,6 +215,18 @@ public class HomePageActivity extends FragmentActivity {
                 return YouTubeFragment.init(position);//ArrayListFragment.init(position);
             }
         }
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+            switch (position) {
+            case 0:
+                return YouTubeFragment.getFragmentName();
+            case 1:
+                return FacebookFragment.getFragmentName();
+            default:
+                return YouTubeFragment.getFragmentName();
+            }
+        }
     }
 
 }

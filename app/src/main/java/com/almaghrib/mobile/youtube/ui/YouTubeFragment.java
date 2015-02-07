@@ -66,6 +66,10 @@ public class YouTubeFragment extends Fragment implements
         return truitonFrag;
     }
 
+    public static String getFragmentName() {
+        return "YouTube"; //TODO: use strings
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

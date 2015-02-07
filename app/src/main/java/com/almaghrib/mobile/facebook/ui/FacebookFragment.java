@@ -69,6 +69,11 @@ public class FacebookFragment extends Fragment implements
         return fragment;
     }
 
+
+    public static String getFragmentName() {
+        return "Facebook"; //TODO: use strings
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
