@@ -117,7 +117,7 @@ public class FacebookFragment extends Fragment implements
         feedItems = new ArrayList<FacebookFeedItem>();
         mNextPageToken = null;
 
-        getUserFacebookFeed(view.getContext());
+        getUserFacebookFeed(getActivity().getApplicationContext());
     }
 
     @Override

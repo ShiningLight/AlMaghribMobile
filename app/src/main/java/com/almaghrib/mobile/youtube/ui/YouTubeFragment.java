@@ -114,7 +114,7 @@ public class YouTubeFragment extends Fragment implements
                 mChannelIds[mCurrChannelPos].toString(), new ArrayList<YouTubeVideo>());
         mNextPageToken = null;
 
-        getUserYouTubeFeed(view.getContext());
+        getUserYouTubeFeed(getActivity().getApplicationContext());
     }
 
     @Override
