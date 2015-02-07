@@ -1,6 +1,7 @@
 package com.almaghrib.mobile;
 
 import android.content.res.Configuration;
+import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.Fragment;
@@ -18,22 +19,18 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.almaghrib.mobile.facebook.ui.FacebookFragment;
+import com.almaghrib.mobile.navigationDrawer.CategoryHeaderDrawerItem;
+import com.almaghrib.mobile.navigationDrawer.DrawerItem;
+import com.almaghrib.mobile.navigationDrawer.ListHeaderDrawerItem;
+import com.almaghrib.mobile.navigationDrawer.NavigationDrawerAdapter;
+import com.almaghrib.mobile.navigationDrawer.NormalDrawerItem;
 import com.almaghrib.mobile.youtube.ui.YouTubeFragment;
+
+import java.util.ArrayList;
 
 public class HomePageActivity extends FragmentActivity {
 
     private static final int TAB_ITEMS = 3;
-    
-    /**
-     * The {@link android.support.v4.view.PagerAdapter} that will provide
-     * fragments for each of the sections. We use a
-     * {@link android.support.v4.app.FragmentPagerAdapter} derivative, which
-     * will keep every loaded fragment in memory. If this becomes too memory
-     * intensive, it may be best to switch to a
-     * {@link android.support.v4.app.FragmentStatePagerAdapter}.
-     */
-    //SectionsPagerAdapter mSectionsPagerAdapter;
-    
 
     /**
      * The {@link ViewPager} that will host the section contents.
@@ -46,10 +43,10 @@ public class HomePageActivity extends FragmentActivity {
     private ActionBarDrawerToggle mDrawerToggle;
 
 	// slide menu items
-	/*private String[] navMenuTitles;
+	private String[] navMenuTitles;
 	private TypedArray navMenuIcons;
-	private ArrayList<NavDrawerItem> navDrawerItems;
-	private NavDrawerListAdapter adapter;*/
+	private ArrayList<DrawerItem> navDrawerItems;
+	private NavigationDrawerAdapter adapter;
 	
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,42 +66,40 @@ public class HomePageActivity extends FragmentActivity {
         mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
 		// load slide menu items
 		final String[] navMenuTitles = getResources().getStringArray(R.array.nav_drawer_items);
-		//navMenuIcons = getResources().obtainTypedArray(R.array.nav_drawer_icons);
-		mDrawerList.setAdapter(new ArrayAdapter<String>(this,
-				android.R.layout.simple_list_item_1, navMenuTitles));
+		navMenuIcons = getResources().obtainTypedArray(R.array.nav_drawer_icons);
+		/*mDrawerList.setAdapter(new ArrayAdapter<String>(this,
+				android.R.layout.simple_list_item_1, navMenuTitles));*/
                 //R.layout.drawer_list_item, navMenuTitles));
-		/*navDrawerItems = new ArrayList<NavDrawerItem>();
-		// adding nav drawer items to array
+		navDrawerItems = new ArrayList<DrawerItem>();
+        // adding nav drawer items to array
+        navDrawerItems.add(new ListHeaderDrawerItem("Alan Parker", "alan@gmail.com"));
 
-		// Home
-		navDrawerItems.add(new NavDrawerItem(navMenuTitles[0], navMenuIcons
-				.getResourceId(0, -1)));
-		// Find People
-		navDrawerItems.add(new NavDrawerItem(navMenuTitles[1], navMenuIcons
-				.getResourceId(1, -1)));
-		// Photos
-		navDrawerItems.add(new NavDrawerItem(navMenuTitles[2], navMenuIcons
+        navDrawerItems.add(new NormalDrawerItem(navMenuTitles[0], navMenuIcons
+                .getResourceId(0, -1)));
+        navDrawerItems.add(new NormalDrawerItem(navMenuTitles[1], navMenuIcons
+                .getResourceId(1, -1)));
+
+        navDrawerItems.add(new CategoryHeaderDrawerItem("My Al Maghrib"));
+		navDrawerItems.add(new NormalDrawerItem(navMenuTitles[2], navMenuIcons
 				.getResourceId(2, -1)));
 
-		// Communities, Will add a counter here
-		navDrawerItems.add(new NavDrawerItem(navMenuTitles[3], navMenuIcons
-				.getResourceId(3, -1), true, "22"));
-
-		// Pages
-		navDrawerItems.add(new NavDrawerItem(navMenuTitles[4], navMenuIcons
+        navDrawerItems.add(new CategoryHeaderDrawerItem("About Al Maghrib"));
+        navDrawerItems.add(new NormalDrawerItem(navMenuTitles[3], navMenuIcons
+                .getResourceId(3, -1)));
+        navDrawerItems.add(new NormalDrawerItem(navMenuTitles[4], navMenuIcons
 				.getResourceId(4, -1)));
+		navDrawerItems.add(new NormalDrawerItem(navMenuTitles[5], navMenuIcons
+				.getResourceId(5, -1)));
 
-		// What's hot, We will add a counter here
-		navDrawerItems.add(new NavDrawerItem(navMenuTitles[5], navMenuIcons
-				.getResourceId(5, -1), true, "50+"));
+        navDrawerItems.add(new NormalDrawerItem("Settings"));
 
 		// Recycle the typed array
 		navMenuIcons.recycle();
 		mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
 
 		// setting the nav drawer list adapter
-		adapter = new NavDrawerListAdapter(getApplicationContext(), navDrawerItems);
-		mDrawerList.setAdapter(adapter);*/
+		adapter = new NavigationDrawerAdapter(getApplicationContext(), navDrawerItems);
+		mDrawerList.setAdapter(adapter);
         
         mDrawerToggle = new ActionBarDrawerToggle(
                 this, mDrawerLayout,
