@@ -8,9 +8,11 @@
     tools:context=".HomePageActivity" >
 
     <!--
-    This title strip will display the currently visible page title, as well as the page
-    titles for adjacent pages.    -->
-    <android.support.v4.view.PagerTitleStrip
+    This tab strip will display the currently visible page title, as well as the page
+    titles for adjacent pages, whilst also allowing tapping on the titles to move
+    between pages.
+    -->
+    <android.support.v4.view.PagerTabStrip
         android:id="@+id/pager_title_strip"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
