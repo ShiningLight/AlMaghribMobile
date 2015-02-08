@@ -1,4 +1,4 @@
-package com.almaghrib.mobile.youtube.tasks;
+package com.almaghrib.mobile.youtube.data;
 
 import java.io.Serializable;
 

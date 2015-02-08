@@ -16,12 +16,12 @@ import com.almaghrib.mobile.R;
 import com.almaghrib.mobile.RequestQueueSingleton;
 import com.almaghrib.mobile.util.GsonRequest;
 import com.almaghrib.mobile.util.view.PaginatingListView;
+import com.almaghrib.mobile.youtube.data.YouTubeApiUriRequestBuilder;
 import com.almaghrib.mobile.youtube.jsonModels.YouTubeSearchItemSnippetModel;
 import com.almaghrib.mobile.youtube.jsonModels.YouTubeSearchModelContainer;
 import com.almaghrib.mobile.youtube.jsonModels.YouTubeSearchResultItemsModel;
-import com.almaghrib.mobile.youtube.tasks.YouTubeConstants;
-import com.almaghrib.mobile.youtube.tasks.YouTubeVideo;
-import com.almaghrib.mobile.youtube.tasks.YouTubeVideoLibrary;
+import com.almaghrib.mobile.youtube.data.YouTubeVideo;
+import com.almaghrib.mobile.youtube.data.YouTubeVideoLibrary;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -130,20 +130,8 @@ public class YouTubeFragment extends Fragment implements
      * @param context
      */
     public void getUserYouTubeFeed(Context context){
-        //TODO: Make YouTubeApiRequestBuilder
-        String url = YouTubeConstants.BASE_REQUEST_URL + YouTubeConstants.SEARCH_REQUEST +
-                "?key=AIzaSyCq5TVzGp1J6_nPCLwaiHfs6C4gSSbHzuM&channelId=" + mChannelIds[mCurrChannelPos].toString() +
-                "&part=snippet,id&order=date&maxResults=15&type=video";
-        if (mNextPageToken != null) {
-            url += "&pageToken=" + mNextPageToken;
-        }
-/*        // Create parameters
-        HashMap<String, String> params = new HashMap<String, String>();
-        params.put("key", "AIzaSyCq5TVzGp1J6_nPCLwaiHfs6C4gSSbHzuM");
-        params.put("channelId", channelId);
-        params.put("part", "snippet,id");
-        params.put("order", "date");
-        params.put("maxResults", "20");*/
+        final String url = new YouTubeApiUriRequestBuilder().buildSearchRequest(
+                mChannelIds[mCurrChannelPos].toString(), mNextPageToken);
 
         final GsonRequest<YouTubeSearchModelContainer> request =
                 new GsonRequest<YouTubeSearchModelContainer>(
@@ -219,7 +207,7 @@ public class YouTubeFragment extends Fragment implements
             final String formattedTime = (d != null) ? OUTPUT_DATE_FORMAT.format(d) : "";
             // Create the video object and add it to our list
             videos.add(new YouTubeVideo(
-                    title, YouTubeConstants.WATCH_BASE_URL + videoId, thumbUrl, formattedTime));
+                    title, YouTubeApiUriRequestBuilder.WATCH_BASE_URL + videoId, thumbUrl, formattedTime));
         }
         mLibrary.addVideos(videos);
 

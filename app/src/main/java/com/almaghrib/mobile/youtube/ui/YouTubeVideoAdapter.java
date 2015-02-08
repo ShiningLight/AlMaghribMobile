@@ -12,7 +12,7 @@ import android.widget.TextView;
 
 import com.almaghrib.mobile.R;
 import com.almaghrib.mobile.RequestQueueSingleton;
-import com.almaghrib.mobile.youtube.tasks.YouTubeVideo;
+import com.almaghrib.mobile.youtube.data.YouTubeVideo;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
 
