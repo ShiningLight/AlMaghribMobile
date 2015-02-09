@@ -30,7 +30,7 @@ public class FacebookApiUriRequestBuilder extends UriRequestBuilder {
     private static final String APP_SECRET = "976a406c33a8587d2303c82fdf4bfed3"; // client_secret value
     private static final String GRANT_TYPE_VALUE = "client_credentials";
 
-    private static final String FIELDS_VALUE = "created_time,id,message,story,status_type,picture,caption,link,from{name,id}";
+    private static final String FIELDS_VALUE = "created_time,id,message,story,status_type,picture,caption,link,from{name,id},attachments{media}";
 
     public FacebookApiUriRequestBuilder() {
     }

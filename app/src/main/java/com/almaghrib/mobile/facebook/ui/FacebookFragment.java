@@ -248,10 +248,21 @@ public class FacebookFragment extends Fragment implements
                         // or user has just liked a photo
                     } else {
                         final String formattedTime = DateUtils.getFormattedDate(
-                                RETRIEVED_DATE_FORMAT, OUTPUT_DATE_FORMAT, itemsModel.getCreated_time());
+                                RETRIEVED_DATE_FORMAT, OUTPUT_DATE_FORMAT, itemsModel.getCreatedTime());
+
+                        String pictureUrl = null;
+                        if (itemsModel.getAttachments() != null &&
+                                itemsModel.getAttachments().getData() != null &&
+                                !itemsModel.getAttachments().getData().isEmpty() &&
+                                itemsModel.getAttachments().getData().get(0) != null &&
+                                itemsModel.getAttachments().getData().get(0).getMedia() != null &&
+                                itemsModel.getAttachments().getData().get(0).getMedia().getImage() != null) {
+                            pictureUrl = itemsModel.getAttachments().getData().get(0)
+                                    .getMedia().getImage().getSrc();
+                        }
                         // Create the video object and add it to our list
                         feedItems.add(new FacebookFeedItem(itemsModel.getFrom().getName(),
-                                itemsModel.getPicture(), itemsModel.getMessage(), null,
+                                pictureUrl, itemsModel.getMessage(), null,
                                 formattedTime, itemsModel.getLink()));
                     }
                 }

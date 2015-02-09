@@ -105,14 +105,6 @@ public class FacebookFeedListAdapter extends BaseAdapter {
         if (item.getImage() != null) {
             holder.image.setImageUrl(item.getImage(), mImageLoader);
             holder.image.setVisibility(View.VISIBLE);
-            holder.image.setResponseObserver(new FeedImageView.ResponseObserver() {
-                @Override
-                public void onError() {
-                }
-                @Override
-                public void onSuccess() {
-                }
-            });
         } else {
             holder.image.setVisibility(View.GONE);
         }

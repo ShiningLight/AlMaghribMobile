@@ -11,6 +11,7 @@ public class FacebookFeedDataModel {
     String name;
     String type;
     String created_time;
+    FacebookFeedItemAttachmentsModel attachments;
 
     public FacebookFeedDataModel(String id, FacebookFeedItemFromModel from, String message,
                                  String story, String picture, String link, String caption,
@@ -63,8 +64,12 @@ public class FacebookFeedDataModel {
         return type;
     }
 
-    public String getCreated_time() {
+    public String getCreatedTime() {
         return created_time;
+    }
+
+    public FacebookFeedItemAttachmentsModel getAttachments() {
+        return attachments;
     }
 
     public void setId(String id) {
@@ -107,6 +112,10 @@ public class FacebookFeedDataModel {
         this.created_time = created_time;
     }
 
+    public void setAttachments(FacebookFeedItemAttachmentsModel attachments) {
+        this.attachments = attachments;
+    }
+
     @Override
     public String toString() {
         return "FacebookFeedDataModel{" +
@@ -120,6 +129,7 @@ public class FacebookFeedDataModel {
                 ", name='" + name + '\'' +
                 ", type='" + type + '\'' +
                 ", created_time='" + created_time + '\'' +
+                ", attachments='" + ((attachments != null) ? attachments.toString() : null) +
                 '}';
     }
 }
