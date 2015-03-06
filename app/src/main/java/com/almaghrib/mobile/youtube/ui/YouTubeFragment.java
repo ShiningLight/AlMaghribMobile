@@ -9,7 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
 import com.almaghrib.mobile.R;
@@ -87,16 +86,10 @@ public class YouTubeFragment extends Fragment implements
         listView.setAdapter(mYouTubeVideoAdapter);
 
         mSpinner = (Spinner) layoutView.findViewById(R.id.getFeedSpinner);
+        mSpinner.setOnItemSelectedListener(this);
+
         // TODO: get id from file matching text on spinner
         mChannelIds = getActivity().getResources().getTextArray(R.array.channel_ids);
-        // Create an ArrayAdapter using the string array and a default spinner layout
-        final ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(),
-                R.array.channel_titles, android.R.layout.simple_spinner_item);
-        // Specify the layout to use when the list of choices appears
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        // Apply the adapter to the spinner
-        mSpinner.setAdapter(adapter);
-        mSpinner.setOnItemSelectedListener(this);
 
         return layoutView;
     }

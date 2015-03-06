@@ -15,6 +15,20 @@
     <!-- Application theme. -->
     <style name="AppTheme" parent="AppBaseTheme">
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
+
+        <!-- For the resting Spinner style -->
+        <item name="android:spinnerItemStyle">
+            @style/spinnerItemStyle
+        </item>
+
+    </style>
+
+    <style name="spinnerItemStyle">
+        <item name="android:textSize">11sp</item>
+        <item name="android:textColor">@color/darker_gray</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:gravity">right</item>
+        <item name="android:paddingRight">5dp</item>
     </style>
 
 </resources>
