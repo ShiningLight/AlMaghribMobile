@@ -36,7 +36,7 @@
     </style>
 
     <style name="PagerTabStripTextStyle">
-        <item name="android:textSize">14sp</item>
+        <item name="android:textSize">15sp</item>
         <item name="android:textStyle">bold</item>
         <item name="android:textColor">@color/pager_tab_strip_selected_text_colour</item>
     </style>

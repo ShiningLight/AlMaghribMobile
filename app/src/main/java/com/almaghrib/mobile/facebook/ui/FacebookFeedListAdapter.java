@@ -99,6 +99,7 @@ public class FacebookFeedListAdapter extends BaseAdapter {
         }
 
         // user profile pic
+        holder.profilePic.setDefaultImageResId(R.drawable.facebook_profile_pic_placeholder);
         holder.profilePic.setImageUrl(item.getProfilePic(), mImageLoader);
 
         // Feed image
