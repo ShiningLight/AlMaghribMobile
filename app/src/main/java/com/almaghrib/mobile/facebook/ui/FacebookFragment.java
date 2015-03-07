@@ -234,6 +234,8 @@ public class FacebookFragment extends Fragment implements
     private void populateListWithFeed(ArrayList<FacebookFeedDataModel> items) {
         if (items != null) {
             final String currentUserFeed = mFeedTitles[mCurrFeedPos].toString();
+            final String profilePicUrl = new FacebookApiUriRequestBuilder()
+                    .buildProfilePictureRequest(mFeedIds[mCurrFeedPos].toString());
 
             for (int i = 0; i < items.size(); i++) {
                 final FacebookFeedDataModel itemsModel = items.get(i);
@@ -262,7 +264,7 @@ public class FacebookFragment extends Fragment implements
                         }
                         // Create the video object and add it to our list
                         feedItems.add(new FacebookFeedItem(itemsModel.getFrom().getName(),
-                                pictureUrl, itemsModel.getMessage(), null,
+                                pictureUrl, itemsModel.getMessage(), profilePicUrl,
                                 formattedTime, itemsModel.getLink()));
                     }
                 }

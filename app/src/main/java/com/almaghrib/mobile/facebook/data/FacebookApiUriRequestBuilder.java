@@ -16,6 +16,7 @@ public class FacebookApiUriRequestBuilder extends UriRequestBuilder {
     /* Endpoints */
     private static final String OAUTH_REQUEST = "/oauth/access_token";
     private static final String FEED_REQUEST = "/feed";
+    private static final String PROFILE_PICTURE_REQUEST = "/picture";
 
     /* Parameters */
     private static final String CLIENT_ID_PARAM = "client_id";
@@ -25,12 +26,16 @@ public class FacebookApiUriRequestBuilder extends UriRequestBuilder {
     private static final String FIELDS_PARAM = "fields";
     private static final String ACCESS_TOKEN_PARAM = "access_token";
 
+    private static final String TYPE_PARAM = "type";
+
     /* Values */
     private static final String APP_ID = "301385320059899"; // client_id value
     private static final String APP_SECRET = "976a406c33a8587d2303c82fdf4bfed3"; // client_secret value
     private static final String GRANT_TYPE_VALUE = "client_credentials";
 
     private static final String FIELDS_VALUE = "created_time,id,message,story,status_type,picture,caption,link,from{name,id},attachments{media}";
+
+    private static final String TYPE_VALUE = "normal";
 
     public FacebookApiUriRequestBuilder() {
     }
@@ -42,6 +47,13 @@ public class FacebookApiUriRequestBuilder extends UriRequestBuilder {
         params.add(new BasicNameValuePair(GRANT_TYPE_PARAM, GRANT_TYPE_VALUE));
 
         return buildFacebookRequest(OAUTH_REQUEST, params);
+    }
+
+    public String buildProfilePictureRequest(String user) {
+        final List<NameValuePair> params = new ArrayList<NameValuePair>();
+        params.add(new BasicNameValuePair(TYPE_PARAM, TYPE_VALUE));
+
+        return buildFacebookRequest("/" + user + PROFILE_PICTURE_REQUEST, params);
     }
 
     public String buildFeedRequest(String user, String accessToken) {
