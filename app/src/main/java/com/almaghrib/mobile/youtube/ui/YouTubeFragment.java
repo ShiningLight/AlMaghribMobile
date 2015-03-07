@@ -200,7 +200,8 @@ public class YouTubeFragment extends Fragment implements
             final String formattedTime = (d != null) ? OUTPUT_DATE_FORMAT.format(d) : "";
             // Create the video object and add it to our list
             videos.add(new YouTubeVideo(
-                    title, YouTubeApiUriRequestBuilder.WATCH_BASE_URL + videoId, thumbUrl, formattedTime));
+                    itemSnippet.getTitle(), YouTubeApiUriRequestBuilder.WATCH_BASE_URL + videoId,
+                    thumbUrl, formattedTime, itemSnippet.getDescription()));
         }
         mLibrary.addVideos(videos);
 

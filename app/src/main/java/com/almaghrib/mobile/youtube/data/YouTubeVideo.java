@@ -16,12 +16,16 @@ public class YouTubeVideo implements Serializable {
     private String thumbUrl;
     // The published date of the video
     private String publishedDate;
+    // The description of the video
+    private String description;
      
-    public YouTubeVideo(String title, String url, String thumbUrl, String publishedDate) {
+    public YouTubeVideo(String title, String url, String thumbUrl, String publishedDate,
+                        String description) {
         this.title = title;
         this.url = url;
         this.thumbUrl = thumbUrl;
         this.publishedDate = publishedDate;
+        this.description = description;
     }
  
     /**
@@ -48,7 +52,14 @@ public class YouTubeVideo implements Serializable {
     /**
      * @return the published date of the video
      */
-    public String getpublishedDate() {
+    public String getPublishedDate() {
         return publishedDate;
+    }
+
+    /**
+     * @return the description of the video
+     */
+    public String getDescription() {
+        return description;
     }
 }

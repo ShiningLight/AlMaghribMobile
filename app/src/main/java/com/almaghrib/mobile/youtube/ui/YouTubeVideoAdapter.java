@@ -77,6 +77,7 @@ public class YouTubeVideoAdapter extends BaseAdapter {
             holder.thumb.setTag(YouTubeFragment.TAG); // set tag so we can cancel unnecessary requests
             holder.title = (TextView) convertView.findViewById(R.id.videoTitleTextView);
             holder.publishedAt = (TextView) convertView.findViewById(R.id.videoPublishedAtTextView);
+            holder.description = (TextView) convertView.findViewById(R.id.descriptionTextView);
         
             // store the holder with the view
             convertView.setTag(holder);
@@ -95,8 +96,9 @@ public class YouTubeVideoAdapter extends BaseAdapter {
 
         // Set the title for the list item
         holder.title.setText(video.getTitle());
-        holder.publishedAt.setText(video.getpublishedDate());
-        
+        holder.publishedAt.setText(video.getPublishedDate());
+        holder.description.setText(video.getDescription());
+
         attachOpenVideoListener(convertView, video);
         
         return convertView;

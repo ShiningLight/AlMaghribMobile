@@ -6,6 +6,7 @@ import com.android.volley.toolbox.NetworkImageView;
 
 public class YouTubeViewHolder {
     NetworkImageView thumb;
-	TextView title;
-	TextView publishedAt;
+    TextView title;
+    TextView publishedAt;
+    TextView description;
 }
