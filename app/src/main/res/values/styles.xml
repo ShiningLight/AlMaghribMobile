@@ -19,7 +19,7 @@
         <item name="android:actionBarStyle">@style/AlMaghribActionBar</item>
 
         <!-- For the resting Spinner style -->
-        <item name="android:spinnerItemStyle">@style/spinnerItemStyle</item>
+        <item name="android:spinnerItemStyle">@style/SpinnerItemStyle</item>
 
     </style>
 
@@ -27,12 +27,18 @@
         <item name="android:background">@color/almaghrib_purple</item>
     </style>
 
-    <style name="spinnerItemStyle">
+    <style name="SpinnerItemStyle">
         <item name="android:textSize">11sp</item>
         <item name="android:textColor">@color/darker_gray</item>
         <item name="android:textAllCaps">true</item>
         <item name="android:gravity">right</item>
         <item name="android:paddingRight">5dp</item>
+    </style>
+
+    <style name="PagerTabStripTextStyle">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/pager_tab_strip_selected_text_colour</item>
     </style>
 
 </resources>

@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="almaghrib_purple">#611E5F</color>
+    <color name="almaghrib_purple">#630460</color>
 
-    <color name="pager_tab_strip_background">#D3D3D3</color>
+    <color name="pager_tab_strip_background">#EDEDED</color>
     <color name="pager_tab_strip_background_bottom_line">#5F1C5D</color>
-    <color name="pager_tab_strip_selected_text_colour">#CDA5CB</color>
+    <color name="pager_tab_strip_selected_text_colour">#D39DD9</color>
 
     <color name="list_item_title">#fff</color>
     <color name="list_background">#303030</color>
@@ -13,12 +13,14 @@
     <color name="counter_text_bg">#626262</color>
     <color name="counter_text_color">#c5c4c4</color>
 
-    <color name="white">#ffffff</color>
     <color name="feed_bg">#d3d6db</color>
     <color name="feed_item_bg">#ffffff</color>
     <color name="feed_item_border">#c2c3c8</color>
     <color name="link">#0a80d1</color>
     <color name="timestamp">#a0a3a7</color>
 
-    <color name="darker_gray">#aaa</color>
+    <!--General colours-->
+    <color name="white">#ffffff</color>
+    <color name="darker_gray">#999999</color>
+    <color name="lighter_gray">#777777</color>
 </resources>

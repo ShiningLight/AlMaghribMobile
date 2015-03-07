@@ -41,7 +41,7 @@
             android:layout_height="wrap_content"
             android:text="Description"
             android:textSize="12sp"
-            android:textColor="@color/darker_gray"
+            android:textColor="@color/lighter_gray"
             android:maxLines="3"
             android:ellipsize="marquee" />
 
