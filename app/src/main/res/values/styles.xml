@@ -16,11 +16,15 @@
     <style name="AppTheme" parent="AppBaseTheme">
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
 
-        <!-- For the resting Spinner style -->
-        <item name="android:spinnerItemStyle">
-            @style/spinnerItemStyle
-        </item>
+        <item name="android:actionBarStyle">@style/AlMaghribActionBar</item>
 
+        <!-- For the resting Spinner style -->
+        <item name="android:spinnerItemStyle">@style/spinnerItemStyle</item>
+
+    </style>
+
+    <style name="AlMaghribActionBar" parent="@android:style/Widget.Holo.Light.ActionBar.Solid.Inverse">
+        <item name="android:background">@color/almaghrib_purple</item>
     </style>
 
     <style name="spinnerItemStyle">
