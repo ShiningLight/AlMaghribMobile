@@ -13,6 +13,7 @@
     <string name="drawer_opened_title">Navigate</string>
 
     <string name="latest_videos">LATEST VIDEOS</string>
+    <string name="latest_status">LATEST STATUS\'</string>
 
     <!-- Nav Drawer Menu Items -->
     <string-array name="nav_drawer_items">

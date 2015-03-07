@@ -2,14 +2,52 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     android:orientation="vertical">
-    <Spinner
-        android:id="@+id/getFeedSpinner"
+
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:paddingBottom="3dp"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:paddingTop="10dp">
+
+        <TextView
+            android:id="@+id/heading"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_marginRight="45dp"
+            android:layout_alignBottom="@+id/getFeedSpinner"
+            android:layout_alignTop="@+id/getFeedSpinner"
+            android:gravity="center_vertical"
+            android:text="@string/latest_status"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="@color/darker_gray"
+            android:textStyle="bold" />
+
+        <Spinner
+            android:id="@+id/getFeedSpinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/heading"
+            android:layout_alignParentRight="true"
+            android:gravity="right"
+            android:entries="@array/channel_titles"/>
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="3dp"
+        android:background="@color/darker_gray"
+        android:paddingBottom="5dp" />
+
     <com.almaghrib.mobile.util.view.PaginatingListView
         android:id="@+id/list"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:divider="@null" />
+
 </LinearLayout>
