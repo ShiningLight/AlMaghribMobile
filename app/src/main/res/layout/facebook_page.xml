@@ -35,7 +35,7 @@
             android:layout_toRightOf="@+id/heading"
             android:layout_alignParentRight="true"
             android:gravity="right"
-            android:entries="@array/channel_titles"/>
+            android:entries="@array/facebook_feed_titles"/>
     </RelativeLayout>
 
     <View

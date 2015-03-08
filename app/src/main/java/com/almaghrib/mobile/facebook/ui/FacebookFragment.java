@@ -95,13 +95,7 @@ public class FacebookFragment extends Fragment implements
         // TODO: get id from file matching text on spinner
         mFeedIds = getActivity().getResources().getTextArray(R.array.facebook_feed_ids);
         mFeedTitles = getActivity().getResources().getTextArray(R.array.facebook_feed_titles);
-        // Create an ArrayAdapter using the string array and a default spinner layout
-        final ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(),
-                R.array.facebook_feed_titles, android.R.layout.simple_spinner_item);
-        // Specify the layout to use when the list of choices appears
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        // Apply the adapter to the spinner
-        mSpinner.setAdapter(adapter);
+
         mSpinner.setOnItemSelectedListener(this);
 
         return layoutView;
