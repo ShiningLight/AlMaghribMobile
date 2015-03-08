@@ -106,7 +106,12 @@ public class YouTubeFragment extends Fragment implements
         mCurrChannelPos = pos;
 
         getActivity().setProgressBarIndeterminateVisibility(true);
+        listView.removeLoadingFooterView();
         // Create a library to hold our videos
+        // TODO: BUG - if instructor changed below occurs clearing list and token, so if
+        // new instructor retrieval fails, the previous instructor retrieval is triggered,
+        // but if this also fails then list and token will be cleared when we actually had
+        // it previously before spinner item change.
         mLibrary = new YouTubeVideoLibrary(
                 mChannelIds[mCurrChannelPos].toString(), new ArrayList<YouTubeVideo>());
         mNextPageToken = null;
@@ -123,6 +128,10 @@ public class YouTubeFragment extends Fragment implements
      * @param context
      */
     public void getUserYouTubeFeed(Context context){
+        final Context appContext = context.getApplicationContext();
+
+        RequestQueueSingleton.getInstance(appContext).cancelPendingRequests(TAG);
+
         final String url = new YouTubeApiUriRequestBuilder().buildSearchRequest(
                 mChannelIds[mCurrChannelPos].toString(), mNextPageToken);
 
@@ -131,12 +140,10 @@ public class YouTubeFragment extends Fragment implements
                         Request.Method.GET,
                         url,
                         YouTubeSearchModelContainer.class,
-                        //params,
                         createSearchRequestSuccessListener(),
                         createSearchRequestErrorListener());
         request.setTag(TAG);
-        RequestQueueSingleton.getInstance(context.getApplicationContext())
-                .addToRequestQueue(request);
+        RequestQueueSingleton.getInstance(appContext).addToRequestQueue(request);
     }
 
     private Response.Listener<YouTubeSearchModelContainer> createSearchRequestSuccessListener() {
