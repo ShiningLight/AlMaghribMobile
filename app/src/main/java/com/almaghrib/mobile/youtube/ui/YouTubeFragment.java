@@ -49,6 +49,7 @@ public class YouTubeFragment extends Fragment implements
 
     private CharSequence[] mChannelIds;
     private String mNextPageToken;
+    private String mPrevNextPageToken;
     private YouTubeVideoLibrary mLibrary;
 
     private int mPrevChannelPos = 0;
@@ -102,21 +103,14 @@ public class YouTubeFragment extends Fragment implements
             // request until previous/current one finishes
             mSpinner.setEnabled(false);
         }
-        mPrevChannelPos = mCurrChannelPos;
         mCurrChannelPos = pos;
-
-        getActivity().setProgressBarIndeterminateVisibility(true);
-        listView.removeLoadingFooterView();
-        // Create a library to hold our videos
-        // TODO: BUG - if instructor changed below occurs clearing list and token, so if
-        // new instructor retrieval fails, the previous instructor retrieval is triggered,
-        // but if this also fails then list and token will be cleared when we actually had
-        // it previously before spinner item change.
-        mLibrary = new YouTubeVideoLibrary(
-                mChannelIds[mCurrChannelPos].toString(), new ArrayList<YouTubeVideo>());
         mNextPageToken = null;
 
-        getUserYouTubeFeed(getActivity().getApplicationContext());
+        getActivity().setProgressBarIndeterminateVisibility(true);
+        // if user has tried to get new page but then chose new item - remove loading footer view
+        listView.removeLoadingFooterView();
+
+        getUserYouTubeFeed(getActivity().getApplicationContext(), true);
     }
 
     @Override
@@ -127,9 +121,10 @@ public class YouTubeFragment extends Fragment implements
      * Retrieve a users video feed
      * @param context
      */
-    public void getUserYouTubeFeed(Context context){
+    public void getUserYouTubeFeed(Context context, boolean isNewItem){
         final Context appContext = context.getApplicationContext();
 
+        // Stop all other requests, e.g. to get new page
         RequestQueueSingleton.getInstance(appContext).cancelPendingRequests(TAG);
 
         final String url = new YouTubeApiUriRequestBuilder().buildSearchRequest(
@@ -140,25 +135,34 @@ public class YouTubeFragment extends Fragment implements
                         Request.Method.GET,
                         url,
                         YouTubeSearchModelContainer.class,
-                        createSearchRequestSuccessListener(),
-                        createSearchRequestErrorListener());
+                        createSearchRequestSuccessListener(isNewItem),
+                        createSearchRequestErrorListener(isNewItem));
         request.setTag(TAG);
         RequestQueueSingleton.getInstance(appContext).addToRequestQueue(request);
     }
 
-    private Response.Listener<YouTubeSearchModelContainer> createSearchRequestSuccessListener() {
+    private Response.Listener<YouTubeSearchModelContainer> createSearchRequestSuccessListener(final boolean isNewItem) {
         return new Response.Listener<YouTubeSearchModelContainer>() {
             @Override
             public void onResponse(YouTubeSearchModelContainer response) {
                 try {
                     Log.d(TAG, response.toString());
+                    if (isNewItem) {
+                        mPrevChannelPos = mCurrChannelPos;
+                        mPrevNextPageToken = mNextPageToken;
+                        mLibrary = new YouTubeVideoLibrary(
+                                mChannelIds[mCurrChannelPos].toString(), new ArrayList<YouTubeVideo>());
+                    }
                     mNextPageToken = response.getNextPageToken();
                     populateListWithVideos(response.getItems());
                 } catch (Exception e) {
                     Log.e(TAG, e.getMessage(), e);
                     getActivity().setProgressBarIndeterminateVisibility(false);
-                    mSpinner.setSelection(mPrevChannelPos);
-                    mCurrChannelPos = mPrevChannelPos;
+                    if (isNewItem) {
+                        mSpinner.setSelection(mPrevChannelPos);
+                        mCurrChannelPos = mPrevChannelPos;
+                        mNextPageToken = mPrevNextPageToken;
+                    }
                 }
                 isLoading = false;
                 listView.removeLoadingFooterView();
@@ -167,7 +171,7 @@ public class YouTubeFragment extends Fragment implements
         };
     }
 
-    private Response.ErrorListener createSearchRequestErrorListener() {
+    private Response.ErrorListener createSearchRequestErrorListener(final boolean isNewItem) {
         return new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
@@ -176,8 +180,11 @@ public class YouTubeFragment extends Fragment implements
                 getActivity().setProgressBarIndeterminateVisibility(false);
                 isLoading = false;
                 listView.removeLoadingFooterView();
-                mSpinner.setSelection(mPrevChannelPos);
-                mCurrChannelPos = mPrevChannelPos;
+                if (isNewItem) {
+                    mSpinner.setSelection(mPrevChannelPos);
+                    mCurrChannelPos = mPrevChannelPos;
+                    mNextPageToken = mPrevNextPageToken;
+                }
                 mSpinner.setEnabled(true);
             }
         };
@@ -219,9 +226,14 @@ public class YouTubeFragment extends Fragment implements
     @Override
     public void onStop() {
         super.onStop();
+        mSpinner.setSelection(mPrevChannelPos);
+        mCurrChannelPos = mPrevChannelPos;
+        mNextPageToken = mPrevNextPageToken;
+        getActivity().setProgressBarIndeterminateVisibility(false);
         // Only cancel requests from this fragment
         RequestQueueSingleton.getInstance(getActivity().getApplicationContext())
                 .cancelPendingRequests(TAG);
+        mSpinner.setEnabled(true);
     }
 
     @Override
@@ -262,7 +274,7 @@ public class YouTubeFragment extends Fragment implements
             if(!isLoading && (pageNotFull || (mIsUserScrolling && onePageFromEnd))) {
                 isLoading = true;
                 listView.addLoadingFooterView();
-                getUserYouTubeFeed(getActivity());
+                getUserYouTubeFeed(getActivity(), false);
             }
         }
     }
