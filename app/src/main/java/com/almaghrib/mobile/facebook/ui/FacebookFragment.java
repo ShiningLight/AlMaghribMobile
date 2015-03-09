@@ -109,12 +109,12 @@ public class FacebookFragment extends Fragment implements
             // request until previous/current one finishes
             mSpinner.setEnabled(false);
         }
-        mPrevFeedPos = mCurrFeedPos;
+
         mCurrFeedPos = pos;
 
         getActivity().setProgressBarIndeterminateVisibility(true);
-        feedItems = new ArrayList<FacebookFeedItem>();
-        mNextPageToken = null;
+        // if user has tried to get new page but then chose new item - remove loading footer view
+        listView.removeLoadingFooterView();
 
         getUserFacebookFeed(getActivity().getApplicationContext());
     }
@@ -128,12 +128,20 @@ public class FacebookFragment extends Fragment implements
      * @param context
      */
     public void getUserFacebookFeed(Context context){
+        final Context appContext = context.getApplicationContext();
+
+        // Stop all other requests, e.g. to get new page
+        RequestQueueSingleton.getInstance(appContext).cancelPendingRequests(TAG);
+
         final String url = new FacebookApiUriRequestBuilder().buildAccessTokenRequest();
         // Get access token request
         final StringRequest request = new StringRequest(Request.Method.GET, url,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
+                        mPrevFeedPos = mCurrFeedPos;
+                        feedItems = new ArrayList<FacebookFeedItem>();
+                        mNextPageToken = null;
                         // Retrieved access token
                         mAccessToken = response;
                         makeFacebookFeedRequest(response);
@@ -151,11 +159,15 @@ public class FacebookFragment extends Fragment implements
                 });
 
         request.setTag(TAG);
-        RequestQueueSingleton.getInstance(context.getApplicationContext())
-                .addToRequestQueue(request);
+        RequestQueueSingleton.getInstance(appContext).addToRequestQueue(request);
     }
 
     private void makeFacebookFeedRequest(String accessToken) {
+        final Context appContext = getActivity().getApplicationContext();
+
+        // Stop all other requests, e.g. to get new page
+        RequestQueueSingleton.getInstance(appContext).cancelPendingRequests(TAG);
+
         final String url;
         if (mNextPageToken != null) {
             url = mNextPageToken;
@@ -173,8 +185,7 @@ public class FacebookFragment extends Fragment implements
                         createSearchRequestErrorListener());
 
         request.setTag(TAG);
-        RequestQueueSingleton.getInstance(getActivity().getApplicationContext())
-                .addToRequestQueue(request);
+        RequestQueueSingleton.getInstance(appContext).addToRequestQueue(request);
     }
 
     private Response.Listener<FacebookFeedModelContainer> createSearchRequestSuccessListener() {
@@ -271,9 +282,11 @@ public class FacebookFragment extends Fragment implements
     @Override
     public void onStop() {
         super.onStop();
+        getActivity().setProgressBarIndeterminateVisibility(false);
         // Only cancel requests from this fragment
         RequestQueueSingleton.getInstance(getActivity().getApplicationContext())
                 .cancelPendingRequests(TAG);
+        mSpinner.setEnabled(true);
     }
 
     @Override
