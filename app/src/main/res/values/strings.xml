@@ -2,7 +2,8 @@
 <resources>
     <string name="app_name">AlMaghrib</string>
     <string name="action_settings">Settings</string>
-    
+    <string name="our_instructors">Our Instructors</string>
+
     <string name="title_section1">YouTube</string>
     <string name="title_section2">Facebook</string>
     <string name="title_section3">Twitter</string>
@@ -14,6 +15,8 @@
 
     <string name="latest_videos">LATEST VIDEOS</string>
     <string name="latest_status">LATEST STATUSES</string>
+
+    <string name="choose_instructor">Choose an instructor</string>
 
     <!-- Nav Drawer Menu Items -->
     <string-array name="nav_drawer_items">
@@ -76,6 +79,26 @@
         <item>nationbuilder.prime</item>
         <item>yasir.qadhi</item>
         <item>imamomarsuleiman</item>
+    </string-array>
+
+    <!-- Instructor names -->
+    <string-array name="instructor_names">
+        <item>Muhammad Alshareef</item>
+        <item>Abu Eesa Niamatullah</item>
+    </string-array>
+
+    <string name="instructor_profile_directory">instructor_profiles</string>
+    <!-- Instructor profile files -->
+    <!-- Keep them in order as instructor_names are in -->
+    <string-array name="instructor_profile_json_files">
+        <item>muhammad_alshareef_profile.json</item>
+        <item>abueesa_niamatullah_profile.json</item>
+    </string-array>
+
+    <!-- Keep them in order as instructor_names are in -->
+    <string-array name="instructor_images">
+        <item>muhammadalshareef</item>
+        <item>abueesa</item>
     </string-array>
 
 </resources>

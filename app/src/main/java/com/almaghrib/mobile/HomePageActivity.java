@@ -1,5 +1,6 @@
 package com.almaghrib.mobile;
 
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.TypedArray;
 import android.os.Bundle;
@@ -19,6 +20,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.almaghrib.mobile.facebook.ui.FacebookFragment;
+import com.almaghrib.mobile.instructors.OurInstructorsActivity;
 import com.almaghrib.mobile.navigationDrawer.CategoryHeaderDrawerItem;
 import com.almaghrib.mobile.navigationDrawer.DrawerItem;
 import com.almaghrib.mobile.navigationDrawer.ListHeaderDrawerItem;
@@ -186,7 +188,20 @@ public class HomePageActivity extends FragmentActivity {
 	}
     
 	private void handleDrawerItemClick(int position) {
-		
+		switch (position) {
+            case 0:
+            case 1:
+            case 2:
+            case 3:
+            case 4:
+            case 5:
+                break;
+            case 6:
+                startActivity(new Intent(this, OurInstructorsActivity.class));
+                break;
+            default:
+                break;
+        }
 	}
     
     /**

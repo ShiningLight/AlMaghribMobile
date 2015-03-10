@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/scrollView"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/instructor_page_background">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical" >
+
+        <ImageView
+            android:id="@+id/instructorImageView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            android:scaleType="fitXY"
+            android:src="@drawable/muhammadalshareef" />
+
+        <!-- Choose instructor section -->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:paddingBottom="3dp"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:paddingTop="10dp">
+
+            <TextView
+                android:id="@+id/heading"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/instructorSpinner"
+                android:layout_alignParentLeft="true"
+                android:layout_alignTop="@+id/instructorSpinner"
+                android:layout_marginRight="45dp"
+                android:gravity="center_vertical"
+                android:text="@string/choose_instructor"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="@color/darker_gray"
+                android:textStyle="bold" />
+
+            <Spinner
+                android:id="@+id/instructorSpinner"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_toRightOf="@+id/heading"
+                android:entries="@array/instructor_names"
+                android:gravity="right" />
+        </RelativeLayout>
+
+        <!-- Instructor name and title section -->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_parent_rounded_corner"
+            android:gravity="center_vertical"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:padding="10dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Muhammad Alshareef"
+                android:textStyle="bold"
+                android:id="@+id/nameTextView" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Ottawa, ON"
+                android:textColor="#8e8c8c"
+                android:textSize="14sp"
+                android:id="@+id/cityTextView"
+                android:layout_below="@id/nameTextView"/>
+
+            <TextView
+                android:id="@+id/roleTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Founder &amp; Advisor"
+                android:textSize="12sp"
+                android:gravity="right"
+                android:layout_toRightOf="@id/nameTextView"
+                android:layout_alignBottom="@id/nameTextView"
+                android:layout_alignParentRight="true"/>
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/profileTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_parent_rounded_corner"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:padding="10dp"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="Description"/>
+
+    </LinearLayout>
+
+</ScrollView>
