@@ -35,7 +35,7 @@
                 android:layout_alignBottom="@+id/instructorSpinner"
                 android:layout_alignParentLeft="true"
                 android:layout_alignTop="@+id/instructorSpinner"
-                android:layout_marginRight="45dp"
+                android:layout_marginRight="35dp"
                 android:gravity="center_vertical"
                 android:text="@string/choose_instructor"
                 android:textAppearance="?android:attr/textAppearanceSmall"
