@@ -298,6 +298,10 @@ public class FacebookFragment extends Fragment implements
         mSpinner = null;
         feedItems = null;
 
+        if (getActivity().getSupportFragmentManager().getFragments().contains(this)) {
+            getActivity().getSupportFragmentManager().beginTransaction().remove(this);
+        }
+
         super.onDestroy();
     }
 

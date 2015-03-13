@@ -245,6 +245,10 @@ public class YouTubeFragment extends Fragment implements
         mSpinner = null;
         mLibrary = null;
 
+        if (getActivity().getSupportFragmentManager().getFragments().contains(this)) {
+            getActivity().getSupportFragmentManager().beginTransaction().remove(this);
+        }
+
         super.onDestroy();
     }
 

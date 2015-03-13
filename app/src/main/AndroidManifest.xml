@@ -23,15 +23,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".instructors.OurInstructorsActivity"
-            android:label="@string/our_instructors"
-            android:parentActivityName=".HomePageActivity" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.almaghrib.mobile.HomePageActivity" />
-        </activity>
-
     </application>
 
 </manifest>

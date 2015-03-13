@@ -1,6 +1,5 @@
 package com.almaghrib.mobile;
 
-import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.TypedArray;
 import android.os.Bundle;
@@ -8,128 +7,66 @@ import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentStatePagerAdapter;
-import android.support.v4.view.ViewPager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-import com.almaghrib.mobile.facebook.ui.FacebookFragment;
-import com.almaghrib.mobile.instructors.OurInstructorsActivity;
+import com.almaghrib.mobile.instructors.OurInstructorsFragment;
 import com.almaghrib.mobile.navigationDrawer.CategoryHeaderDrawerItem;
 import com.almaghrib.mobile.navigationDrawer.DrawerItem;
-import com.almaghrib.mobile.navigationDrawer.ListHeaderDrawerItem;
 import com.almaghrib.mobile.navigationDrawer.NavigationDrawerAdapter;
 import com.almaghrib.mobile.navigationDrawer.NormalDrawerItem;
-import com.almaghrib.mobile.youtube.ui.YouTubeFragment;
 
 import java.util.ArrayList;
 
 public class HomePageActivity extends FragmentActivity {
 
-    private static final int TAB_ITEMS = 3;
+    private static final String CURRENT_SELECTED_ITEM = "current_selected_item";
+    private static final String CURRENT_TITLE = "current_title";
 
-    /**
-     * The {@link ViewPager} that will host the section contents.
-     */
-    private ViewPager mViewPager;
-    private HomePageAdapter mAdapter;
-    
     private DrawerLayout mDrawerLayout;
     private ListView mDrawerList;
     private ActionBarDrawerToggle mDrawerToggle;
+    private int mCurrentlySelectedItem = 0;
 
-	// slide menu items
-	private String[] navMenuTitles;
-	private TypedArray navMenuIcons;
-	private ArrayList<DrawerItem> navDrawerItems;
-	private NavigationDrawerAdapter adapter;
-	
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
         setContentView(R.layout.activity_home_page);
 
-        // Create the adapter that will return a fragment for each of the three
-        // primary sections of the app.
-        mAdapter = new HomePageAdapter(getSupportFragmentManager());
-        mViewPager = (ViewPager) findViewById(R.id.pager);
-        mViewPager.setAdapter(mAdapter);
-
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerList = (ListView) findViewById(R.id.left_drawer);
-        
+
+        // setting the nav drawer list adapter
+        final ArrayList<DrawerItem> navDrawerItems = getNavDrawerItems();
+        final NavigationDrawerAdapter adapter =
+                new NavigationDrawerAdapter(getApplicationContext(), navDrawerItems);
+        mDrawerList.setAdapter(adapter);
         mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
-		// load slide menu items
-		final String[] navMenuTitles = getResources().getStringArray(R.array.nav_drawer_items);
-		navMenuIcons = getResources().obtainTypedArray(R.array.nav_drawer_icons);
-		/*mDrawerList.setAdapter(new ArrayAdapter<String>(this,
-				android.R.layout.simple_list_item_1, navMenuTitles));*/
-                //R.layout.drawer_list_item, navMenuTitles));
-		navDrawerItems = new ArrayList<DrawerItem>();
-        // adding nav drawer items to array
-        navDrawerItems.add(new ListHeaderDrawerItem("Alan Parker", "alan@gmail.com"));
 
-        navDrawerItems.add(new NormalDrawerItem(navMenuTitles[0], navMenuIcons
-                .getResourceId(0, -1)));
-        navDrawerItems.add(new NormalDrawerItem(navMenuTitles[1], navMenuIcons
-                .getResourceId(1, -1)));
+        if (savedInstanceState != null) {
+            mCurrentlySelectedItem = savedInstanceState.getInt(CURRENT_SELECTED_ITEM, 0);
+            final String title = savedInstanceState.getString(
+                    CURRENT_TITLE, getString(R.string.app_name));
+            getActionBar().setTitle(title);
+        }
+        // set and open first item on launch
+        if (savedInstanceState == null && mCurrentlySelectedItem == 0) {
+            mDrawerList.setItemChecked(0, true);
+            startFragment(new SocialUpdatesFragment());
+            getActionBar().setTitle(R.string.app_name);
+        }
 
-        navDrawerItems.add(new CategoryHeaderDrawerItem("My Al Maghrib"));
-		navDrawerItems.add(new NormalDrawerItem(navMenuTitles[2], navMenuIcons
-				.getResourceId(2, -1)));
-
-        navDrawerItems.add(new CategoryHeaderDrawerItem("About Al Maghrib"));
-        navDrawerItems.add(new NormalDrawerItem(navMenuTitles[3], navMenuIcons
-                .getResourceId(3, -1)));
-        navDrawerItems.add(new NormalDrawerItem(navMenuTitles[4], navMenuIcons
-				.getResourceId(4, -1)));
-		navDrawerItems.add(new NormalDrawerItem(navMenuTitles[5], navMenuIcons
-				.getResourceId(5, -1)));
-
-        navDrawerItems.add(new NormalDrawerItem("Settings"));
-
-		// Recycle the typed array
-		navMenuIcons.recycle();
-		mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
-
-		// setting the nav drawer list adapter
-		adapter = new NavigationDrawerAdapter(getApplicationContext(), navDrawerItems);
-		mDrawerList.setAdapter(adapter);
-        
-        mDrawerToggle = new ActionBarDrawerToggle(
-                this, mDrawerLayout,
-                R.drawable.ic_drawer,  /* nav drawer icon to replace 'Up' caret */
-                R.string.drawer_open,  /* "open drawer" description */
-                R.string.drawer_close  /* "close drawer" description */
-                ) {
-
-            /** Called when a drawer has settled in a completely closed state. */
-            public void onDrawerClosed(View view) {
-                super.onDrawerClosed(view);
-                getActionBar().setTitle(R.string.app_name);
-                // calling onPrepareOptionsMenu() to show action bar icons
-				invalidateOptionsMenu();
-            }
-
-            /** Called when a drawer has settled in a completely open state. */
-            public void onDrawerOpened(View drawerView) {
-                super.onDrawerOpened(drawerView);
-                getActionBar().setTitle(R.string.drawer_opened_title);
-                // calling onPrepareOptionsMenu() to hide action bar icons
-				invalidateOptionsMenu();
-            }
-        };
+        mDrawerToggle = getActionBarDrawerToggle();
         mDrawerLayout.setDrawerListener(mDrawerToggle);
 
         getActionBar().setDisplayHomeAsUpEnabled(true);
-        //getActionBar().setHomeButtonEnabled(true);
     }
 
     @Override
@@ -143,6 +80,13 @@ public class HomePageActivity extends FragmentActivity {
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         mDrawerToggle.onConfigurationChanged(newConfig);
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        outState.putInt(CURRENT_SELECTED_ITEM, mCurrentlySelectedItem);
+        outState.putString(CURRENT_TITLE, getActionBar().getTitle().toString());
+        super.onSaveInstanceState(outState);
     }
 
     @Override
@@ -174,73 +118,100 @@ public class HomePageActivity extends FragmentActivity {
         getMenuInflater().inflate(R.menu.home_page, menu);
         return true;
     }
-    
-	/**
+
+    private ArrayList<DrawerItem> getNavDrawerItems() {
+        // load slide menu items
+        String[] navMenuTitles = getResources().getStringArray(R.array.nav_drawer_items);
+        TypedArray navMenuIcons = getResources().obtainTypedArray(R.array.nav_drawer_icons);
+
+        final ArrayList<DrawerItem> navDrawerItems = new ArrayList<DrawerItem>();
+        // adding nav drawer items to array
+        for (int i = 0; i < navMenuTitles.length; i++) {
+            navDrawerItems.add(new NormalDrawerItem(navMenuTitles[i], navMenuIcons
+                    .getResourceId(i, -1)));
+        }
+        navDrawerItems.add(new CategoryHeaderDrawerItem(getString(R.string.upcoming_events)));
+        navMenuTitles = getResources().getStringArray(R.array.nav_drawer_upcoming_category_items);
+        navMenuIcons = getResources().obtainTypedArray(R.array.nav_drawer_upcoming_category_icons);
+        for (int i = 0; i < navMenuTitles.length; i++) {
+            navDrawerItems.add(new NormalDrawerItem(navMenuTitles[i], navMenuIcons
+                    .getResourceId(i, -1)));
+        }
+        // Recycle the typed array
+        navMenuIcons.recycle();
+        return navDrawerItems;
+    }
+
+    private ActionBarDrawerToggle getActionBarDrawerToggle() {
+        return new ActionBarDrawerToggle(
+                this, mDrawerLayout,
+                R.drawable.ic_drawer,  /* nav drawer icon to replace 'Up' caret */
+                R.string.drawer_open,  /* "open drawer" description */
+                R.string.drawer_close  /* "close drawer" description */
+        ) {
+            /** Called when a drawer has settled in a completely closed state. */
+            public void onDrawerClosed(View view) {
+                super.onDrawerClosed(view);
+                // calling onPrepareOptionsMenu() to show action bar icons
+                invalidateOptionsMenu();
+            }
+
+            /** Called when a drawer has settled in a completely open state. */
+            public void onDrawerOpened(View drawerView) {
+                super.onDrawerOpened(drawerView);
+                // calling onPrepareOptionsMenu() to hide action bar icons
+                invalidateOptionsMenu();
+            }
+        };
+    }
+
+    /**
 	 * Slide menu item click listener
 	 */
 	private class DrawerItemClickListener implements ListView.OnItemClickListener {
+
 		@Override
 		public void onItemClick(AdapterView<?> parent, View view,
 				int position, long id) {
 			// display view for selected nav drawer item
-			handleDrawerItemClick(position);
+            if (mCurrentlySelectedItem != position) {
+                mCurrentlySelectedItem = position;
+                handleDrawerItemClick(position);
+                mDrawerLayout.closeDrawers();
+            }
 		}
 	}
     
 	private void handleDrawerItemClick(int position) {
-		switch (position) {
-            case 0:
-            case 1:
-            case 2:
-            case 3:
+        switch (position) {
+            case 0: // Home
+                startFragment(new SocialUpdatesFragment());
+                getActionBar().setTitle(R.string.app_name);
+                break;
+            case 1: // Instructors
+                startFragment(new OurInstructorsFragment());
+                getActionBar().setTitle(R.string.our_instructors);
+                break;
+            case 2: // Seminars
+                break;
+            case 3: // Register
+                break;
             case 4:
+                break;
             case 5:
                 break;
-            case 6:
-                startActivity(new Intent(this, OurInstructorsActivity.class));
-                break;
-            default:
-                break;
         }
-	}
-    
-    /**
-     * A {@link FragmentStatePagerAdapter} that returns a fragment corresponding to
-     * one of the sections/tabs/pages.
-     */
-    public static class HomePageAdapter extends FragmentStatePagerAdapter {
-        
-        public HomePageAdapter(FragmentManager fragmentManager) {
-            super(fragmentManager);
-        }
+    }
 
-        @Override
-        public int getCount() {
-            return TAB_ITEMS;
-        }
+    private void startFragment(Fragment fragment) {
+        final FragmentManager fragmentManager = getSupportFragmentManager();
+        final FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
-        @Override
-        public Fragment getItem(int position) {
-            switch (position) {
-            case 0: 
-                return YouTubeFragment.init(position);
-            case 1:
-                return FacebookFragment.init(position);
-            default:// Fragment # 2-9 - Will show list
-                return YouTubeFragment.init(position);//ArrayListFragment.init(position);
-            }
-        }
-
-        @Override
-        public CharSequence getPageTitle(int position) {
-            switch (position) {
-            case 0:
-                return YouTubeFragment.getFragmentName();
-            case 1:
-                return FacebookFragment.getFragmentName();
-            default:
-                return YouTubeFragment.getFragmentName();
-            }
+        final String tag = fragment.getClass().getSimpleName();
+        // only add fragment if it isn't already showing
+        if (fragmentManager.findFragmentByTag(tag) == null) {
+            fragmentTransaction.replace(R.id.content_frame, fragment, tag);
+            fragmentTransaction.commit();
         }
     }
 

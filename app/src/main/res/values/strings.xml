@@ -21,22 +21,31 @@
     <!-- Nav Drawer Menu Items -->
     <string-array name="nav_drawer_items">
         <item >Home</item>
-        <item >News</item>
-        <item >My courses</item>
         <item >Instructors</item>
-        <item >Course catalogue</item>
-        <item >Organisation</item>
+        <item >Seminars</item>
+        <item >Register</item>
     </string-array>
      
     <!-- Nav Drawer List Item Icons -->
     <!-- Keep them in order as the titles are in -->
     <array name="nav_drawer_icons">
-        <item>@drawable/ic_launcher</item>
-        <item>@drawable/ic_launcher</item>
-        <item>@drawable/ic_launcher</item>
-        <item>@drawable/ic_launcher</item>
-        <item>@drawable/ic_launcher</item>
-        <item>@drawable/ic_launcher</item>
+        <item>@drawable/home</item>
+        <item>@drawable/instructors</item>
+        <item>@drawable/seminars</item>
+        <item>@drawable/register</item>
+    </array>
+
+    <string name="upcoming_events">Upcoming Events</string>
+    <!-- Nav Drawer Menu Upcoming Events category Items -->
+    <string-array name="nav_drawer_upcoming_category_items">
+        <item >IlmFest</item>
+        <item >IlmSummit</item>
+    </string-array>
+    <!-- Nav Drawer List Item Upcoming Events category Icons -->
+    <!-- Keep them in order as the titles are in -->
+    <array name="nav_drawer_upcoming_category_icons">
+        <item>@drawable/ilmfest</item>
+        <item>@drawable/ilmsummit</item>
     </array>
 
     <!-- Channel Titles -->
