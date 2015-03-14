@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
+    android:background="@drawable/list_selector"
     android:paddingTop="@dimen/feed_item_padding_top_bottom"
     android:paddingBottom="@dimen/feed_item_padding_top_bottom"
     android:paddingLeft="@dimen/feed_item_padding_left_right"
