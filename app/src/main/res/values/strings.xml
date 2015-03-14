@@ -94,6 +94,22 @@
     <string-array name="instructor_names">
         <item>Muhammad Alshareef</item>
         <item>Abu Eesa Niamatullah</item>
+        <item>Yasir Qadhi</item>
+        <item>Waleed Basyouni</item>
+        <item>Yaser Birjas</item>
+        <item>Abdullah Hakim Quick</item>
+        <item>Omar Suleiman</item>
+        <item>Kamal El Mekki</item>
+        <item>Reda Bedeir</item>
+        <item>Riad Ouarzazi</item>
+        <item>Saad Tasleem</item>
+        <item>AbdulBary Yahya</item>
+        <item>Ahsan Hanif</item>
+        <item>Navaid Aziz</item>
+        <item>Said Rageah</item>
+        <item>Mohammed Faqih</item>
+        <item>Yasmin Mogahed</item>
+        <item>Abdul Nasir Jangda</item>
     </string-array>
 
     <string name="instructor_profile_directory">instructor_profiles</string>
@@ -102,12 +118,44 @@
     <string-array name="instructor_profile_json_files">
         <item>muhammad_alshareef_profile.json</item>
         <item>abueesa_niamatullah_profile.json</item>
+        <item>yasir_qadhi_profile.json</item>
+        <item>waleed_basyouni_profile.json</item>
+        <item>muhammad_alshareef_profile.json</item>
+        <item>abdullah_hakim_quick_profile.json</item>
+        <item>omar_suleiman_profile.json</item>
+        <item>kamal_mekki_profile.json</item>
+        <item>reda_bedeir_profile.json</item>
+        <item>riad_ouarzazi_profile.json</item>
+        <item>saad_tasleem_profile.json</item>
+        <item>abdulbary_yahya_profile.json</item>
+        <item>ahsan_hanif_profile.json</item>
+        <item>navaid_aziz_profile.json</item>
+        <item>said_rageah_profile.json</item>
+        <item>mohammed_faqih_profile.json</item>
+        <item>yasmin_mogahed_profile.json</item>
+        <item>abdul_nasir_jangda_profile.json</item>
     </string-array>
 
     <!-- Keep them in order as instructor_names are in -->
-    <string-array name="instructor_images">
+    <array name="instructor_images">
         <item>muhammadalshareef</item>
         <item>abueesa</item>
-    </string-array>
+        <item>yasirqadhi</item>
+        <item>waleed</item>
+        <item>yasir</item>
+        <item>muhammadalshareef</item>
+        <item>omar</item>
+        <item>kamal</item>
+        <item>reda</item>
+        <item>riad</item>
+        <item>saad</item>
+        <item>abdulbary</item>
+        <item>ahsan</item>
+        <item>navaid</item>
+        <item>said</item>
+        <item>faqih</item>
+        <item>yasmin</item>
+        <item>abdulnasir</item>
+    </array>
 
 </resources>

@@ -20,7 +20,6 @@ import com.google.gson.Gson;
 public class OurInstructorsFragment extends Fragment implements
         AdapterView.OnItemSelectedListener {
 
-    private CharSequence[] mInstructorNames;
     private CharSequence[] mInstructorProfileFiles;
     private CharSequence[] mInstructorPics;
 
@@ -34,7 +33,6 @@ public class OurInstructorsFragment extends Fragment implements
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View layoutView = inflater.inflate(R.layout.our_instructors, container, false);
 
-        mInstructorNames = getResources().getTextArray(R.array.instructor_names);
         mInstructorProfileFiles = getResources().getTextArray(R.array.instructor_profile_json_files);
         mInstructorPics = getResources().getTextArray(R.array.instructor_images);
 
