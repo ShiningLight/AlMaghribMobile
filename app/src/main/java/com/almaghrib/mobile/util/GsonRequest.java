@@ -10,8 +10,13 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.Response.ErrorListener;
 import com.android.volley.Response.Listener;
+import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.HttpHeaderParser;
 
+import org.apache.http.HttpEntity;
+
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.Map;
 
@@ -23,6 +28,7 @@ public class GsonRequest<T> extends Request<T> {
     private Class<T> clazz;
     private Map<String, String> headers;
     private Map<String, String> params;
+    private HttpEntity httpEntity;
     private Listener<T> listener;
 
     /**
@@ -47,13 +53,15 @@ public class GsonRequest<T> extends Request<T> {
      * @param clazz Relevant class object, for Gson's reflection
      */
     public GsonRequest(int method, String url, Class<T> clazz, Map<String, String> params,
+                       Map<String, String> headers, HttpEntity entity,
                        Listener<T> listener, ErrorListener errorListener) {
         super(method, url, errorListener);
 
         this.clazz = clazz;
         this.params = params;
         this.listener = listener;
-        this.headers = null;
+        this.headers = headers;
+        this.httpEntity = entity;
         mGson = new Gson();
     }
 
@@ -65,6 +73,22 @@ public class GsonRequest<T> extends Request<T> {
     @Override
     protected Map<String, String> getParams() throws AuthFailureError {
         return params;
+    }
+
+    @Override
+    public String getBodyContentType() {
+        return httpEntity.getContentType().getValue();
+    }
+
+    @Override
+    public byte[] getBody() throws AuthFailureError {
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        try {
+            httpEntity.writeTo(outputStream);
+        } catch (IOException e) {
+            VolleyLog.e("IOException @ " + GsonRequest.class.getSimpleName());
+        }
+        return outputStream.toByteArray();
     }
 
     @Override

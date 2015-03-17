@@ -22,8 +22,10 @@ public class UriRequestBuilder {
         if (url == null) {
             return null;
         }
-        final String encodedParams = URLEncodedUtils.format(params, HTTP.UTF_8);
-        url += "?" + encodedParams;
+        if (params != null) {
+            final String encodedParams = URLEncodedUtils.format(params, HTTP.UTF_8);
+            url += "?" + encodedParams;
+        }
         Log.d(TAG, "Url: " + url);
         return url;
     }

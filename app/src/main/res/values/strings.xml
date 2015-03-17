@@ -15,6 +15,7 @@
 
     <string name="latest_videos">LATEST VIDEOS</string>
     <string name="latest_status">LATEST STATUSES</string>
+    <string name="latest_tweets">LATEST TWEETS</string>
 
     <string name="choose_instructor">Choose an instructor</string>
 
@@ -88,6 +89,23 @@
         <item>nationbuilder.prime</item>
         <item>yasir.qadhi</item>
         <item>imamomarsuleiman</item>
+    </string-array>
+
+    <!-- Twitter timeline Titles -->
+    <!-- TODO: move to a file on disk to retrieve from a server -->
+    <string-array name="twitter_timeline_titles">
+        <item>AlMaghrib Institute</item>
+        <item>Yasir Qadhi</item>
+        <item>Waleed Basyouni</item>
+    </string-array>
+
+    <!-- Twitter timeline Ids -->
+    <!-- Keep them in order as the Twitter timeline titles are in -->
+    <!-- TODO: move to a file on disk to retrieve from a server -->
+    <string-array name="twitter_timeline_ids">
+        <item>almaghrib</item>
+        <item>YasirQadhi</item>
+        <item>waleedkbasyouni</item>
     </string-array>
 
     <!-- Instructor names -->

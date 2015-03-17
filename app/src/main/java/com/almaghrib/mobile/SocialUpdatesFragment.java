@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.almaghrib.mobile.facebook.ui.FacebookFragment;
+import com.almaghrib.mobile.twitter.ui.TwitterFragment;
 import com.almaghrib.mobile.youtube.ui.YouTubeFragment;
 
 public class SocialUpdatesFragment extends Fragment {
@@ -72,8 +73,8 @@ public class SocialUpdatesFragment extends Fragment {
                     return YouTubeFragment.init(position);
                 case 1:
                     return FacebookFragment.init(position);
-                default:// TODO: Replace with Twitter
-                    return YouTubeFragment.init(position);
+                default:
+                    return TwitterFragment.init();
             }
         }
 
@@ -85,7 +86,7 @@ public class SocialUpdatesFragment extends Fragment {
                 case 1:
                     return FacebookFragment.getFragmentName();
                 default:
-                    return YouTubeFragment.getFragmentName();
+                    return TwitterFragment.getFragmentName();
             }
         }
     }

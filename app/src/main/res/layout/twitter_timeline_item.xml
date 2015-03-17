@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:background="@drawable/list_selector"
+    android:paddingTop="@dimen/feed_item_padding_top_bottom"
+    android:paddingBottom="@dimen/feed_item_padding_top_bottom"
+    android:paddingLeft="@dimen/feed_item_padding_left_right"
+    android:paddingRight="@dimen/feed_item_padding_left_right" >
+
+    <com.android.volley.toolbox.NetworkImageView
+        android:id="@+id/profilePic"
+        android:layout_width="@dimen/feed_item_profile_pic"
+        android:layout_height="@dimen/feed_item_profile_pic"
+        android:scaleType="fitCenter" >
+    </com.android.volley.toolbox.NetworkImageView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingLeft="@dimen/feed_item_profile_info_padd" >
+
+        <TextView
+            android:id="@+id/name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Name"
+            android:textSize="@dimen/feed_item_profile_name"
+            android:textStyle="bold"
+            android:maxLines="1"
+            android:ellipsize="marquee"/>
+
+        <TextView
+            android:id="@+id/timestamp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/timestamp"
+            android:textSize="@dimen/feed_item_timestamp" />
+
+        <TextView
+            android:id="@+id/txtStatusMsg"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="5dp"
+            android:paddingTop="@dimen/feed_item_status_pad_top"
+            android:textColor="@color/lighter_gray"
+            android:autoLink="web"
+            android:linksClickable="true"/>
+
+        <TextView
+            android:id="@+id/txtUrl"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:linksClickable="true"
+            android:paddingBottom="10dp"
+            android:textColorLink="@color/link" />
+
+        <com.almaghrib.mobile.util.view.FeedImageView
+            android:id="@+id/feedImage1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:adjustViewBounds="true"
+            android:scaleType="fitXY"
+            android:visibility="visible" />
+    </LinearLayout>
+
+</LinearLayout>
