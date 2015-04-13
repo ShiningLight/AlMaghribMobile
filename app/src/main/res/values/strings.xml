@@ -2,7 +2,10 @@
 <resources>
     <string name="app_name">AlMaghrib</string>
     <string name="action_settings">Settings</string>
+    <string name="social">Social</string>
     <string name="our_instructors">Our Instructors</string>
+
+    <string name="more_videos">MORE VIDEOS</string>
 
     <string name="title_section1">YouTube</string>
     <string name="title_section2">Facebook</string>
@@ -22,6 +25,7 @@
     <!-- Nav Drawer Menu Items -->
     <string-array name="nav_drawer_items">
         <item >Home</item>
+        <item >Social</item>
         <item >Instructors</item>
         <item >Seminars</item>
         <item >Register</item>
@@ -31,6 +35,7 @@
     <!-- Keep them in order as the titles are in -->
     <array name="nav_drawer_icons">
         <item>@drawable/home</item>
+        <item>@drawable/instructors</item>
         <item>@drawable/instructors</item>
         <item>@drawable/seminars</item>
         <item>@drawable/register</item>

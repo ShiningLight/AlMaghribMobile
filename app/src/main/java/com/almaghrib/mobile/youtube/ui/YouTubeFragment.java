@@ -36,9 +36,9 @@ public class YouTubeFragment extends Fragment implements
 
     protected final static String TAG = YouTubeFragment.class.getSimpleName();
 
-    private static final SimpleDateFormat RETRIEVED_DATE_FORMAT =
+    public static final SimpleDateFormat RETRIEVED_DATE_FORMAT =
             new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
-    private static final SimpleDateFormat OUTPUT_DATE_FORMAT =
+    public static final SimpleDateFormat OUTPUT_DATE_FORMAT =
             new SimpleDateFormat("dd-MM-yyyy");
 
     private int fragVal;

@@ -30,19 +30,23 @@ public class YouTubeApiUriRequestBuilder extends UriRequestBuilder {
     private static final String KEY_VALUE = "AIzaSyCq5TVzGp1J6_nPCLwaiHfs6C4gSSbHzuM";
     private static final String PART_VALUE = "snippet,id";
     private static final String ORDER_VALUE = "date";
-    private static final String MAX_RESULTS_VALUE = "15";
+    private static final String DEFAULT_MAX_RESULTS_VALUE = "15";
     private static final String TYPE_VALUE = "video";
 
     public YouTubeApiUriRequestBuilder() {
     }
 
     public String buildSearchRequest(String channelId, String pageToken) {
+        return buildSearchRequest(channelId, pageToken, DEFAULT_MAX_RESULTS_VALUE);
+    }
+
+    public String buildSearchRequest(String channelId, String pageToken, String maxResults) {
         final List<NameValuePair> params = new ArrayList<NameValuePair>();
         params.add(new BasicNameValuePair(KEY_PARAM, KEY_VALUE));
         params.add(new BasicNameValuePair(CHANNEL_ID_PARAM, channelId));
         params.add(new BasicNameValuePair(PART_PARAM, PART_VALUE));
         params.add(new BasicNameValuePair(ORDER_PARAM, ORDER_VALUE));
-        params.add(new BasicNameValuePair(MAX_RESULTS_PARAM, MAX_RESULTS_VALUE));
+        params.add(new BasicNameValuePair(MAX_RESULTS_PARAM, maxResults));
         params.add(new BasicNameValuePair(TYPE_PARAM, TYPE_VALUE));
         if (pageToken != null) {
             params.add(new BasicNameValuePair(PAGE_TOKEN_PARAM, pageToken));

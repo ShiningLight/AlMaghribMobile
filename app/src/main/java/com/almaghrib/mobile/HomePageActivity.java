@@ -59,7 +59,7 @@ public class HomePageActivity extends FragmentActivity {
         // set and open first item on launch
         if (savedInstanceState == null && mCurrentlySelectedItem == 0) {
             mDrawerList.setItemChecked(0, true);
-            startFragment(new SocialUpdatesFragment());
+            startFragment(this, new HomeFragment());
             getActionBar().setTitle(R.string.app_name);
         }
 
@@ -185,26 +185,30 @@ public class HomePageActivity extends FragmentActivity {
 	private void handleDrawerItemClick(int position) {
         switch (position) {
             case 0: // Home
-                startFragment(new SocialUpdatesFragment());
+                startFragment(HomePageActivity.this, new HomeFragment());
                 getActionBar().setTitle(R.string.app_name);
                 break;
-            case 1: // Instructors
-                startFragment(new OurInstructorsFragment());
+            case 1: // Social
+                startFragment(HomePageActivity.this, new SocialUpdatesFragment());
+                getActionBar().setTitle(R.string.social);
+                break;
+            case 2: // Instructors
+                startFragment(HomePageActivity.this, new OurInstructorsFragment());
                 getActionBar().setTitle(R.string.our_instructors);
                 break;
-            case 2: // Seminars
+            case 3: // Seminars
                 break;
-            case 3: // Register
-                break;
-            case 4:
+            case 4: // Register
                 break;
             case 5:
+                break;
+            case 6:
                 break;
         }
     }
 
-    private void startFragment(Fragment fragment) {
-        final FragmentManager fragmentManager = getSupportFragmentManager();
+    public static void startFragment(FragmentActivity fragmentActivity, Fragment fragment) {
+        final FragmentManager fragmentManager = fragmentActivity.getSupportFragmentManager();
         final FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
         final String tag = fragment.getClass().getSimpleName();
