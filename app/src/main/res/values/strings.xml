@@ -22,6 +22,8 @@
 
     <string name="choose_instructor">Choose an instructor</string>
 
+    <string name="register_url">http://almaghrib.org/seminars</string>
+
     <!-- Nav Drawer Menu Items -->
     <string-array name="nav_drawer_items">
         <item >Home</item>

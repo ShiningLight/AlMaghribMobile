@@ -1,7 +1,9 @@
 package com.almaghrib.mobile;
 
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.TypedArray;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.Fragment;
@@ -175,7 +177,6 @@ public class HomePageActivity extends FragmentActivity {
 				int position, long id) {
 			// display view for selected nav drawer item
             if (mCurrentlySelectedItem != position) {
-                mCurrentlySelectedItem = position;
                 handleDrawerItemClick(position);
                 mDrawerLayout.closeDrawers();
             }
@@ -185,26 +186,35 @@ public class HomePageActivity extends FragmentActivity {
 	private void handleDrawerItemClick(int position) {
         switch (position) {
             case 0: // Home
+                mCurrentlySelectedItem = position;
                 startFragment(HomePageActivity.this, new HomeFragment());
                 getActionBar().setTitle(R.string.app_name);
                 break;
             case 1: // Social
+                mCurrentlySelectedItem = position;
                 startFragment(HomePageActivity.this, new SocialUpdatesFragment());
                 getActionBar().setTitle(R.string.social);
                 break;
             case 2: // Instructors
+                mCurrentlySelectedItem = position;
                 startFragment(HomePageActivity.this, new OurInstructorsFragment());
                 getActionBar().setTitle(R.string.our_instructors);
                 break;
             case 3: // Seminars
+                mCurrentlySelectedItem = position;
                 break;
             case 4: // Register
+                // Don't set as selected item as it will open an external app
+                final Intent browserIntent = new Intent(Intent.ACTION_VIEW,
+                        Uri.parse(getApplicationContext().getString(R.string.register_url)));
+                startActivity(browserIntent);
                 break;
             case 5:
                 break;
             case 6:
                 break;
         }
+        mDrawerList.setItemChecked(mCurrentlySelectedItem, true);
     }
 
     public static void startFragment(FragmentActivity fragmentActivity, Fragment fragment) {
