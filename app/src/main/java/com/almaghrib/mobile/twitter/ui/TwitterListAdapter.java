@@ -1,5 +1,6 @@
 package com.almaghrib.mobile.twitter.ui;
 
+import android.app.Activity;
 import android.content.Context;
 import android.text.Html;
 import android.text.TextUtils;
@@ -34,10 +35,10 @@ public class TwitterListAdapter extends BaseAdapter {
     private Twitter feedItems;
     private ImageLoader mImageLoader;
 
-    public TwitterListAdapter(Context context, Twitter feedItems) {
+    public TwitterListAdapter(Activity activity, Twitter feedItems) {
         this.feedItems = feedItems;
-        this.mInflater = LayoutInflater.from(context);
-        this.mImageLoader = RequestQueueSingleton.getInstance(context).getImageLoader();
+        this.mInflater = LayoutInflater.from(activity);
+        this.mImageLoader = RequestQueueSingleton.getInstance(activity.getApplicationContext()).getImageLoader();
     }
 
     @Override

@@ -77,11 +77,14 @@ public class GsonRequest<T> extends Request<T> {
 
     @Override
     public String getBodyContentType() {
-        return httpEntity.getContentType().getValue();
+        return httpEntity != null ? httpEntity.getContentType().getValue() : super.getBodyContentType();
     }
 
     @Override
     public byte[] getBody() throws AuthFailureError {
+        if (httpEntity == null) {
+            return super.getBody();
+        }
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         try {
             httpEntity.writeTo(outputStream);

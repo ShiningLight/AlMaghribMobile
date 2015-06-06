@@ -1,6 +1,9 @@
 package com.almaghrib.mobile.twitter.ui;
 
+import android.app.ProgressDialog;
 import android.content.Context;
+import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -9,28 +12,40 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
+import android.widget.ImageButton;
 import android.widget.Spinner;
+import android.widget.Toast;
 
+import com.almaghrib.mobile.AlMaghribSharedPreferences;
 import com.almaghrib.mobile.R;
 import com.almaghrib.mobile.RequestQueueSingleton;
 import com.almaghrib.mobile.twitter.data.Twitter;
 import com.almaghrib.mobile.twitter.data.TwitterApiUriRequestBuilder;
-import com.almaghrib.mobile.twitter.jsonModels.Authenticated;
 import com.almaghrib.mobile.twitter.jsonModels.Tweet;
-import com.almaghrib.mobile.util.GsonRequest;
+import com.almaghrib.mobile.util.NetworkUtils;
 import com.almaghrib.mobile.util.view.PaginatingListView;
-import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
+import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
+
+import org.scribe.exceptions.OAuthConnectionException;
+import org.scribe.model.OAuthRequest;
+import org.scribe.model.Token;
+import org.scribe.model.Verifier;
+import org.scribe.oauth.OAuthService;
 
 public class TwitterFragment extends Fragment implements
-        AbsListView.OnScrollListener, AdapterView.OnItemSelectedListener {
+        AbsListView.OnScrollListener, AdapterView.OnItemSelectedListener,
+        TwitterSignInDialogFragment.AuthorizationCompleteCallback {
 
     private static final String TAG = TwitterFragment.class.getSimpleName();
+
+    private OAuthService mService;
 
     private PaginatingListView listView;
     private TwitterListAdapter listAdapter;
     private Spinner mSpinner;
+
+    private ImageButton mSignInButton;
 
     private Twitter mTwitter;
     private CharSequence[] mTwitterIds;
@@ -40,7 +55,6 @@ public class TwitterFragment extends Fragment implements
 
     private boolean mIsUserScrolling = false;
     private boolean isLoading;
-    private String mAccessToken;
 
     public static TwitterFragment init() {
         final TwitterFragment fragment = new TwitterFragment();
@@ -52,8 +66,17 @@ public class TwitterFragment extends Fragment implements
     }
 
     @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setRetainInstance(true);
+        mService = TwitterApiUriRequestBuilder.buildOAuthService();
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        final Context context = getActivity().getApplicationContext();
+
         final View layoutView = inflater.inflate(R.layout.twitter_page, container, false);
 
         listView = (PaginatingListView) layoutView.findViewById(R.id.videosListView);
@@ -69,14 +92,28 @@ public class TwitterFragment extends Fragment implements
         // TODO: get id from file matching text on spinner
         mTwitterIds = getActivity().getResources().getTextArray(R.array.twitter_timeline_ids);
 
-//        if (NetworkUtils.isConnectedToNetwork(getActivity().getApplicationContext())) {
-//            downloadTweets(mTwitterIds[pos].toString());
-//        } else {
-//            Toast.makeText(getActivity().getApplicationContext(),
-//                    "No Connection", Toast.LENGTH_SHORT).show();
-//        }
+        mSignInButton = (ImageButton) layoutView.findViewById(R.id.twitterSignInButton);
+        mSignInButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                signInToTwitter(context);
+            }
+        });
+        final AlMaghribSharedPreferences prefs = AlMaghribSharedPreferences.getInstance(context);
+        if (prefs.getTwitterAccessToken().isEmpty()) {
+            mSignInButton.setVisibility(View.VISIBLE);
+        }
 
         return layoutView;
+    }
+
+    private void signInToTwitter(Context context) {
+        if (NetworkUtils.isConnectedToNetwork(context)) {
+            TwitterSignInDialogFragment.showTwitterSignInDialog(
+                    getFragmentManager(), this, mService);
+        } else {
+            Toast.makeText(context, getString(R.string.no_internet_message), Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override
@@ -89,114 +126,140 @@ public class TwitterFragment extends Fragment implements
         }
         mCurrFeedPos = pos;
 
-        getActivity().setProgressBarIndeterminateVisibility(true);
         // if user has tried to get new page but then chose new item - remove loading footer view
         listView.removeLoadingFooterView();
 
-        //getUserYouTubeFeed(getActivity().getApplicationContext(), true);
-        downloadTweets(mTwitterIds[pos].toString());
+        final AlMaghribSharedPreferences prefs =
+                AlMaghribSharedPreferences.getInstance(getActivity().getApplicationContext());
+        if (!prefs.getTwitterAccessToken().isEmpty()) {
+            getActivity().setProgressBarIndeterminateVisibility(true);
+            makeTwitterTimelineRequest(mTwitterIds[pos].toString());
+        }
     }
 
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
     }
 
-    // download twitter timeline after first checking to see if there is a network connection
-    public void downloadTweets(String screenName) {
-        final Context appContext = getActivity().getApplicationContext();
-
-        // Stop all other requests, e.g. to get new page
-        RequestQueueSingleton.getInstance(appContext).cancelPendingRequests(TAG);
-
-        final TwitterApiUriRequestBuilder apiBuilder = new TwitterApiUriRequestBuilder();
-
-        final GsonRequest<Authenticated> request =
-                new GsonRequest<Authenticated>(
-                        Request.Method.POST,
-                        apiBuilder.buildTokenRequest(),
-                        Authenticated.class, null,
-                        apiBuilder.buildTokenRequestHeaders(),
-                        apiBuilder.getTokenRequestEntity(),
-                        createSearchRequestAuthenticateSuccessListener(screenName),
-                        createSearchRequestErrorListener());
-
-        request.setTag(TAG);
-        RequestQueueSingleton.getInstance(appContext).addToRequestQueue(request);
+    @Override
+    public void onAuthorizationComplete(Token requestToken, String url) {
+        new GetAccessTokenTask(mService, requestToken).execute(url);
     }
 
-    private Response.Listener<Authenticated> createSearchRequestAuthenticateSuccessListener(final String screenName) {
-        return new Response.Listener<Authenticated>() {
-            @Override
-            public void onResponse(Authenticated response) {
-                // Applications should verify that the value associated with the
-                // token_type key of the returned object is bearer
-                if (response != null && response.getTokenType().equals("bearer")) {
-                    mAccessToken = response.getAccessToken();
-                    makeTwitterTimelineRequest(response.getAccessToken(), screenName);
-                } else {
-                    Log.e(TAG, "Invalid token: " + response);
-                    mSpinner.setSelection(mPrevFeedPos);
-                    mCurrFeedPos = mPrevFeedPos;
-                    mSpinner.setEnabled(true);
+    private class GetAccessTokenTask extends AsyncTask<String, Void, Boolean> {
+        private OAuthService service;
+        private Token requestToken;
+        private AlMaghribSharedPreferences prefs;
+        private ProgressDialog progressDialog ;
+
+        public GetAccessTokenTask(OAuthService service, Token requestToken) {
+            this.service = service;
+            this.requestToken = requestToken;
+            this.prefs = AlMaghribSharedPreferences.getInstance(getActivity().getApplicationContext());
+        }
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            progressDialog = new ProgressDialog(getActivity());
+            progressDialog.setMessage(getString(R.string.loading_text));
+            progressDialog.setCancelable(false);
+            progressDialog.show();
+        }
+        @Override
+        protected Boolean doInBackground(String... param) {
+            final Uri uri = Uri.parse(param[0]);
+            final String verifier = uri.getQueryParameter("oauth_verifier");
+            final Verifier v = new Verifier(verifier);
+            try {
+                final Token accessToken = service.getAccessToken(requestToken, v);
+                Log.d(TAG, "access token - Raw response: " + accessToken.getRawResponse());
+                // The requestToken is saved for use later on to verify the OAuth request.
+                prefs.setTwitterAccessToken(accessToken.getToken());
+                prefs.setTwitterAccessTokenSecret(accessToken.getSecret());
+
+                return true;
+            } catch (OAuthConnectionException e) {
+                Log.e(TAG, e.getMessage(), e);
+            }
+            return false;
+        }
+        @Override
+        protected void onCancelled(Boolean aVoid) {
+            progressDialog.dismiss();
+            super.onCancelled(aVoid);
+        }
+        @Override
+        protected void onPostExecute(Boolean result) {
+            if (getView() != null && result) {
+                mSignInButton.setVisibility(View.GONE);
+                makeTwitterTimelineRequest(mTwitterIds[mCurrFeedPos].toString());
+                progressDialog.dismiss();
+            }
+        }
+    }
+
+    private void makeTwitterTimelineRequest(String screenName) {
+        new MakeTimelineRequestTask(screenName).execute();
+    }
+
+    private class MakeTimelineRequestTask extends AsyncTask<Void, Void, Twitter> {
+        private String mScreenName;
+        private AlMaghribSharedPreferences mPrefs;
+
+        public MakeTimelineRequestTask(String screenName) {
+            mScreenName = screenName;
+            mPrefs = AlMaghribSharedPreferences.getInstance(getActivity().getApplicationContext());
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            // some loading indicator
+            getActivity().setProgressBarIndeterminateVisibility(true);
+        }
+        @Override
+        protected Twitter doInBackground(Void... param) {
+            final String maxId = (!mTwitter.isEmpty() && mScreenName.equals(mTwitter.getScreenName()))
+                    ? mTwitter.get(mTwitter.size()-1).getId() : null;
+
+            final OAuthRequest request =
+                    TwitterApiUriRequestBuilder.buildStatusUserTimelineRequest(mScreenName, maxId);
+
+            final Token accessToken = new Token(
+                    mPrefs.getTwitterAccessToken(), mPrefs.getTwitterAccessTokenSecret());
+
+            mService.signRequest(accessToken, request);
+            try {
+                org.scribe.model.Response response = request.send();
+                if (response.isSuccessful()) {
+                    Log.d(TAG, "response: " + response.getBody());
+                    try {
+                        final Twitter twitterJson = new Gson().fromJson(response.getBody(), Twitter.class);
+                        return twitterJson;
+                    } catch (JsonSyntaxException e) {
+                        Log.e(TAG, e.getMessage(), e);
+                    }
                 }
-                getActivity().setProgressBarIndeterminateVisibility(false);
-                isLoading = false;
-                listView.removeLoadingFooterView();
+                Log.d(TAG, "response status: " + response.getMessage());
+            } catch (OAuthConnectionException e) {
+                Log.e(TAG, e.getMessage(), e);
+            } catch (IllegalStateException e) {
+                Log.e(TAG, e.getMessage(), e);
             }
-        };
-    }
-
-    private void makeTwitterTimelineRequest(String accessToken, String screenName) {
-        final Context appContext = getActivity().getApplicationContext();
-
-        // Stop all other requests, e.g. to get new page
-        RequestQueueSingleton.getInstance(appContext).cancelPendingRequests(TAG);
-
-        final TwitterApiUriRequestBuilder apiBuilder = new TwitterApiUriRequestBuilder();
-
-        final String maxId = (!mTwitter.isEmpty() && screenName.equals(mTwitter.getScreenName()))
-                ? mTwitter.get(mTwitter.size()-1).getId() : null;
-
-        // update the results with the body of the response
-        final GsonRequest<Twitter> request =
-                new GsonRequest<Twitter>(
-                        Request.Method.GET,
-                        apiBuilder.buildStatusUserTimelineRequest(screenName, maxId),
-                        Twitter.class, null,
-                        apiBuilder.buildApiRequestHeaders(accessToken), null,
-                        createSearchRequestSuccessListener(screenName),
-                        createSearchRequestErrorListener());
-
-        request.setTag(TAG);
-        RequestQueueSingleton.getInstance(appContext).addToRequestQueue(request);
-    }
-
-    private Response.ErrorListener createSearchRequestErrorListener() {
-        return new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Log.e(TAG, error.getMessage(), error);
-                mSpinner.setSelection(mPrevFeedPos);
-                mCurrFeedPos = mPrevFeedPos;
-                mSpinner.setEnabled(true);
-                getActivity().setProgressBarIndeterminateVisibility(false);
-                isLoading = false;
-                listView.removeLoadingFooterView();
-            }
-        };
-    }
-
-    private Response.Listener<Twitter> createSearchRequestSuccessListener(final String screenName) {
-        return new Response.Listener<Twitter>() {
-            @Override
-            public void onResponse(Twitter response) {
+            return null; // request not successful
+        }
+        @Override
+        protected void onPostExecute(Twitter response) {
+            if (getView() != null) {
+                // update UI
                 if (response != null && !response.isEmpty()) {
                     mPrevFeedPos = mCurrFeedPos;
-                    if (screenName.equals(mTwitter.getScreenName())) {
+                    if (mScreenName.equals(mTwitter.getScreenName())) {
                         mTwitter.addAll(response);
                     } else {
+                        // new feed channel
                         mTwitter = response;
-                        mTwitter.setScreenName(screenName);
+                        mTwitter.setScreenName(mScreenName);
                     }
                     // lets write the results to the console as well
                     for (Tweet tweet : response) {
@@ -204,13 +267,20 @@ public class TwitterFragment extends Fragment implements
                     }
                     // send the tweets to the adapter for rendering
                     listAdapter.updateAdapter(mTwitter);
+                } else {
+                    Log.e(TAG, "Invalid response: " + response);
+                    mSpinner.setSelection(mPrevFeedPos);
+                    mCurrFeedPos = mPrevFeedPos;
+                    mSpinner.setEnabled(true);
+
+                    //TODO: Show retry button
                 }
                 getActivity().setProgressBarIndeterminateVisibility(false);
                 isLoading = false;
                 listView.removeLoadingFooterView();
                 mSpinner.setEnabled(true);
             }
-        };
+        }
     }
 
     @Override
@@ -230,6 +300,7 @@ public class TwitterFragment extends Fragment implements
         listAdapter.notifyDataSetInvalidated();
         listAdapter = null;
         mSpinner = null;
+
         mTwitter = null;
 
         if (getActivity().getSupportFragmentManager().getFragments().contains(this)) {
@@ -265,7 +336,7 @@ public class TwitterFragment extends Fragment implements
             if (!isLoading && (pageNotFull || (mIsUserScrolling && onePageFromEnd))) {
                 isLoading = true;
                 listView.addLoadingFooterView();
-                makeTwitterTimelineRequest(mAccessToken, mTwitterIds[mCurrFeedPos].toString());
+                makeTwitterTimelineRequest(mTwitterIds[mCurrFeedPos].toString());
             }
         }
     }

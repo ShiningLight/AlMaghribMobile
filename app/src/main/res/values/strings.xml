@@ -20,9 +20,14 @@
     <string name="latest_status">LATEST STATUSES</string>
     <string name="latest_tweets">LATEST TWEETS</string>
 
+    <string name="twitter_sign_in_dialog_title">Sign in with Twitter</string>
+
     <string name="choose_instructor">Choose an instructor</string>
 
     <string name="register_url">http://almaghrib.org/seminars</string>
+
+    <string name="no_internet_message">No internet connection</string>
+    <string name="loading_text">Loading...</string>
 
     <!-- Nav Drawer Menu Items -->
     <string-array name="nav_drawer_items">

@@ -44,9 +44,22 @@
         android:background="@color/darker_gray"
         android:paddingBottom="5dp" />
 
-    <com.almaghrib.mobile.util.view.PaginatingListView
-        android:id="@+id/videosListView"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent">
+
+        <com.almaghrib.mobile.util.view.PaginatingListView
+            android:id="@+id/videosListView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/twitterSignInButton"
+            android:layout_gravity="center"
+            android:src="@drawable/sign_in_twitter_button"
+            android:visibility="gone"/>
+    </FrameLayout>
 
 </LinearLayout>
