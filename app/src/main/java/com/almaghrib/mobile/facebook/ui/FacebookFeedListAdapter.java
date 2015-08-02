@@ -18,26 +18,28 @@ import com.almaghrib.mobile.facebook.data.FacebookFeedItem;
 import com.almaghrib.mobile.util.view.FeedImageView;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
+import com.facebook.login.widget.ProfilePictureView;
 
 public class FacebookFeedListAdapter extends BaseAdapter {
     private LayoutInflater mInflater;
-    private List<FacebookFeedItem> feedItems;
+    private String mUserId;
+    private List<FacebookFeedItem> mFeedItems;
     private ImageLoader mImageLoader;
 
     public FacebookFeedListAdapter(Context context, List<FacebookFeedItem> feedItems) {
-        this.feedItems = feedItems;
-        this.mInflater = LayoutInflater.from(context);
-        this.mImageLoader = RequestQueueSingleton.getInstance(context).getImageLoader();
+        mFeedItems = feedItems;
+        mInflater = LayoutInflater.from(context);
+        mImageLoader = RequestQueueSingleton.getInstance(context).getImageLoader();
     }
 
     @Override
     public int getCount() {
-        return feedItems.size();
+        return mFeedItems.size();
     }
 
     @Override
     public Object getItem(int location) {
-        return feedItems.get(location);
+        return mFeedItems.get(location);
     }
 
     @Override
@@ -58,7 +60,7 @@ public class FacebookFeedListAdapter extends BaseAdapter {
             holder.timestamp = (TextView) convertView.findViewById(R.id.timestamp);
             holder.statusMessage = (TextView) convertView.findViewById(R.id.txtStatusMsg);
             holder.url = (TextView) convertView.findViewById(R.id.txtUrl);
-            holder.profilePic = (NetworkImageView) convertView.findViewById(R.id.profilePic);
+            holder.profilePic = (ProfilePictureView) convertView.findViewById(R.id.profilePic);
             holder.image = (FeedImageView) convertView.findViewById(R.id.feedImage1);
 
             // store the holder with the view
@@ -67,7 +69,7 @@ public class FacebookFeedListAdapter extends BaseAdapter {
             holder = (FacebookFeedViewHolder) convertView.getTag();
         }
 
-        final FacebookFeedItem item = feedItems.get(position);
+        final FacebookFeedItem item = mFeedItems.get(position);
 
         holder.name.setText(item.getName());
 
@@ -98,9 +100,8 @@ public class FacebookFeedListAdapter extends BaseAdapter {
             holder.url.setVisibility(View.GONE);
         }
 
-        // user profile pic
-        holder.profilePic.setDefaultImageResId(R.drawable.facebook_profile_pic_placeholder);
-        holder.profilePic.setImageUrl(item.getProfilePic(), mImageLoader);
+        // set user profile pic by setting the user id - facebook view will do the retrieval
+        holder.profilePic.setProfileId(mUserId);
 
         // Feed image
         if (item.getImage() != null) {
@@ -113,12 +114,16 @@ public class FacebookFeedListAdapter extends BaseAdapter {
         return convertView;
     }
 
+    public void setUserId(String userId) {
+        mUserId = userId;
+    }
+
     /**
      * Update adapter with new list of feedItems
      * @param feedItems
      */
     public void updateAdapter(List<FacebookFeedItem> feedItems) {
-        this.feedItems = feedItems;
+        mFeedItems = feedItems;
         notifyDataSetChanged();
     }
 

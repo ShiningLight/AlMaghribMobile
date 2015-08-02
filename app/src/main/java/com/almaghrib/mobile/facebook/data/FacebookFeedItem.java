@@ -2,19 +2,17 @@ package com.almaghrib.mobile.facebook.data;
 
 public class FacebookFeedItem {
 	private int id;
-	private String name, status, image, profilePic, timeStamp, url;
+	private String name, status, image, timeStamp, url;
 
 	public FacebookFeedItem() {
 	}
 
-	public FacebookFeedItem(String name, String image, String status,
-                            String profilePic, String timeStamp, String url) {
+	public FacebookFeedItem(String name, String image, String status, String timeStamp, String url) {
 		super();
 		this.id = 1;
 		this.name = name;
 		this.image = image;
 		this.status = status;
-		this.profilePic = profilePic;
 		this.timeStamp = timeStamp;
 		this.url = url;
 	}
@@ -49,14 +47,6 @@ public class FacebookFeedItem {
 
 	public void setStatus(String status) {
 		this.status = status;
-	}
-
-	public String getProfilePic() {
-		return profilePic;
-	}
-
-	public void setProfilePic(String profilePic) {
-		this.profilePic = profilePic;
 	}
 
 	public String getTimeStamp() {

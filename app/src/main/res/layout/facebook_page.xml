@@ -1,52 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
     android:orientation="vertical">
 
-    <RelativeLayout
+    <LinearLayout
+        android:id="@+id/feedViews"
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_vertical"
-        android:paddingBottom="3dp"
-        android:paddingLeft="15dp"
-        android:paddingRight="15dp"
-        android:paddingTop="10dp">
+        android:layout_height="match_parent">
 
-        <TextView
-            android:id="@+id/heading"
-            android:layout_width="wrap_content"
+        <RelativeLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_marginRight="45dp"
-            android:layout_alignBottom="@+id/getFeedSpinner"
-            android:layout_alignTop="@+id/getFeedSpinner"
             android:gravity="center_vertical"
-            android:text="@string/latest_status"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:textColor="@color/darker_gray"
-            android:textStyle="bold" />
+            android:paddingBottom="3dp"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:paddingTop="10dp">
 
-        <Spinner
-            android:id="@+id/getFeedSpinner"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toRightOf="@+id/heading"
-            android:layout_alignParentRight="true"
-            android:gravity="right"
-            android:entries="@array/facebook_feed_titles"/>
-    </RelativeLayout>
+            <TextView
+                android:id="@+id/heading"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_marginRight="45dp"
+                android:layout_alignBottom="@+id/getFeedSpinner"
+                android:layout_alignTop="@+id/getFeedSpinner"
+                android:gravity="center_vertical"
+                android:text="@string/latest_status"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="@color/darker_gray"
+                android:textStyle="bold" />
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="3dp"
-        android:background="@color/darker_gray"
-        android:paddingBottom="5dp" />
+            <Spinner
+                android:id="@+id/getFeedSpinner"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/heading"
+                android:layout_alignParentRight="true"
+                android:gravity="right"
+                android:entries="@array/facebook_feed_titles"/>
+        </RelativeLayout>
 
-    <com.almaghrib.mobile.util.view.PaginatingListView
-        android:id="@+id/list"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="3dp"
+            android:background="@color/darker_gray"
+            android:paddingBottom="5dp" />
 
-</LinearLayout>
+        <com.almaghrib.mobile.util.view.PaginatingListView
+            android:id="@+id/list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </LinearLayout>
+
+    <com.facebook.login.widget.LoginButton
+        android:id="@+id/login_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="30dp"
+        android:layout_marginBottom="30dp" />
+
+</FrameLayout>

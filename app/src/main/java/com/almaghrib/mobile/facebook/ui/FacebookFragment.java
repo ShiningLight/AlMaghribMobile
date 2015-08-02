@@ -1,7 +1,10 @@
 package com.almaghrib.mobile.facebook.ui;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 import android.util.Log;
@@ -10,23 +13,30 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
 import com.almaghrib.mobile.R;
 import com.almaghrib.mobile.RequestQueueSingleton;
-import com.almaghrib.mobile.facebook.data.FacebookApiUriRequestBuilder;
+import com.almaghrib.mobile.facebook.data.FacebookApiConstants;
 import com.almaghrib.mobile.facebook.data.FacebookFeedItem;
 import com.almaghrib.mobile.facebook.jsonModels.FacebookFeedDataModel;
 import com.almaghrib.mobile.facebook.jsonModels.FacebookFeedModelContainer;
 import com.almaghrib.mobile.facebook.jsonModels.FacebookFeedPagingModel;
 import com.almaghrib.mobile.util.DateUtils;
-import com.almaghrib.mobile.util.GsonRequest;
 import com.almaghrib.mobile.util.view.PaginatingListView;
-import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
+import com.facebook.AccessToken;
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.FacebookSdk;
+import com.facebook.GraphRequest;
+import com.facebook.GraphResponse;
+import com.facebook.HttpMethod;
+import com.facebook.login.LoginResult;
+import com.facebook.login.widget.LoginButton;
+import com.google.gson.Gson;
+
+import org.json.JSONException;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -42,7 +52,23 @@ public class FacebookFragment extends Fragment implements
     private static final SimpleDateFormat OUTPUT_DATE_FORMAT =
             new SimpleDateFormat("d MMM yyyy 'at' HH:mm");
 
-    private int fragVal;
+    private CallbackManager mCallbackManager;
+    private GraphRequest mNextPageRequest;
+    private FacebookCallback<LoginResult> mFacebookCallback = new FacebookCallback<LoginResult>() {
+        @Override
+        public void onSuccess(LoginResult loginResult) {
+            Log.d(TAG, "onSuccess");
+            setupSignedInViews(getView());
+        }
+        @Override
+        public void onCancel() {
+            Log.d(TAG, "onCancel");
+        }
+        @Override
+        public void onError(FacebookException e) {
+            Log.e(TAG, "onError " + e.getMessage(), e);
+        }
+    };
 
     private PaginatingListView listView;
     private FacebookFeedListAdapter listAdapter;
@@ -52,23 +78,16 @@ public class FacebookFragment extends Fragment implements
 
     private CharSequence[] mFeedIds;
     private CharSequence[] mFeedTitles;
-    private String mNextPageToken;
 
-    private String mAccessToken;
     private int mPrevFeedPos = 0;
     private int mCurrFeedPos = 0;
     private boolean mIsUserScrolling = false;
     private boolean isLoading;
 
-    public static FacebookFragment init(int val) {
+    public static FacebookFragment init() {
         final FacebookFragment fragment = new FacebookFragment();
-        // Supply val input as an argument.
-        Bundle args = new Bundle();
-        args.putInt("val", val);
-        fragment.setArguments(args);
         return fragment;
     }
-
 
     public static String getFragmentName() {
         return "Facebook"; //TODO: use strings
@@ -77,27 +96,26 @@ public class FacebookFragment extends Fragment implements
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        fragVal = getArguments() != null ? getArguments().getInt("val") : 1;
+
+        FacebookSdk.sdkInitialize(getActivity().getApplicationContext());
+        mCallbackManager = CallbackManager.Factory.create();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         final View layoutView = inflater.inflate(R.layout.facebook_page, container, false);
+        // Set up views depending on whether user is signed in or not
+        if (AccessToken.getCurrentAccessToken() != null) {
+            // user has signed in
+            setupSignedInViews(layoutView);
 
-        listView = (PaginatingListView) layoutView.findViewById(R.id.list);
-        feedItems = new ArrayList<FacebookFeedItem>();
-        listView.setOnScrollListener(this);
-        listAdapter = new FacebookFeedListAdapter(getActivity(), feedItems);
-        listView.setAdapter(listAdapter);
-
-        mSpinner = (Spinner) layoutView.findViewById(R.id.getFeedSpinner);
-        // TODO: get id from file matching text on spinner
-        mFeedIds = getActivity().getResources().getTextArray(R.array.facebook_feed_ids);
-        mFeedTitles = getActivity().getResources().getTextArray(R.array.facebook_feed_titles);
-
-        mSpinner.setOnItemSelectedListener(this);
-
+        } else {
+            // user has not signed in yet so hide other views
+            final View feedViews = layoutView.findViewById(R.id.feedViews);
+            feedViews.setVisibility(View.GONE);
+            setupLoginButton(layoutView);
+        }
         return layoutView;
     }
 
@@ -123,92 +141,79 @@ public class FacebookFragment extends Fragment implements
     public void onNothingSelected(AdapterView<?> parent) {
     }
 
+    private void setupSignedInViews(View view) {
+        // hide login button
+        final LoginButton buttonLogin = (LoginButton) view.findViewById(R.id.login_button);
+        buttonLogin.setVisibility(View.GONE);
+
+        final View feedViews = view.findViewById(R.id.feedViews);
+        feedViews.setVisibility(View.VISIBLE);
+
+        listView = (PaginatingListView) view.findViewById(R.id.list);
+        feedItems = new ArrayList<FacebookFeedItem>();
+        listView.setOnScrollListener(this);
+        listAdapter = new FacebookFeedListAdapter(getActivity(), feedItems);
+        listView.setAdapter(listAdapter);
+
+        mSpinner = (Spinner) view.findViewById(R.id.getFeedSpinner);
+        // TODO: get id from file matching text on spinner
+        mFeedIds = getActivity().getResources().getTextArray(R.array.facebook_feed_ids);
+        mFeedTitles = getActivity().getResources().getTextArray(R.array.facebook_feed_titles);
+
+        mSpinner.setOnItemSelectedListener(this);
+    }
+
+    private void setupLoginButton(View view) {
+        final LoginButton buttonLogin = (LoginButton) view.findViewById(R.id.login_button);
+        if (buttonLogin != null) {
+            buttonLogin.setFragment(this);
+            buttonLogin.registerCallback(mCallbackManager, mFacebookCallback);
+        }
+    }
+
     /**
-     * Retrieve a users video feed
+     * Retrieve a user's feed
      * @param context
      */
     public void getUserFacebookFeed(Context context){
-        final Context appContext = context.getApplicationContext();
-
-        // Stop all other requests, e.g. to get new page
-        RequestQueueSingleton.getInstance(appContext).cancelPendingRequests(TAG);
-
-        final String url = new FacebookApiUriRequestBuilder().buildAccessTokenRequest();
-        // Get access token request
-        final StringRequest request = new StringRequest(Request.Method.GET, url,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        mPrevFeedPos = mCurrFeedPos;
-                        feedItems = new ArrayList<FacebookFeedItem>();
-                        mNextPageToken = null;
-                        // Retrieved access token
-                        mAccessToken = response;
-                        makeFacebookFeedRequest(response);
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError e) {
-                        Log.e(TAG, e.getMessage(), e);
-                        getActivity().setProgressBarIndeterminateVisibility(false);
-                        mSpinner.setSelection(mPrevFeedPos);
-                        mCurrFeedPos = mPrevFeedPos;
-                        mSpinner.setEnabled(true);
-                    }
-                });
-
-        request.setTag(TAG);
-        RequestQueueSingleton.getInstance(appContext).addToRequestQueue(request);
+        mPrevFeedPos = mCurrFeedPos;
+        feedItems = new ArrayList<FacebookFeedItem>();
+        mNextPageRequest = null;
+        makeFacebookFeedRequest();
     }
 
-    private void makeFacebookFeedRequest(String accessToken) {
-        final Context appContext = getActivity().getApplicationContext();
+    private void makeFacebookFeedRequest() {
+        final Bundle paramsBundle = new Bundle();
+        paramsBundle.putString(FacebookApiConstants.FIELDS_PARAM, FacebookApiConstants.FIELDS_VALUE);
 
-        // Stop all other requests, e.g. to get new page
-        RequestQueueSingleton.getInstance(appContext).cancelPendingRequests(TAG);
-
-        final String url;
-        if (mNextPageToken != null) {
-            url = mNextPageToken;
+        if (mNextPageRequest != null) {
+            mNextPageRequest.setParameters(paramsBundle);
+            mNextPageRequest.setCallback(getGraphRequestCallback());
+            mNextPageRequest.executeAsync();
         } else {
-            url = new FacebookApiUriRequestBuilder()
-                    .buildFeedRequest(mFeedIds[mCurrFeedPos].toString(), accessToken);
+            final String userId = mFeedIds[mCurrFeedPos].toString();
+            new GraphRequest(
+                    AccessToken.getCurrentAccessToken(),
+                    "/" + userId + FacebookApiConstants.FEED_REQUEST,
+                    paramsBundle,
+                    HttpMethod.GET,
+                    getGraphRequestCallback()
+            ).executeAsync();
         }
-
-        final GsonRequest<FacebookFeedModelContainer> request =
-                new GsonRequest<FacebookFeedModelContainer>(
-                        Request.Method.GET,
-                        url,
-                        FacebookFeedModelContainer.class,
-                        createSearchRequestSuccessListener(),
-                        createSearchRequestErrorListener());
-
-        request.setTag(TAG);
-        RequestQueueSingleton.getInstance(appContext).addToRequestQueue(request);
     }
 
-    private Response.Listener<FacebookFeedModelContainer> createSearchRequestSuccessListener() {
-        return new Response.Listener<FacebookFeedModelContainer>() {
-            @Override
-            public void onResponse(FacebookFeedModelContainer response) {
-                try {
-                    if (response != null) {
-                        Log.d(TAG, response.toString());
-                        final FacebookFeedPagingModel pagingInfo = response.getPagingInfo();
-                        mNextPageToken = (pagingInfo != null) ? pagingInfo.getNext() : null;
-                        populateListWithFeed(response.getData());
-                    } else {
-                        Log.d(TAG, "Response is null");
-                        mNextPageToken = null;
-                    }
-                } catch (Exception e) {
-                    Log.e(TAG, e.getMessage(), e);
-                    mSpinner.setSelection(mPrevFeedPos);
-                    mCurrFeedPos = mPrevFeedPos;
-                    // if access token has timed out make another request
+    private GraphRequest.Callback getGraphRequestCallback() {
+        return new GraphRequest.Callback() {
+            public void onCompleted(GraphResponse response) {
+                if (response != null && response.getError() == null) { // no errors
+                    handleSuccessfulFeedRequest(response);
+                } else { // handle error
+                    handleErrorFeedRequest(response);
                 }
-                getActivity().setProgressBarIndeterminateVisibility(false);
+                final Activity activity = getActivity();
+                if (activity != null) {
+                    activity.setProgressBarIndeterminateVisibility(false);
+                }
                 isLoading = false;
                 listView.removeLoadingFooterView();
                 mSpinner.setEnabled(true);
@@ -216,19 +221,28 @@ public class FacebookFragment extends Fragment implements
         };
     }
 
-    private Response.ErrorListener createSearchRequestErrorListener() {
-        return new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Log.e(TAG, error.getMessage(), error);
-                getActivity().setProgressBarIndeterminateVisibility(false);
-                isLoading = false;
-                listView.removeLoadingFooterView();
-                mSpinner.setSelection(mPrevFeedPos);
-                mCurrFeedPos = mPrevFeedPos;
-                mSpinner.setEnabled(true);
+    private void handleSuccessfulFeedRequest(@NonNull GraphResponse response) {
+        Log.d(TAG, "Complete:" + response.getRawResponse());
+        final Gson gson = new Gson();
+        final FacebookFeedModelContainer model = gson.fromJson(
+                response.getRawResponse(), FacebookFeedModelContainer.class);
+        final FacebookFeedPagingModel pagingInfo = model.getPagingInfo();
+        mNextPageRequest = response.getRequestForPagedResults(GraphResponse.PagingDirection.NEXT);
+        populateListWithFeed(model.getData());
+    }
+
+    private void handleErrorFeedRequest(GraphResponse response) {
+        if (response != null) {
+            Log.e(TAG, "Error:" + response.getError());
+            if (response.getError() != null) {
+                Log.e(TAG, response.getError().getErrorMessage(), response.getError().getException());
             }
-        };
+        } else {
+            Log.e(TAG, "Error: null response");
+        }
+        mNextPageRequest = null;
+        mSpinner.setSelection(mPrevFeedPos);
+        mCurrFeedPos = mPrevFeedPos;
     }
 
     /**
@@ -239,8 +253,6 @@ public class FacebookFragment extends Fragment implements
     private void populateListWithFeed(ArrayList<FacebookFeedDataModel> items) {
         if (items != null) {
             final String currentUserFeed = mFeedTitles[mCurrFeedPos].toString();
-            final String profilePicUrl = new FacebookApiUriRequestBuilder()
-                    .buildProfilePictureRequest(mFeedIds[mCurrFeedPos].toString());
 
             for (int i = 0; i < items.size(); i++) {
                 final FacebookFeedDataModel itemsModel = items.get(i);
@@ -269,14 +281,24 @@ public class FacebookFragment extends Fragment implements
                         }
                         // Create the video object and add it to our list
                         feedItems.add(new FacebookFeedItem(itemsModel.getFrom().getName(),
-                                pictureUrl, itemsModel.getMessage(), profilePicUrl,
-                                formattedTime, itemsModel.getLink()));
+                                pictureUrl, itemsModel.getMessage(), formattedTime,
+                                itemsModel.getLink()));
                     }
                 }
             }
-            getActivity().setProgressBarIndeterminateVisibility(false);
+            final Activity activity = getActivity();
+            if (activity != null) {
+                activity.setProgressBarIndeterminateVisibility(false);
+            }
+            listAdapter.setUserId(mFeedIds[mCurrFeedPos].toString());
             listAdapter.updateAdapter(feedItems);
         }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        mCallbackManager.onActivityResult(requestCode, resultCode, data);
     }
 
     @Override
@@ -286,18 +308,25 @@ public class FacebookFragment extends Fragment implements
         // Only cancel requests from this fragment
         RequestQueueSingleton.getInstance(getActivity().getApplicationContext())
                 .cancelPendingRequests(TAG);
-        mSpinner.setEnabled(true);
+        if (mSpinner != null) {
+            mSpinner.setEnabled(true);
+        }
     }
 
     @Override
     public void onDestroy() {
-        listView.destroyDrawingCache();
-        listView = null;
-        listAdapter.notifyDataSetInvalidated();
-        listAdapter = null;
-        mSpinner = null;
-        feedItems = null;
-
+        if (!getActivity().isChangingConfigurations()) {
+            if (listView != null) {
+                listView.destroyDrawingCache();
+                listView = null;
+            }
+            if (listAdapter != null) {
+                listAdapter.notifyDataSetInvalidated();
+                listAdapter = null;
+            }
+            mSpinner = null;
+            feedItems = null;
+        }
         if (getActivity().getSupportFragmentManager().getFragments().contains(this)) {
             getActivity().getSupportFragmentManager().beginTransaction().remove(this);
         }
@@ -322,7 +351,7 @@ public class FacebookFragment extends Fragment implements
     @Override
     public void onScroll(AbsListView view, int firstVisibleItem,
                          int visibleItemCount, int totalItemCount) {
-        if(mNextPageToken != null) {
+        if (mNextPageRequest != null) {
             // If the first page is not full, or the user is scrolling and they are
             // less than one page from the end of the list, then load more items
             final int lastVisibleItem = firstVisibleItem + visibleItemCount;
@@ -331,7 +360,7 @@ public class FacebookFragment extends Fragment implements
             if(!isLoading && (pageNotFull || (mIsUserScrolling && onePageFromEnd))) {
                 isLoading = true;
                 listView.addLoadingFooterView();
-                makeFacebookFeedRequest(null);
+                makeFacebookFeedRequest();
             }
         }
     }

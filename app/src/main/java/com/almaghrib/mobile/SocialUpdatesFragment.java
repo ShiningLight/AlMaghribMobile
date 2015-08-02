@@ -72,7 +72,7 @@ public class SocialUpdatesFragment extends Fragment {
                 case 0:
                     return YouTubeFragment.init(position);
                 case 1:
-                    return FacebookFragment.init(position);
+                    return FacebookFragment.init();
                 default:
                     return TwitterFragment.init();
             }
