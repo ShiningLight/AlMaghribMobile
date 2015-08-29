@@ -23,6 +23,7 @@ import com.almaghrib.mobile.navigationDrawer.CategoryHeaderDrawerItem;
 import com.almaghrib.mobile.navigationDrawer.DrawerItem;
 import com.almaghrib.mobile.navigationDrawer.NavigationDrawerAdapter;
 import com.almaghrib.mobile.navigationDrawer.NormalDrawerItem;
+import com.almaghrib.mobile.twitter.ui.TwitterFragment;
 
 import java.util.ArrayList;
 
@@ -119,6 +120,18 @@ public class HomePageActivity extends FragmentActivity {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.home_page, menu);
         return true;
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        // Pass the activity result to the fragment, which will then pass the result
+        // to the login button.
+        final Fragment fragment = getSupportFragmentManager()
+                .findFragmentByTag(SocialUpdatesFragment.class.getSimpleName());
+        if (fragment != null) {
+            fragment.onActivityResult(requestCode, resultCode, data);
+        }
     }
 
     private ArrayList<DrawerItem> getNavDrawerItems() {

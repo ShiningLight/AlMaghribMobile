@@ -1,10 +1,12 @@
 package com.almaghrib.mobile;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -51,14 +53,38 @@ public class SocialUpdatesFragment extends Fragment {
         super.onDestroyView();
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        // Pass the activity result to the Twitter fragment, which will then pass
+        // the result to the login button.
+        final View v = getView();
+        if (v != null) {
+            final ViewPager viewPager = (ViewPager) v.findViewById(R.id.pager);
+            if (viewPager != null) {
+                final HomePageAdapter adapter = (HomePageAdapter) viewPager.getAdapter();
+                final Fragment fragment = adapter.getFragment(HomePageAdapter.POSITION_TWITTER);
+                if (fragment != null) {
+                    fragment.onActivityResult(requestCode, resultCode, data);
+                }
+            }
+        }
+    }
+
     /**
      * A {@link android.support.v4.app.FragmentStatePagerAdapter} that returns a fragment corresponding to
      * one of the sections/tabs/pages.
      */
-    public static class HomePageAdapter extends FragmentStatePagerAdapter {
+    protected static class HomePageAdapter extends FragmentStatePagerAdapter {
+        protected static final int POSITION_YOUTUBE  = 0;
+        protected static final int POSITION_FACEBOOK = 1;
+        protected static final int POSITION_TWITTER  = 2;
+
+        private SparseArray<Fragment> mPageReferenceArray;
 
         public HomePageAdapter(FragmentManager fragmentManager) {
             super(fragmentManager);
+            mPageReferenceArray = new SparseArray<Fragment>();
         }
 
         @Override
@@ -68,26 +94,55 @@ public class SocialUpdatesFragment extends Fragment {
 
         @Override
         public Fragment getItem(int position) {
+            final Fragment fragment;
             switch (position) {
-                case 0:
-                    return YouTubeFragment.init(position);
-                case 1:
-                    return FacebookFragment.init();
+                case POSITION_YOUTUBE:  // 0
+                    fragment = YouTubeFragment.init(position);
+                    break;
+                case POSITION_FACEBOOK: // 1
+                    fragment = FacebookFragment.init();
+                    break;
+                case POSITION_TWITTER:  // 2
                 default:
-                    return TwitterFragment.init();
+                    fragment = TwitterFragment.init();
             }
+            mPageReferenceArray.put(position, fragment);
+            return fragment;
         }
 
         @Override
         public CharSequence getPageTitle(int position) {
             switch (position) {
-                case 0:
+                case POSITION_YOUTUBE:  // 0
                     return YouTubeFragment.getFragmentName();
-                case 1:
+                case POSITION_FACEBOOK: // 1
                     return FacebookFragment.getFragmentName();
+                case POSITION_TWITTER:  // 2
                 default:
                     return TwitterFragment.getFragmentName();
             }
+        }
+
+        /**
+         * After an orientation change, the fragments are saved in the adapter, and
+         * I don't want to double save them: I will retrieve them and put them in my
+         * list again here.
+         */
+        @Override
+        public Object instantiateItem(ViewGroup container, int position) {
+            final Fragment fragment = (Fragment) super.instantiateItem(container, position);
+            mPageReferenceArray.put(position, fragment);
+            return fragment;
+        }
+
+        @Override
+        public void destroyItem(ViewGroup container, int position, Object object) {
+            super.destroyItem(container, position, object);
+            mPageReferenceArray.remove(position);
+        }
+
+        public Fragment getFragment(int key) {
+            return mPageReferenceArray.get(key);
         }
     }
 

@@ -28,8 +28,12 @@ public class TwitterApiUriRequestBuilder {
     // OAuth values
     public static final String OAUTH_CALLBACK_VALUE = "http://www.almaghrib.org";
     // Information retrieval values
-    private static final String CONSUMER_KEY = "qpJ9UeiRd7P5y9UGP7OfsarEz";
-    private static final String CONSUMER_SECRET = "Nbm5vqLZN5M4TH9tXPgE7zXJ66PmADJsnGEL4dXI9ivwvJxa1J";
+    public static final String CONSUMER_KEY = "qpJ9UeiRd7P5y9UGP7OfsarEz";
+    public static final String CONSUMER_SECRET = "Nbm5vqLZN5M4TH9tXPgE7zXJ66PmADJsnGEL4dXI9ivwvJxa1J";
+
+    public static final String TWITTER_KEY = "3XCYlJeAdYxkX87BLkcks3XzL";
+    public static final String TWITTER_SECRET = "xUo1WvOKfhMxXU13uYFJFY3CtLGDCv96oKr7T5zgWj5TmhCXxJ";
+
     private static final String NUM_RESULTS_VALUE = "20";
 
     public static OAuthService buildOAuthService() {

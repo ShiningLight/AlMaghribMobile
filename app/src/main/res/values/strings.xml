@@ -32,6 +32,9 @@
     <!-- Facebook App Id -->
     <string name="facebook_app_id">301385320059899</string>
 
+    <!-- Fabric Api Key -->
+    <string name="fabric_api_key">c4ffb7e14ad5a2488af3e0fe93fbd5605a2ded24</string>
+
     <!-- Nav Drawer Menu Items -->
     <string-array name="nav_drawer_items">
         <item >Home</item>
