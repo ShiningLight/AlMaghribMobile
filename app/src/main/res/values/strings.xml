@@ -43,7 +43,13 @@
         <item >Seminars</item>
         <item >Register</item>
     </string-array>
-     
+
+    <string name="title_home">Home</string>
+    <string name="title_social">Social</string>
+    <string name="title_instructors">Instructors</string>
+    <string name="title_seminars">Seminars</string>
+    <string name="title_register">Register</string>
+
     <!-- Nav Drawer List Item Icons -->
     <!-- Keep them in order as the titles are in -->
     <array name="nav_drawer_icons">
@@ -60,6 +66,10 @@
         <item >IlmFest</item>
         <item >IlmSummit</item>
     </string-array>
+
+    <string name="title_ilmfest">IlmFest</string>
+    <string name="title_ilmsummit">IlmSummit</string>
+
     <!-- Nav Drawer List Item Upcoming Events category Icons -->
     <!-- Keep them in order as the titles are in -->
     <array name="nav_drawer_upcoming_category_icons">

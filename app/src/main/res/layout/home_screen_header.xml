@@ -75,7 +75,9 @@
             android:paddingRight="12dp"
             android:text="@string/more_videos"
             android:textColor="@color/white"
-            android:textSize="10sp" />
+            android:textSize="10sp"
+            android:gravity="center"
+            android:maxLines="1"/>
     </RelativeLayout>
 
     <View

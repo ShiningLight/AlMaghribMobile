@@ -2,93 +2,81 @@ package com.almaghrib.mobile;
 
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.content.res.TypedArray;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.ActionBarDrawerToggle;
+import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
-import android.widget.AdapterView;
-import android.widget.ListView;
 
 import com.almaghrib.mobile.instructors.OurInstructorsFragment;
-import com.almaghrib.mobile.navigationDrawer.CategoryHeaderDrawerItem;
-import com.almaghrib.mobile.navigationDrawer.DrawerItem;
-import com.almaghrib.mobile.navigationDrawer.NavigationDrawerAdapter;
-import com.almaghrib.mobile.navigationDrawer.NormalDrawerItem;
-import com.almaghrib.mobile.twitter.ui.TwitterFragment;
 
-import java.util.ArrayList;
-
-public class HomePageActivity extends FragmentActivity {
+public class HomePageActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private static final String CURRENT_SELECTED_ITEM = "current_selected_item";
     private static final String CURRENT_TITLE = "current_title";
 
     private DrawerLayout mDrawerLayout;
-    private ListView mDrawerList;
     private ActionBarDrawerToggle mDrawerToggle;
+    private NavigationView mNavigationView;
+
+    private MenuItem mActiveMenuItem;
+
     private int mCurrentlySelectedItem = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
+        super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_page);
 
-        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        mDrawerList = (ListView) findViewById(R.id.left_drawer);
+        // Set a toolbar to replace the action bar.
+        final Toolbar toolbar = (Toolbar) findViewById(R.id.app_toolbar);
+        setSupportActionBar(toolbar);
 
-        // setting the nav drawer list adapter
-        final ArrayList<DrawerItem> navDrawerItems = getNavDrawerItems();
-        final NavigationDrawerAdapter adapter =
-                new NavigationDrawerAdapter(getApplicationContext(), navDrawerItems);
-        mDrawerList.setAdapter(adapter);
-        mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        mDrawerToggle = getActionBarDrawerToggle(toolbar);
+        // Tie DrawerLayout events to the ActionBarToggle
+        mDrawerLayout.setDrawerListener(mDrawerToggle);
+
+        mNavigationView = (NavigationView) findViewById(R.id.navigation_view);
+        mNavigationView.setNavigationItemSelectedListener(this);
 
         if (savedInstanceState != null) {
+            // get selected menu item and re-set it as selected item on drawer
             mCurrentlySelectedItem = savedInstanceState.getInt(CURRENT_SELECTED_ITEM, 0);
+            mNavigationView.getMenu().findItem(mCurrentlySelectedItem).setChecked(true);
             final String title = savedInstanceState.getString(
                     CURRENT_TITLE, getString(R.string.app_name));
-            getActionBar().setTitle(title);
+            getSupportActionBar().setTitle(title);
         }
         // set and open first item on launch
         if (savedInstanceState == null && mCurrentlySelectedItem == 0) {
-            mDrawerList.setItemChecked(0, true);
+            //mDrawerList.setItemChecked(0, true);
             startFragment(this, new HomeFragment());
-            getActionBar().setTitle(R.string.app_name);
+            getSupportActionBar().setTitle(R.string.app_name);
         }
 
-        mDrawerToggle = getActionBarDrawerToggle();
-        mDrawerLayout.setDrawerListener(mDrawerToggle);
+        /*mNavigationView.getMenu().setGroupCheckable(R.id.main_section_group, true, true);
+        mNavigationView.getMenu().setGroupCheckable(R.id.ilm_section_group, true, true);*/
 
-        getActionBar().setDisplayHomeAsUpEnabled(true);
-    }
-
-    @Override
-    protected void onPostCreate(Bundle savedInstanceState) {
-        super.onPostCreate(savedInstanceState);
-        // Sync the toggle state after onRestoreInstanceState has occurred.
-        mDrawerToggle.syncState();
-    }
-
-    @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
-        mDrawerToggle.onConfigurationChanged(newConfig);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         outState.putInt(CURRENT_SELECTED_ITEM, mCurrentlySelectedItem);
-        outState.putString(CURRENT_TITLE, getActionBar().getTitle().toString());
+        outState.putString(CURRENT_TITLE, getSupportActionBar().getTitle().toString());
         super.onSaveInstanceState(outState);
     }
 
@@ -97,10 +85,14 @@ public class HomePageActivity extends FragmentActivity {
         // Pass the event to ActionBarDrawerToggle, if it returns
         // true, then it has handled the app icon touch event
         if (mDrawerToggle.onOptionsItemSelected(item)) {
-          return true;
+            return true;
         }
-        // Handle your other action bar items...
 
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                mDrawerLayout.openDrawer(GravityCompat.START);
+                return true;
+        }
         return super.onOptionsItemSelected(item);
     }
     
@@ -110,8 +102,8 @@ public class HomePageActivity extends FragmentActivity {
 	@Override
 	public boolean onPrepareOptionsMenu(Menu menu) {
 		// if nav drawer is opened, hide the action items
-		boolean drawerOpen = mDrawerLayout.isDrawerOpen(mDrawerList);
-		menu.findItem(R.id.action_settings).setVisible(!drawerOpen);
+		//boolean drawerOpen = mDrawerLayout.isDrawerOpen(mDrawerList);
+		//menu.findItem(R.id.action_settings).setVisible(!drawerOpen);
 		return super.onPrepareOptionsMenu(menu);
 	}
 	
@@ -134,33 +126,24 @@ public class HomePageActivity extends FragmentActivity {
         }
     }
 
-    private ArrayList<DrawerItem> getNavDrawerItems() {
-        // load slide menu items
-        String[] navMenuTitles = getResources().getStringArray(R.array.nav_drawer_items);
-        TypedArray navMenuIcons = getResources().obtainTypedArray(R.array.nav_drawer_icons);
-
-        final ArrayList<DrawerItem> navDrawerItems = new ArrayList<DrawerItem>();
-        // adding nav drawer items to array
-        for (int i = 0; i < navMenuTitles.length; i++) {
-            navDrawerItems.add(new NormalDrawerItem(navMenuTitles[i], navMenuIcons
-                    .getResourceId(i, -1)));
-        }
-        navDrawerItems.add(new CategoryHeaderDrawerItem(getString(R.string.upcoming_events)));
-        navMenuTitles = getResources().getStringArray(R.array.nav_drawer_upcoming_category_items);
-        navMenuIcons = getResources().obtainTypedArray(R.array.nav_drawer_upcoming_category_icons);
-        for (int i = 0; i < navMenuTitles.length; i++) {
-            navDrawerItems.add(new NormalDrawerItem(navMenuTitles[i], navMenuIcons
-                    .getResourceId(i, -1)));
-        }
-        // Recycle the typed array
-        navMenuIcons.recycle();
-        return navDrawerItems;
+    @Override
+    protected void onPostCreate(Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        // Sync the toggle state after onRestoreInstanceState has occurred.
+        mDrawerToggle.syncState();
     }
 
-    private ActionBarDrawerToggle getActionBarDrawerToggle() {
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        // Pass any configuration change to the drawer toggles
+        mDrawerToggle.onConfigurationChanged(newConfig);
+    }
+
+    private ActionBarDrawerToggle getActionBarDrawerToggle(Toolbar toolbar) {
         return new ActionBarDrawerToggle(
                 this, mDrawerLayout,
-                R.drawable.ic_drawer,  /* nav drawer icon to replace 'Up' caret */
+                toolbar,  /* nav drawer icon to replace 'Up' caret */
                 R.string.drawer_open,  /* "open drawer" description */
                 R.string.drawer_close  /* "close drawer" description */
         ) {
@@ -180,54 +163,59 @@ public class HomePageActivity extends FragmentActivity {
         };
     }
 
-    /**
-	 * Slide menu item click listener
-	 */
-	private class DrawerItemClickListener implements ListView.OnItemClickListener {
 
-		@Override
-		public void onItemClick(AdapterView<?> parent, View view,
-				int position, long id) {
-			// display view for selected nav drawer item
-            if (mCurrentlySelectedItem != position) {
-                handleDrawerItemClick(position);
-                mDrawerLayout.closeDrawers();
-            }
-		}
-	}
-    
-	private void handleDrawerItemClick(int position) {
-        switch (position) {
-            case 0: // Home
-                mCurrentlySelectedItem = position;
+    @Override
+    public boolean onNavigationItemSelected(MenuItem menuItem) {
+        //if an item from extras group is clicked,refresh NAV_ITEMS_MAIN to remove previously checked item
+//        if (menuItem.getGroupId() == R.id.main_section_group) {
+//            mNavigationView.getMenu().setGroupCheckable(R.id.main_section_group, true, true);
+//            mNavigationView.getMenu().setGroupCheckable(R.id.ilm_section_group, false, true);
+//        } else {
+//            mNavigationView.getMenu().setGroupCheckable(R.id.ilm_section_group, true, true);
+//            mNavigationView.getMenu().setGroupCheckable(R.id.ilm_section_group, true, true);
+//            mNavigationView.getMenu().setGroupCheckable(R.id.main_section_group, false, true);
+//        }
+//
+//        // Update selected/deselected MenuItems
+//        if (mActiveMenuItem != null) {
+//            mActiveMenuItem.setChecked(false);
+//            if (mActiveMenuItem.hasSubMenu()) {
+//                mActiveMenuItem.getSubMenu().setGroupCheckable(R.id.ilm_section_group, true, true);
+//            }
+//        }
+//        mActiveMenuItem = menuItem;
+
+        switch (menuItem.getItemId()) {
+            case R.id.home: // Home
                 startFragment(HomePageActivity.this, new HomeFragment());
-                getActionBar().setTitle(R.string.app_name);
                 break;
-            case 1: // Social
-                mCurrentlySelectedItem = position;
+            case R.id.social: // Social
                 startFragment(HomePageActivity.this, new SocialUpdatesFragment());
-                getActionBar().setTitle(R.string.social);
                 break;
-            case 2: // Instructors
-                mCurrentlySelectedItem = position;
+            case R.id.instructors: // Instructors
                 startFragment(HomePageActivity.this, new OurInstructorsFragment());
-                getActionBar().setTitle(R.string.our_instructors);
                 break;
-            case 3: // Seminars
-                mCurrentlySelectedItem = position;
+            case R.id.seminars: // Seminars
                 break;
-            case 4: // Register
+            case R.id.register: // Register
                 // Don't set as selected item as it will open an external app
                 final Intent browserIntent = new Intent(Intent.ACTION_VIEW,
                         Uri.parse(getApplicationContext().getString(R.string.register_url)));
                 startActivity(browserIntent);
-                break;
-            case 5:
-                break;
-            case 6:
-                break;
+                mDrawerLayout.closeDrawers();
+                return true;
+//            case R.id.ilmfest:
+//                break;
+//            case R.id.ilmsummit:
+//                break;
         }
-        mDrawerList.setItemChecked(mCurrentlySelectedItem, true);
+
+        menuItem.setChecked(true);
+        mCurrentlySelectedItem = menuItem.getItemId();
+        getSupportActionBar().setTitle(menuItem.getTitle());
+        mDrawerLayout.closeDrawers();
+
+        return true;
     }
 
     public static void startFragment(FragmentActivity fragmentActivity, Fragment fragment) {

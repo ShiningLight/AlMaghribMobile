@@ -3,6 +3,7 @@ package com.almaghrib.mobile;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -110,7 +111,7 @@ public class HomeFragment extends Fragment {
 
         lv.setAdapter(adapter);
 
-        final View headerView = inflater.inflate(R.layout.home_screen_header, container, false);
+        final View headerView = inflater.inflate(R.layout.home_screen_header, null, false);
         lv.addHeaderView(headerView);
 
         final Button moreVideosButton = (Button) headerView.findViewById(R.id.moreButton);
@@ -118,7 +119,7 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 HomePageActivity.startFragment(getActivity(), new SocialUpdatesFragment());
-                getActivity().getActionBar().setTitle(R.string.social);
+                ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(R.string.social);
             }
         });
 

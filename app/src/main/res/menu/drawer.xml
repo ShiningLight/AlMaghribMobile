@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group
+        android:id="@+id/main_section_group"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/home"
+            android:checked="true"
+            android:icon="@drawable/home"
+            android:title="@string/title_home" />
+        <item
+            android:id="@+id/social"
+            android:icon="@drawable/instructors"
+            android:title="@string/title_social" />
+        <item
+            android:id="@+id/instructors"
+            android:icon="@drawable/instructors"
+            android:title="@string/title_instructors" />
+        <item
+            android:id="@+id/seminars"
+            android:icon="@drawable/seminars"
+            android:title="@string/title_seminars" />
+        <item
+            android:id="@+id/register"
+            android:icon="@drawable/register"
+            android:title="@string/title_register"
+            android:checkable="false"/>
+    </group>
+
+    <!--<item-->
+        <!--android:id="@+id/section_upcoming_events"-->
+        <!--android:title="@string/upcoming_events">-->
+        <!--<menu xmlns:android="http://schemas.android.com/apk/res/android">-->
+            <!--<group-->
+                <!--android:id="@+id/ilm_section_group"-->
+                <!--android:checkableBehavior="all">-->
+                <!--<item-->
+                    <!--android:id="@+id/ilmfest"-->
+                    <!--android:icon="@drawable/ilmfest"-->
+                    <!--android:title="@string/title_ilmfest"/>-->
+                <!--<item-->
+                    <!--android:id="@+id/ilmsummit"-->
+                    <!--android:icon="@drawable/ilmsummit"-->
+                    <!--android:title="@string/title_ilmsummit"/>-->
+            <!--</group>-->
+        <!--</menu>-->
+    <!--</item>-->
+
+</menu>
