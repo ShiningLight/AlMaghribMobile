@@ -118,8 +118,9 @@ public class HomeFragment extends Fragment {
         moreVideosButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                HomePageActivity.startFragment(getActivity(), new SocialUpdatesFragment());
-                ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(R.string.social);
+                final HomePageActivity homePageActivity = (HomePageActivity) getActivity();
+                HomePageActivity.startFragment(homePageActivity, new SocialUpdatesFragment());
+                homePageActivity.setDrawerItem(R.id.social, getString(R.string.social));
             }
         });
 

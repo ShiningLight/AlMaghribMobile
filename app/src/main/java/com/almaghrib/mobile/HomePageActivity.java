@@ -218,6 +218,12 @@ public class HomePageActivity extends AppCompatActivity implements NavigationVie
         return true;
     }
 
+    public void setDrawerItem(int itemId, String title) {
+        mNavigationView.getMenu().findItem(itemId).setChecked(true);
+        mCurrentlySelectedItem = itemId;
+        getSupportActionBar().setTitle(title);
+    }
+
     public static void startFragment(FragmentActivity fragmentActivity, Fragment fragment) {
         final FragmentManager fragmentManager = fragmentActivity.getSupportFragmentManager();
         final FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
