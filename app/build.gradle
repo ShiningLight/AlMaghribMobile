@@ -34,4 +34,5 @@ dependencies {
     compile('com.twitter.sdk.android:twitter:1.7.0@aar') {
         transitive = true;
     }
+    compile 'com.parse:parse-android:1.10.2'
 }
