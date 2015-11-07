@@ -28,7 +28,8 @@
             android:id="@+id/spinner"
             android:gravity="center"
             android:entries="@array/channel_titles"
-            android:layout_marginBottom="10dp"/>
+            android:layout_marginBottom="10dp"
+            style="@style/Base.Widget.AppCompat.Spinner.Underlined"/>
 
         <Button
             android:layout_width="wrap_content"
