@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/startup_screen_purple">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_centerInParent="true"
+        android:id="@+id/linearLayout">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="@string/choose_city_text"
+            android:textColor="@color/white"
+            android:id="@+id/textView2"
+            android:gravity="center"
+            android:layout_marginBottom="20dp"/>
+
+        <Spinner
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/spinner"
+            android:gravity="center"
+            android:entries="@array/channel_titles"
+            android:layout_marginBottom="10dp"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/startup_screen_go_text"
+            android:id="@+id/button2"
+            android:background="@drawable/startup_screen_buttons"
+            android:textColor="@color/white"
+            android:gravity="center"
+            android:minHeight="25dp"
+            android:minWidth="70dp"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/loginLayout"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_alignParentBottom="true"
+        android:paddingBottom="20dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="@string/have_almaghrib_account"
+            android:textColor="@color/white"
+            android:id="@+id/textView"
+            android:layout_marginBottom="5dp"/>
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="textEmailAddress"
+            android:hint="username"
+            android:ems="10"
+            android:id="@+id/editText"
+            android:background="@drawable/startup_screen_login_background"
+            android:minHeight="35dp"
+            android:layout_marginBottom="5dp"
+            android:gravity="center"/>
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="textPassword"
+            android:hint="password"
+            android:ems="10"
+            android:id="@+id/editText2"
+            android:background="@drawable/startup_screen_login_background"
+            android:minHeight="35dp"
+            android:layout_marginBottom="10dp"
+            android:gravity="center"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/startup_screen_login_button_text"
+            android:id="@+id/button"
+            android:background="@drawable/startup_screen_buttons"
+            android:textColor="@color/white"
+            android:gravity="center"
+            android:minHeight="25dp"
+            android:minWidth="70dp"/>
+    </LinearLayout>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageView"
+        android:layout_above="@+id/linearLayout"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="75dp"
+        android:src="@drawable/am_no_bkgrd"/>
+</RelativeLayout>
