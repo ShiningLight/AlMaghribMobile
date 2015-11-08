@@ -129,4 +129,11 @@ public class StartupScreenActivity extends FragmentActivity {
         //go to home screen
 
     }
+
+    @Override
+    public void onDestroy() {
+        RequestQueueSingleton.getInstance(getApplicationContext())
+                .cancelPendingRequests(TAG);
+        super.onDestroy();
+    }
 }
