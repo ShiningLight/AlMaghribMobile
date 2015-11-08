@@ -62,7 +62,9 @@
             android:background="@drawable/startup_screen_login_background"
             android:minHeight="35dp"
             android:layout_marginBottom="5dp"
-            android:gravity="center"/>
+            android:gravity="center"
+            android:paddingLeft="3dp"
+            android:paddingRight="3dp"/>
 
         <EditText
             android:layout_width="wrap_content"
@@ -74,7 +76,9 @@
             android:background="@drawable/startup_screen_login_background"
             android:minHeight="35dp"
             android:layout_marginBottom="20dp"
-            android:gravity="center"/>
+            android:gravity="center"
+            android:paddingLeft="3dp"
+            android:paddingRight="3dp"/>
 
         <Button
             android:layout_width="wrap_content"

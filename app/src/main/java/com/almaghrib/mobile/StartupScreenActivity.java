@@ -1,6 +1,8 @@
 package com.almaghrib.mobile;
 
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentActivity;
@@ -60,6 +62,13 @@ public class StartupScreenActivity extends FragmentActivity {
         // show dialog and make request
         final ProgressDialog pd = new ProgressDialog(this);
         pd.setTitle(getString(R.string.logging_in_dialog_title));
+        pd.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialog) {
+                RequestQueueSingleton.getInstance(getApplicationContext())
+                        .cancelPendingRequests(TAG);
+            }
+        });
         pd.show();
 
         final AlMaghribApiUriRequestBuilder uriBuilder = new AlMaghribApiUriRequestBuilder();
@@ -127,7 +136,8 @@ public class StartupScreenActivity extends FragmentActivity {
         AlMaghribSharedPreferences.getInstance(getApplicationContext())
                 .setUserCity(citySpinner.getSelectedItem().toString());
         //go to home screen
-
+        startActivity(new Intent(this, HomePageActivity.class));
+        finish();
     }
 
     @Override
