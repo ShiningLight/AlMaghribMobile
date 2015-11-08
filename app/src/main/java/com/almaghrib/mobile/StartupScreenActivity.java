@@ -7,6 +7,8 @@ import android.support.v4.app.FragmentActivity;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.EditText;
 import android.widget.Spinner;
 
@@ -38,8 +40,20 @@ public class StartupScreenActivity extends FragmentActivity {
             // User wants to proceed without logging in
             startMainScreen();
         } else {
-            loginToAlMaghribAccount(username, password);
+            if (username.isEmpty()) {
+                showEditTextError(usernameEditText, "Username is empty");
+            } else if (password.isEmpty()) {
+                showEditTextError(passwordEditText, "Password is empty");
+            } else {
+                loginToAlMaghribAccount(username, password);
+            }
         }
+    }
+
+    private void showEditTextError(EditText editText, String errorMsg) {
+        final Animation shake = AnimationUtils.loadAnimation(editText.getContext(), R.anim.shake);
+        editText.startAnimation(shake);
+        editText.setError(errorMsg);
     }
 
     private void loginToAlMaghribAccount(String username, String password) throws Exception {
