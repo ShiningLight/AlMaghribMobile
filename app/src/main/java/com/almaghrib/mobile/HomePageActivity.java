@@ -61,10 +61,13 @@ public class HomePageActivity extends AppCompatActivity implements NavigationVie
         if (savedInstanceState != null) {
             // get selected menu item and re-set it as selected item on drawer
             mCurrentlySelectedItem = savedInstanceState.getInt(CURRENT_SELECTED_ITEM, 0);
-            mNavigationView.getMenu().findItem(mCurrentlySelectedItem).setChecked(true);
-            final String title = savedInstanceState.getString(
-                    CURRENT_TITLE, getString(R.string.app_name));
-            getSupportActionBar().setTitle(title);
+            if (mCurrentlySelectedItem != 0) {
+                mNavigationView.getMenu().findItem(mCurrentlySelectedItem).setChecked(true);
+            }
+            final String title = savedInstanceState.getString(CURRENT_TITLE, "");
+            if (!title.isEmpty()) {
+                getSupportActionBar().setTitle(title);
+            }
         }
         // set and open first item on launch
         if (savedInstanceState == null && mCurrentlySelectedItem == 0) {
