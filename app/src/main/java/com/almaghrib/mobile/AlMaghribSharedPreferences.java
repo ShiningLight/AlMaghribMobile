@@ -44,6 +44,7 @@ public class AlMaghribSharedPreferences {
         putString(AlMaghribSharedPreferenceKeys.ALMAGHRIB_ACCOUNT_PREF_NAME, user.getPrefName());
         putString(AlMaghribSharedPreferenceKeys.ALMAGHRIB_ACCOUNT_COUNTRY, user.getCountry());
         putString(AlMaghribSharedPreferenceKeys.ALMAGHRIB_ACCOUNT_GENDER, user.getGender());
+        putString(AlMaghribSharedPreferenceKeys.ALMAGHRIB_ACCOUNT_EMAIL_MD5, user.getEmailMd5());
     }
 
     public void clearAlMaghribUserInfo() {
@@ -52,6 +53,31 @@ public class AlMaghribSharedPreferences {
         removeString(AlMaghribSharedPreferenceKeys.ALMAGHRIB_ACCOUNT_PREF_NAME);
         removeString(AlMaghribSharedPreferenceKeys.ALMAGHRIB_ACCOUNT_COUNTRY);
         removeString(AlMaghribSharedPreferenceKeys.ALMAGHRIB_ACCOUNT_GENDER);
+        removeString(AlMaghribSharedPreferenceKeys.ALMAGHRIB_ACCOUNT_EMAIL_MD5);
+    }
+
+    public String getAlMaghribUserEmail() {
+        return getString(AlMaghribSharedPreferenceKeys.ALMAGHRIB_ACCOUNT_EMAIL, "");
+    }
+
+    public String getAlMaghribUserFullName() {
+        return getString(AlMaghribSharedPreferenceKeys.ALMAGHRIB_ACCOUNT_FULL_NAME, "");
+    }
+
+    public String getAlMaghribUserPrefName() {
+        return getString(AlMaghribSharedPreferenceKeys.ALMAGHRIB_ACCOUNT_PREF_NAME, "");
+    }
+
+    public String getAlMaghribUserCountry() {
+        return getString(AlMaghribSharedPreferenceKeys.ALMAGHRIB_ACCOUNT_COUNTRY, "");
+    }
+
+    public String getAlMaghribUserGender() {
+        return getString(AlMaghribSharedPreferenceKeys.ALMAGHRIB_ACCOUNT_GENDER, "");
+    }
+
+    public String getAlMaghribUserEmailMd5() {
+        return getString(AlMaghribSharedPreferenceKeys.ALMAGHRIB_ACCOUNT_EMAIL_MD5, "");
     }
 
     public void setUserCity(String city) {

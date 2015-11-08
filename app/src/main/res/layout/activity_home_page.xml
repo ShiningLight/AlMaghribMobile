@@ -12,7 +12,8 @@
     <android.support.v4.widget.DrawerLayout
         android:id="@+id/drawer_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true">
 
         <!-- The main content view -->
         <FrameLayout
@@ -27,6 +28,7 @@
             android:layout_height="match_parent"
             android:layout_gravity="start"
             android:background="@color/white"
+            app:headerLayout="@layout/nav_drawer_header"
             app:menu="@menu/drawer" />
 
     </android.support.v4.widget.DrawerLayout>

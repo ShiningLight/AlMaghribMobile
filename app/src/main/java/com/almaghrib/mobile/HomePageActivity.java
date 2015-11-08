@@ -14,12 +14,16 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
+import android.widget.TextView;
 
 import com.almaghrib.mobile.instructors.OurInstructorsFragment;
+import com.almaghrib.mobile.util.view.CircleNetworkImageView;
+import com.android.volley.toolbox.ImageLoader;
 
 public class HomePageActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -52,6 +56,8 @@ public class HomePageActivity extends AppCompatActivity implements NavigationVie
         mNavigationView = (NavigationView) findViewById(R.id.navigation_view);
         mNavigationView.setNavigationItemSelectedListener(this);
 
+        setupNavViewHeader(mNavigationView);
+
         if (savedInstanceState != null) {
             // get selected menu item and re-set it as selected item on drawer
             mCurrentlySelectedItem = savedInstanceState.getInt(CURRENT_SELECTED_ITEM, 0);
@@ -71,6 +77,27 @@ public class HomePageActivity extends AppCompatActivity implements NavigationVie
         mNavigationView.getMenu().setGroupCheckable(R.id.ilm_section_group, true, true);*/
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    }
+
+    private void setupNavViewHeader(NavigationView navigationView) {
+        final View header = navigationView.findViewById(R.id.header);
+
+        final AlMaghribSharedPreferences prefs =
+                AlMaghribSharedPreferences.getInstance(getApplicationContext());
+
+        final CircleNetworkImageView imageView = (CircleNetworkImageView) header.findViewById(R.id.profile_image);
+        imageView.setDefaultImageResId(R.drawable.waleed);
+        if (!TextUtils.isEmpty(prefs.getAlMaghribUserEmailMd5())) {
+            final ImageLoader imageLoader =
+                    RequestQueueSingleton.getInstance(getApplicationContext()).getImageLoader();
+            imageView.setImageUrl("https://www.gravatar.com/avatar/" + prefs.getAlMaghribUserEmailMd5(), imageLoader);
+        }
+        if (!TextUtils.isEmpty(prefs.getAlMaghribUserFullName())) {
+            final TextView name = (TextView) header.findViewById(R.id.username);
+            name.setText(prefs.getAlMaghribUserFullName());
+        }
+        final TextView email = (TextView) header.findViewById(R.id.email);
+        email.setText(prefs.getAlMaghribUserEmail());
     }
 
     @Override
