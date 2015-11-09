@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="10dp">
+
+    <LinearLayout
+        android:id="@+id/topRowLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingBottom="5dp"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:weightSum="1">
+
+        <Button
+            android:id="@+id/upcomingButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginRight="7dp"
+            android:layout_weight="0.5"
+            android:background="@drawable/startup_screen_buttons"
+            android:text="@string/upcoming_title"
+            android:textAllCaps="false"
+            android:textColor="@color/white" />
+
+        <Button
+            android:id="@+id/almaghribTalksButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/upcomingButton"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginLeft="7dp"
+            android:layout_weight="0.5"
+            android:background="@drawable/startup_screen_buttons"
+            android:text="@string/almaghrib_talks"
+            android:textAllCaps="false"
+            android:textColor="@color/white" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/secondRowLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/topRowLayout"
+        android:orientation="horizontal"
+        android:paddingBottom="10dp"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:paddingTop="5dp"
+        android:weightSum="1">
+
+        <Button
+            android:id="@+id/blogAndSocialButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/upcomingButton"
+            android:layout_marginRight="7dp"
+            android:layout_weight="0.5"
+            android:background="@drawable/startup_screen_buttons"
+            android:text="@string/blog_and_social"
+            android:textAllCaps="false"
+            android:textColor="@color/white" />
+
+        <Button
+            android:id="@+id/checkInButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/blogAndSocialButton"
+            android:layout_alignLeft="@+id/almaghribTalksButton"
+            android:layout_alignStart="@+id/almaghribTalksButton"
+            android:layout_marginLeft="7dp"
+            android:layout_weight="0.5"
+            android:background="@drawable/startup_screen_buttons"
+            android:text="@string/check_in"
+            android:textAllCaps="false"
+            android:textColor="@color/white" />
+    </LinearLayout>
+
+    <include
+        layout="@layout/upcoming_seminar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/secondRowLayout" />
+
+</RelativeLayout>

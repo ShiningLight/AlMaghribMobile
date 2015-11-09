@@ -72,7 +72,7 @@ public class HomePageActivity extends AppCompatActivity implements NavigationVie
         // set and open first item on launch
         if (savedInstanceState == null && mCurrentlySelectedItem == 0) {
             //mDrawerList.setItemChecked(0, true);
-            startFragment(this, new HomeFragment());
+            startFragment(this, new AlMaghribHomeFragment());//TODO: HomeFragment());
             getSupportActionBar().setTitle(R.string.app_name);
         }
 
@@ -217,7 +217,7 @@ public class HomePageActivity extends AppCompatActivity implements NavigationVie
 
         switch (menuItem.getItemId()) {
             case R.id.home: // Home
-                startFragment(HomePageActivity.this, new HomeFragment());
+                startFragment(HomePageActivity.this, new AlMaghribHomeFragment());//TODO: HomeFragment());
                 break;
             case R.id.social: // Social
                 startFragment(HomePageActivity.this, new SocialUpdatesFragment());
