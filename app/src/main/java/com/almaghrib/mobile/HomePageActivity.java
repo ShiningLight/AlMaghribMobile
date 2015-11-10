@@ -256,7 +256,7 @@ public class HomePageActivity extends AppCompatActivity implements NavigationVie
 
 
     public void upcomingButtonAction(View view) {
-
+        startFragment(this, new UpcomingSeminarsFragment());
     }
 
     public void almaghribTalksButtonAction(View view) {
