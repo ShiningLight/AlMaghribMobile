@@ -173,6 +173,7 @@
     <string name="almaghrib_talks">AlMaghrib Talks</string>
     <string name="blog_and_social"><![CDATA[Blog & Social]]></string>
     <string name="check_in">Check-In</string>
+    <string name="more_text">More</string>
 
     <!-- Instructor profile files -->
     <!-- Keep them in order as instructor_names are in -->

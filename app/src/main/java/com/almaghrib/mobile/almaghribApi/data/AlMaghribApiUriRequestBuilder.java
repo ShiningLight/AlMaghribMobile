@@ -74,7 +74,12 @@ public class AlMaghribApiUriRequestBuilder extends UriRequestBuilder {
         return null;
     }
 
+    public String buildHomeSeminarRequest() {
+        return "";
+    }
+
     private String buildAlMaghribRequest(String endpoint, List<NameValuePair> params) {
         return buildRequest(BASE_REQUEST_URL + endpoint, params);
     }
+
 }

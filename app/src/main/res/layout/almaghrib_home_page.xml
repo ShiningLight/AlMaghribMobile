@@ -1,94 +1,118 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:padding="10dp">
-
-    <LinearLayout
-        android:id="@+id/topRowLayout"
+    android:layout_height="match_parent"
+    android:id="@+id/homePageHostLayout">
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:paddingBottom="5dp"
-        android:paddingLeft="5dp"
-        android:paddingRight="5dp"
-        android:weightSum="1">
+        android:padding="10dp">
 
-        <Button
-            android:id="@+id/upcomingButton"
-            android:layout_width="0dp"
+        <LinearLayout
+            android:id="@+id/topRowLayout"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginRight="7dp"
-            android:layout_weight="0.5"
-            android:background="@drawable/startup_screen_buttons"
-            android:text="@string/upcoming_title"
-            android:textAllCaps="false"
-            android:textColor="@color/white" />
+            android:orientation="horizontal"
+            android:paddingBottom="5dp"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:weightSum="1">
 
-        <Button
-            android:id="@+id/almaghribTalksButton"
-            android:layout_width="0dp"
+            <Button
+                android:id="@+id/upcomingButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginRight="7dp"
+                android:layout_weight="0.5"
+                android:background="@drawable/startup_screen_buttons"
+                android:text="@string/upcoming_title"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:onClick="upcomingButtonAction"/>
+
+            <Button
+                android:id="@+id/almaghribTalksButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/upcomingButton"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginLeft="7dp"
+                android:layout_weight="0.5"
+                android:background="@drawable/startup_screen_buttons"
+                android:text="@string/almaghrib_talks"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:onClick="almaghribTalksButtonAction"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/secondRowLayout"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/upcomingButton"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:layout_marginLeft="7dp"
-            android:layout_weight="0.5"
-            android:background="@drawable/startup_screen_buttons"
-            android:text="@string/almaghrib_talks"
-            android:textAllCaps="false"
-            android:textColor="@color/white" />
-    </LinearLayout>
+            android:layout_below="@+id/topRowLayout"
+            android:orientation="horizontal"
+            android:paddingBottom="10dp"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:paddingTop="5dp"
+            android:weightSum="1">
 
-    <LinearLayout
-        android:id="@+id/secondRowLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/topRowLayout"
-        android:orientation="horizontal"
-        android:paddingBottom="10dp"
-        android:paddingLeft="5dp"
-        android:paddingRight="5dp"
-        android:paddingTop="5dp"
-        android:weightSum="1">
+            <Button
+                android:id="@+id/blogAndSocialButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/upcomingButton"
+                android:layout_marginRight="7dp"
+                android:layout_weight="0.5"
+                android:background="@drawable/startup_screen_buttons"
+                android:text="@string/blog_and_social"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:onClick="blogAndSocialButtonAction"/>
 
-        <Button
-            android:id="@+id/blogAndSocialButton"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_below="@+id/upcomingButton"
-            android:layout_marginRight="7dp"
-            android:layout_weight="0.5"
-            android:background="@drawable/startup_screen_buttons"
-            android:text="@string/blog_and_social"
-            android:textAllCaps="false"
-            android:textColor="@color/white" />
+            <Button
+                android:id="@+id/checkInButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/blogAndSocialButton"
+                android:layout_alignLeft="@+id/almaghribTalksButton"
+                android:layout_alignStart="@+id/almaghribTalksButton"
+                android:layout_marginLeft="7dp"
+                android:layout_weight="0.5"
+                android:background="@drawable/startup_screen_buttons"
+                android:text="@string/check_in"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:onClick="checkInButtonAction"/>
+        </LinearLayout>
 
-        <Button
-            android:id="@+id/checkInButton"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/blogAndSocialButton"
-            android:layout_alignLeft="@+id/almaghribTalksButton"
-            android:layout_alignStart="@+id/almaghribTalksButton"
-            android:layout_marginLeft="7dp"
-            android:layout_weight="0.5"
-            android:background="@drawable/startup_screen_buttons"
-            android:text="@string/check_in"
-            android:textAllCaps="false"
-            android:textColor="@color/white" />
-    </LinearLayout>
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/secondRowLayout">
 
-    <include
-        layout="@layout/upcoming_seminar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/secondRowLayout" />
+            <include
+                layout="@layout/home_seminar_cards"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/seminarCardsLayout"/>
 
-</RelativeLayout>
+            <ProgressBar
+                style="?android:attr/progressBarStyleLarge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/progressBar"
+                android:layout_gravity="center_horizontal"
+                android:indeterminate="false"
+                android:layout_marginTop="15dp"/>
+
+        </FrameLayout>
+
+    </RelativeLayout>
+</ScrollView>

@@ -27,6 +27,7 @@
 
     <!--General colours-->
     <color name="white">#ffffff</color>
+    <color name="black">#000000</color>
     <color name="darker_gray">#999999</color>
     <color name="lighter_gray">#777777</color>
 </resources>

@@ -254,6 +254,25 @@ public class HomePageActivity extends AppCompatActivity implements NavigationVie
         getSupportActionBar().setTitle(title);
     }
 
+
+    public void upcomingButtonAction(View view) {
+
+    }
+
+    public void almaghribTalksButtonAction(View view) {
+        startFragment(HomePageActivity.this, new SocialUpdatesFragment());
+        setDrawerItem(R.id.social, getString(R.string.social));
+    }
+
+    public void blogAndSocialButtonAction(View view) {
+        startFragment(HomePageActivity.this, new SocialUpdatesFragment());
+        setDrawerItem(R.id.social, getString(R.string.social));
+    }
+
+    public void checkInButtonAction(View view) {
+
+    }
+
     public static void startFragment(FragmentActivity fragmentActivity, Fragment fragment) {
         final FragmentManager fragmentManager = fragmentActivity.getSupportFragmentManager();
         final FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
