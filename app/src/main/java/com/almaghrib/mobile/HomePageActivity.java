@@ -93,7 +93,9 @@ public class HomePageActivity extends AppCompatActivity implements NavigationVie
         if (!TextUtils.isEmpty(prefs.getAlMaghribUserEmailMd5())) {
             final ImageLoader imageLoader =
                     RequestQueueSingleton.getInstance(getApplicationContext()).getImageLoader();
-            imageView.setImageUrl("https://www.gravatar.com/avatar/" + prefs.getAlMaghribUserEmailMd5(), imageLoader);
+            imageView.setImageUrl(
+                    getString(R.string.gravatar_avatar_url) + prefs.getAlMaghribUserEmailMd5(),
+                    imageLoader);
         }
         if (!TextUtils.isEmpty(prefs.getAlMaghribUserFullName())) {
             final TextView name = (TextView) header.findViewById(R.id.username);

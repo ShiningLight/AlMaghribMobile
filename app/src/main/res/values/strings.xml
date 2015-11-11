@@ -167,13 +167,6 @@
     </string-array>
 
     <string name="instructor_profile_directory">instructor_profiles</string>
-    <string name="register">Register</string>
-    <string name="more_info">More Info</string>
-    <string name="upcoming_title">Upcoming</string>
-    <string name="almaghrib_talks">AlMaghrib Talks</string>
-    <string name="blog_and_social"><![CDATA[Blog & Social]]></string>
-    <string name="check_in">Check-In</string>
-    <string name="more_text">More</string>
 
     <!-- Instructor profile files -->
     <!-- Keep them in order as instructor_names are in -->
@@ -219,5 +212,15 @@
         <item>yasmin</item>
         <item>abdulnasir</item>
     </array>
+
+    <string name="register">Register</string>
+    <string name="more_info">More Info</string>
+    <string name="upcoming_title">Upcoming</string>
+    <string name="almaghrib_talks">AlMaghrib Talks</string>
+    <string name="blog_and_social"><![CDATA[Blog & Social]]></string>
+    <string name="check_in">Check-In</string>
+    <string name="more_text">More</string>
+
+    <string name="gravatar_avatar_url">https://www.gravatar.com/avatar/</string>
 
 </resources>
