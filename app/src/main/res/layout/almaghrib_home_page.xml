@@ -31,6 +31,9 @@
                 android:text="@string/upcoming_title"
                 android:textAllCaps="false"
                 android:textColor="@color/white"
+                android:drawableLeft="@drawable/seminars"
+                android:paddingLeft="8dp"
+                android:paddingRight="8dp"
                 android:onClick="upcomingButtonAction"/>
 
             <Button
@@ -46,6 +49,9 @@
                 android:text="@string/almaghrib_talks"
                 android:textAllCaps="false"
                 android:textColor="@color/white"
+                android:drawableLeft="@drawable/instructors"
+                android:paddingLeft="8dp"
+                android:paddingRight="8dp"
                 android:onClick="almaghribTalksButtonAction"/>
         </LinearLayout>
 
@@ -74,6 +80,9 @@
                 android:text="@string/blog_and_social"
                 android:textAllCaps="false"
                 android:textColor="@color/white"
+                android:drawableLeft="@drawable/instructors"
+                android:paddingLeft="8dp"
+                android:paddingRight="8dp"
                 android:onClick="blogAndSocialButtonAction"/>
 
             <Button
@@ -89,6 +98,9 @@
                 android:text="@string/check_in"
                 android:textAllCaps="false"
                 android:textColor="@color/white"
+                android:drawableLeft="@drawable/register"
+                android:paddingLeft="8dp"
+                android:paddingRight="8dp"
                 android:onClick="checkInButtonAction"/>
         </LinearLayout>
 
