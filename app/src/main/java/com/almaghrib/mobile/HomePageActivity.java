@@ -73,7 +73,7 @@ public class HomePageActivity extends AppCompatActivity implements NavigationVie
         if (savedInstanceState == null && mCurrentlySelectedItem == 0) {
             //mDrawerList.setItemChecked(0, true);
             startFragment(this, new AlMaghribHomeFragment());//TODO: HomeFragment());
-            getSupportActionBar().setTitle(R.string.app_name);
+            setDrawerItem(R.id.home, getString(R.string.title_home));
         }
 
         /*mNavigationView.getMenu().setGroupCheckable(R.id.main_section_group, true, true);
@@ -246,6 +246,21 @@ public class HomePageActivity extends AppCompatActivity implements NavigationVie
         mDrawerLayout.closeDrawers();
 
         return true;
+    }
+
+    @Override
+    public void onBackPressed() {
+        // Close navigation drawer if open
+        if (mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
+            mDrawerLayout.closeDrawers();
+        } else {
+            // If not in Home, move back to Home - just checking action bar title here
+            if (!getString(R.string.title_home).equals(getSupportActionBar().getTitle())) {
+                onNavigationItemSelected(mNavigationView.getMenu().findItem(R.id.home));
+            } else {
+                super.onBackPressed();
+            }
+        }
     }
 
     public void setDrawerItem(int itemId, String title) {
