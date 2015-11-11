@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
@@ -37,13 +38,28 @@ public class UpcomingSeminarsFragment extends Fragment {
     }
 
     @Override
-    public void onDestroyView() {
-        if (getActivity().getSupportFragmentManager().getFragments().contains(this)) {
-            getActivity().getSupportFragmentManager().beginTransaction().remove(this);
-        }
-        super.onDestroyView();
-    }
+    public void onStop() {
+        // Remove all adapter fragments
+        final View v = getView();
+        if (v != null) {
+            final ViewPager viewPager = (ViewPager) v.findViewById(R.id.pager);
+            if (viewPager != null) {
+                final UpcomingSeminarsAdapter adapter = (UpcomingSeminarsAdapter) viewPager.getAdapter();
+                final FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
 
+                final SparseArray<Fragment> fragments = adapter.getAllFragments();
+                if (fragments != null) {
+                    for (int i = 0; i < fragments.size(); i++) {
+                        fragmentManager.beginTransaction().remove(fragments.get(i)).commitAllowingStateLoss();
+                    }
+                }
+            }
+        }
+        if (getActivity().getSupportFragmentManager().getFragments().contains(this)) {
+            getActivity().getSupportFragmentManager().beginTransaction().remove(this).commitAllowingStateLoss();
+        }
+        super.onStop();
+    }
 
     /**
      * A {@link android.support.v4.app.FragmentStatePagerAdapter} that returns a fragment corresponding to
@@ -114,6 +130,10 @@ public class UpcomingSeminarsFragment extends Fragment {
 
         public Fragment getFragment(int key) {
             return mPageReferenceArray.get(key);
+        }
+
+        public SparseArray<Fragment> getAllFragments() {
+            return mPageReferenceArray;
         }
     }
 
