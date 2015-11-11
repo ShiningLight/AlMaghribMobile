@@ -27,23 +27,17 @@
             android:checkable="false"/>
     </group>
 
-    <!--<item-->
-        <!--android:id="@+id/section_upcoming_events"-->
-        <!--android:title="@string/upcoming_events">-->
-        <!--<menu xmlns:android="http://schemas.android.com/apk/res/android">-->
-            <!--<group-->
-                <!--android:id="@+id/ilm_section_group"-->
-                <!--android:checkableBehavior="all">-->
-                <!--<item-->
-                    <!--android:id="@+id/ilmfest"-->
-                    <!--android:icon="@drawable/ilmfest"-->
-                    <!--android:title="@string/title_ilmfest"/>-->
-                <!--<item-->
-                    <!--android:id="@+id/ilmsummit"-->
-                    <!--android:icon="@drawable/ilmsummit"-->
-                    <!--android:title="@string/title_ilmsummit"/>-->
-            <!--</group>-->
-        <!--</menu>-->
-    <!--</item>-->
+    <group
+        android:id="@+id/other_group">
+        <item
+            android:id="@+id/settings"
+            android:title="@string/action_settings" />
+        <item
+            android:id="@+id/help"
+            android:title="@string/title_help_and_feedback" />
+        <item
+            android:id="@+id/contact"
+            android:title="@string/title_contact" />
+    </group>
 
 </menu>
