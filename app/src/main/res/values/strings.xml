@@ -225,4 +225,7 @@
 
     <string name="gravatar_avatar_url">https://www.gravatar.com/avatar/</string>
 
+    <string name="your_qr_code_for">Your QR code for</string>
+    <string name="qr_code_instructions">Show the QR code to any of our volunteers at the registration desk for a quick check in.</string>
+
 </resources>

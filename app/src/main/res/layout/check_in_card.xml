@@ -19,8 +19,8 @@
 
         <com.almaghrib.mobile.util.view.FeedImageView
             android:id="@+id/qrCodeImageView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
             android:layout_alignBottom="@+id/infoTextLayout"
             android:layout_alignTop="@+id/infoTextLayout"
             android:layout_centerVertical="true"
@@ -42,8 +42,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:singleLine="true"
-                android:text="YOUR QR CODE FOR"
-                android:textAppearance="?android:attr/textAppearanceMedium" />
+                android:text="@string/your_qr_code_for"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textAllCaps="true"
+                android:textSize="15sp"/>
 
             <TextView
                 android:id="@+id/seminarTextView"
@@ -52,7 +54,8 @@
                 android:maxLines="2"
                 android:text="ILMFEST 2016"
                 android:textAppearance="?android:attr/textAppearanceLarge"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:textAllCaps="true"/>
 
             <TextView
                 android:id="@+id/dateTextView"
@@ -60,7 +63,8 @@
                 android:layout_height="wrap_content"
                 android:singleLine="true"
                 android:text="JANUARY 8-10"
-                android:textAppearance="?android:attr/textAppearanceMedium" />
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textAllCaps="true"/>
 
             <TextView
                 android:id="@+id/venueTextView"
@@ -68,7 +72,8 @@
                 android:layout_height="wrap_content"
                 android:text="UNIVERSITY OF TORONTO"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:textSize="14sp" />
+                android:textSize="14sp"
+                android:textAllCaps="true"/>
 
             <TextView
                 android:id="@+id/textView10"
@@ -76,7 +81,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="5dp"
                 android:layout_marginTop="10dp"
-                android:text="Show the QR code to any of our volunteers at the registration desk for a quick check in."
+                android:text="@string/qr_code_instructions"
                 android:textAppearance="?android:attr/textAppearanceSmall" />
 
             <Button

@@ -287,7 +287,8 @@ public class HomePageActivity extends AppCompatActivity implements NavigationVie
     }
 
     public void checkInButtonAction(View view) {
-
+        startFragment(this, new CheckInFragment());
+        getSupportActionBar().setTitle(R.string.check_in);
     }
 
     public static void startFragment(FragmentActivity fragmentActivity, Fragment fragment) {
