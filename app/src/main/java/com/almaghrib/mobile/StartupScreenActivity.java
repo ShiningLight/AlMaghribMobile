@@ -66,6 +66,14 @@ public class StartupScreenActivity extends FragmentActivity {
         }
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        
+        final View decorView = getWindow().getDecorView();
+        hideSystemUI(decorView);
+    }
+
     public void goButtonAction(View view) throws Exception {
         final EditText usernameEditText = (EditText) findViewById(R.id.usernameEditText);
         final EditText passwordEditText = (EditText) findViewById(R.id.passwordEditText);
