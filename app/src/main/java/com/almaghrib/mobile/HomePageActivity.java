@@ -227,7 +227,8 @@ public class HomePageActivity extends AppCompatActivity implements NavigationVie
             case R.id.instructors: // Instructors
                 startFragment(HomePageActivity.this, new OurInstructorsFragment());
                 break;
-            case R.id.seminars: // Seminars
+            case R.id.my_account: // My Account
+                startFragment(HomePageActivity.this, new MyAccountFragment());
                 break;
             case R.id.register: // Register
                 // Don't set as selected item as it will open an external app

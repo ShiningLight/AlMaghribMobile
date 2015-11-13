@@ -59,6 +59,7 @@
     <string name="title_instructors">Instructors</string>
     <string name="title_seminars">Seminars</string>
     <string name="title_register">Register</string>
+    <string name="title_my_account">My Account</string>
 
     <!-- Nav Drawer List Item Icons -->
     <!-- Keep them in order as the titles are in -->
@@ -227,5 +228,9 @@
 
     <string name="your_qr_code_for">Your QR code for</string>
     <string name="qr_code_instructions">Show the QR code to any of our volunteers at the registration desk for a quick check in.</string>
+
+    <string name="payment_methods">Payment Methods</string>
+    <string name="order_history">Order History</string>
+    <string name="exam_history">Exam History</string>
 
 </resources>

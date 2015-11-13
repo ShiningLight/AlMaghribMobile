@@ -17,9 +17,9 @@
             android:icon="@drawable/instructors"
             android:title="@string/title_instructors" />
         <item
-            android:id="@+id/seminars"
+            android:id="@+id/my_account"
             android:icon="@drawable/seminars"
-            android:title="@string/title_seminars" />
+            android:title="@string/title_my_account" />
         <item
             android:id="@+id/register"
             android:icon="@drawable/register"
