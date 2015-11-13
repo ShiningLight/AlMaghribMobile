@@ -120,7 +120,6 @@ public class HomeFragment extends Fragment {
             public void onClick(View v) {
                 final HomePageActivity homePageActivity = (HomePageActivity) getActivity();
                 HomePageActivity.startFragment(homePageActivity, new SocialUpdatesFragment());
-                homePageActivity.setDrawerItem(R.id.social, getString(R.string.social));
             }
         });
 

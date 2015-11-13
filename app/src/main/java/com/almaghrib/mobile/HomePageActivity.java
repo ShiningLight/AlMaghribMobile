@@ -221,9 +221,6 @@ public class HomePageActivity extends AppCompatActivity implements NavigationVie
             case R.id.home: // Home
                 startFragment(HomePageActivity.this, new AlMaghribHomeFragment());//TODO: HomeFragment());
                 break;
-            case R.id.social: // Social
-                startFragment(HomePageActivity.this, new SocialUpdatesFragment());
-                break;
             case R.id.instructors: // Instructors
                 startFragment(HomePageActivity.this, new OurInstructorsFragment());
                 break;
@@ -280,12 +277,12 @@ public class HomePageActivity extends AppCompatActivity implements NavigationVie
 
     public void almaghribTalksButtonAction(View view) {
         startFragment(HomePageActivity.this, new SocialUpdatesFragment());
-        setDrawerItem(R.id.social, getString(R.string.social));
+        getSupportActionBar().setTitle(R.string.title_social);
     }
 
     public void blogAndSocialButtonAction(View view) {
         startFragment(HomePageActivity.this, new SocialUpdatesFragment());
-        setDrawerItem(R.id.social, getString(R.string.social));
+        getSupportActionBar().setTitle(R.string.title_social);
     }
 
     public void checkInButtonAction(View view) {
