@@ -71,6 +71,11 @@
             android:name=".StartupScreenActivity"
             android:screenOrientation="portrait"
             android:theme="@style/FullscreenTheme" >
+        </activity>
+
+        <activity
+            android:name=".AppLauncherActivity"
+            android:theme="@android:style/Theme.NoDisplay" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />

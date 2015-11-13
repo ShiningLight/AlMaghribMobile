@@ -88,6 +88,14 @@ public class AlMaghribSharedPreferences {
         return getString(AlMaghribSharedPreferenceKeys.USER_CITY, "");
     }
 
+    public void setHasStartupScreenShown() {
+        putBoolean(AlMaghribSharedPreferenceKeys.HAS_SEEN_STARTUP, true);
+    }
+
+    public boolean getHasStartupScreenShown() {
+        return getBoolean(AlMaghribSharedPreferenceKeys.HAS_SEEN_STARTUP, false);
+    }
+
     /** Twitter token **/
 
     public String getTwitterAccessToken() {
@@ -118,6 +126,14 @@ public class AlMaghribSharedPreferences {
 
     private void removeString(String key) {
         mSharedPreferences.edit().remove(key).commit();
+    }
+
+    private void putBoolean(String key, boolean value) {
+        mSharedPreferences.edit().putBoolean(key, value).commit();
+    }
+
+    private boolean getBoolean(String key, boolean defaultValue) {
+        return mSharedPreferences.getBoolean(key, defaultValue);
     }
 
 }

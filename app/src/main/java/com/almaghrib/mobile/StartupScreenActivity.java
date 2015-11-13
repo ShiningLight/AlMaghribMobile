@@ -69,7 +69,7 @@ public class StartupScreenActivity extends FragmentActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        
+
         final View decorView = getWindow().getDecorView();
         hideSystemUI(decorView);
     }
@@ -175,11 +175,16 @@ public class StartupScreenActivity extends FragmentActivity {
 
     private void startMainScreen() {
         // save user city
+        final AlMaghribSharedPreferences prefs =
+                AlMaghribSharedPreferences.getInstance(getApplicationContext());
+
         final Spinner citySpinner = (Spinner) findViewById(R.id.citySpinner);
-        AlMaghribSharedPreferences.getInstance(getApplicationContext())
-                .setUserCity(citySpinner.getSelectedItem().toString());
+        prefs.setUserCity(citySpinner.getSelectedItem().toString());
+
         //go to home screen
         startActivity(new Intent(this, HomePageActivity.class));
+        prefs.setHasStartupScreenShown();
+
         finish();
     }
 

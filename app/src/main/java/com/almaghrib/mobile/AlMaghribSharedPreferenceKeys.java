@@ -13,4 +13,5 @@ public class AlMaghribSharedPreferenceKeys {
     public static final String ALMAGHRIB_ACCOUNT_EMAIL_MD5 = "almaghrib_account_email_md5";
 
     public static final String USER_CITY = "user_city";
+    public static final String HAS_SEEN_STARTUP = "has_seen_startup";
 }
