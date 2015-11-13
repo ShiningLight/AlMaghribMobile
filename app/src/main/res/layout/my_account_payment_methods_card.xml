@@ -31,7 +31,7 @@
             android:textStyle="bold" />
 
         <View
-            android:id="@+id/titleDivider"
+            android:id="@+id/paymentMethodTitleDivider"
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_below="@+id/paymentMethodTitleTextView"
@@ -40,35 +40,35 @@
             android:background="@color/black" />
 
         <ListView
-            android:id="@+id/listView"
+            android:id="@+id/paymentMethodListView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/titleDivider"
+            android:layout_below="@+id/paymentMethodTitleDivider"
             android:gravity="center_vertical"
             android:paddingLeft="15dp"
             android:paddingRight="15dp" />
 
         <View
-            android:id="@+id/listDivider"
+            android:id="@+id/paymentMethodListDivider"
             android:layout_width="wrap_content"
             android:layout_height="1dp"
-            android:layout_below="@+id/listView"
+            android:layout_below="@+id/paymentMethodListView"
             android:layout_marginBottom="10dp"
             android:layout_marginTop="10dp"
             android:background="@color/black" />
 
         <LinearLayout
-            android:id="@+id/addCardLayout"
+            android:id="@+id/paymentMethodAddCardLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/listDivider"
+            android:layout_below="@+id/paymentMethodListDivider"
             android:gravity="center_vertical"
             android:orientation="horizontal"
             android:paddingLeft="15dp"
             android:paddingRight="15dp">
 
             <ImageView
-                android:id="@+id/imageView3"
+                android:id="@+id/paymentMethodImageView3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingRight="10dp"
@@ -76,7 +76,7 @@
                 android:clickable="true"/>
 
             <TextView
-                android:id="@+id/textView6"
+                android:id="@+id/paymentMethodTextView6"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Add a card"
@@ -85,19 +85,19 @@
         </LinearLayout>
 
         <View
-            android:id="@+id/addCardDivider"
+            android:id="@+id/paymentMethodAddCardDivider"
             android:layout_width="wrap_content"
             android:layout_height="1dp"
-            android:layout_below="@+id/addCardLayout"
+            android:layout_below="@+id/paymentMethodAddCardLayout"
             android:layout_marginBottom="10dp"
             android:layout_marginTop="10dp"
             android:background="@color/black" />
 
         <LinearLayout
-            android:id="@+id/addOneTouchLayout"
+            android:id="@+id/paymentMethodAddOneTouchLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/addCardDivider"
+            android:layout_below="@+id/paymentMethodAddCardDivider"
             android:gravity="center_vertical"
             android:orientation="horizontal"
             android:paddingLeft="15dp"
@@ -105,7 +105,7 @@
             android:paddingBottom="5dp">
 
             <ImageView
-                android:id="@+id/imageView4"
+                android:id="@+id/paymentMethodImageView4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingRight="10dp"
@@ -113,7 +113,7 @@
                 android:clickable="true"/>
 
             <TextView
-                android:id="@+id/oneTouchTextView"
+                android:id="@+id/paymentMethodTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Add one touch payment"
