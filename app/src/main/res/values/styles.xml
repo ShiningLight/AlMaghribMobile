@@ -57,10 +57,20 @@
         <item name="android:windowBackground">@null</item>
         <item name="metaButtonBarStyle">?android:attr/buttonBarStyle</item>
         <item name="metaButtonBarButtonStyle">?android:attr/buttonBarButtonStyle</item>
+        <!-- For the resting Spinner style -->
+        <item name="android:spinnerItemStyle">@style/StartupScreenSpinnerItemStyle</item>
     </style>
 
     <style name="FullscreenActionBarStyle" parent="Widget.AppCompat.ActionBar">
         <item name="android:background">@color/black_overlay</item>
+    </style>
+
+    <style name="StartupScreenSpinnerItemStyle">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/darker_gray</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:gravity">right</item>
+        <item name="android:paddingRight">5dp</item>
     </style>
 
 </resources>
