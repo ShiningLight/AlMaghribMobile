@@ -232,5 +232,7 @@
     <string name="payment_methods">Payment Methods</string>
     <string name="order_history">Order History</string>
     <string name="exam_history">Exam History</string>
+    <string name="receipt">Receipt</string>
+    <string name="view_more">View More</string>
 
 </resources>

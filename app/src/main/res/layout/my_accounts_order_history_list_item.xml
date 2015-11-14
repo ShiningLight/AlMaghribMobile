@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+    android:orientation="horizontal"
+    android:paddingBottom="10dp"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp"
+    android:paddingTop="10dp">
+
+    <ImageView
+        android:id="@+id/orderHistoryIcon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="15dp"
+        android:src="@drawable/instructors" />
+
+    <LinearLayout
+        android:id="@+id/orderHistorySeminarInfoLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_toRightOf="@+id/orderHistoryIcon"
+        android:layout_toLeftOf="@+id/priceTextView"
+        android:layout_marginRight="15dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/orderHistoryItemname"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="FIQH OF CHILLING"
+            android:textSize="14sp"
+            android:ellipsize="marquee"
+            android:textAllCaps="true"
+            android:singleLine="true"
+            android:textColor="@color/black"/>
+
+        <TextView
+            android:id="@+id/orderHistoryInfoTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/orderHistoryItemname"
+            android:text="JAN 28-31 Toronto"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textSize="12sp"
+            android:ellipsize="marquee"
+            android:singleLine="true"/>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/priceTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="15dp"
+        android:layout_toLeftOf="@+id/receiptButton"
+        android:layout_toStartOf="@+id/receiptButton"
+        android:text="$99"
+        android:textSize="14sp" />
+
+    <Button
+        android:id="@+id/receiptButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_centerVertical="true"
+        android:background="@drawable/more_info_button"
+        android:minHeight="25dp"
+        android:minWidth="70dp"
+        android:text="@string/receipt"
+        android:textSize="12sp"/>
+
+</RelativeLayout>
