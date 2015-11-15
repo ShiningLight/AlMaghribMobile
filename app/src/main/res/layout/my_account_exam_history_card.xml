@@ -39,7 +39,7 @@
             android:layout_marginTop="10dp"
             android:background="@color/black" />
 
-        <ExpandableListView
+        <ListView
             android:id="@+id/examHistoryListView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -58,7 +58,7 @@
             android:background="@color/black" />
 
         <LinearLayout
-            android:id="@+id/examHistoryAddCardLayout"
+            android:id="@+id/examHistoryViewMoreLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/examHistoryListDivider"
@@ -79,7 +79,7 @@
                 android:id="@+id/examHistoryTextView6"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Add a card"
+                android:text="@string/view_more"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:clickable="true"/>
         </LinearLayout>

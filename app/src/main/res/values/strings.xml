@@ -234,5 +234,6 @@
     <string name="exam_history">Exam History</string>
     <string name="receipt">Receipt</string>
     <string name="view_more">View More</string>
+    <string name="view">View</string>
 
 </resources>

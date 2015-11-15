@@ -11,6 +11,7 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.almaghrib.mobile.almaghribApi.jsonModels.AlMaghribMyAccountsExamHistoryModel;
 import com.almaghrib.mobile.almaghribApi.jsonModels.AlMaghribMyAccountsOrderHistoryModel;
 
 import java.util.ArrayList;
@@ -20,6 +21,7 @@ public class MyAccountFragment extends Fragment {
     private static final int VIEW_MORE_ITEMS_NUM = 2;
 
     private int mNumOrderHistoryItemToShow = 2;
+    private int mNumExamHistoryItemToShow = 2;
 
     public static MyAccountFragment init() {
         final MyAccountFragment fragment = new MyAccountFragment();
@@ -52,8 +54,10 @@ public class MyAccountFragment extends Fragment {
         // todo: remove from here and call on Volley callback
         addPaymentMethodsItems();
         addOrderHistoryItems();
+        addExamHistoryItems();
 
         attachOrderHistoryViewMoreListener();
+        attachExamHistoryViewMoreListener();
     }
 
 
@@ -104,6 +108,23 @@ public class MyAccountFragment extends Fragment {
 
     }
 
+    private void addExamHistoryItems() {
+        final ListView methodListView = (ListView) getView().findViewById(R.id.examHistoryListView);
+
+        ArrayList<AlMaghribMyAccountsExamHistoryModel> mDataset = new ArrayList<AlMaghribMyAccountsExamHistoryModel>();
+        mDataset.add(new AlMaghribMyAccountsExamHistoryModel("Fiqh of chilling", "Jan 29-31 Toronto", "94%"));
+        mDataset.add(new AlMaghribMyAccountsExamHistoryModel("Fiqh of more things", "July 29-31 London", "84%"));
+        mDataset.add(new AlMaghribMyAccountsExamHistoryModel("Aqeedah 101", "July 29-31 London", "84%"));
+        mDataset.add(new AlMaghribMyAccountsExamHistoryModel("Aqeedah 102", "July 29-31 London", "94%"));
+        mDataset.add(new AlMaghribMyAccountsExamHistoryModel("Aqeedah 201", "July 29-31 London", "88%"));
+        mDataset.add(new AlMaghribMyAccountsExamHistoryModel("Aqeedah 301", "July 29-31 London", "83%"));
+        mDataset.add(new AlMaghribMyAccountsExamHistoryModel("Aqeedah 402", "July 29-31 London", "89%"));
+
+        methodListView.setAdapter(new MyAccountExamHistoryArrayAdapter(getActivity(), mDataset));
+
+        setListViewHeightBasedOnItems(methodListView, mNumExamHistoryItemToShow);
+    }
+
     private void attachOrderHistoryViewMoreListener() {
         final ImageView moreOrdersImageView = (ImageView) getView().findViewById(R.id.orderHistoryImageView3);
         final TextView moreOrdersTextView = (TextView) getView().findViewById(R.id.orderHistoryTextView6);
@@ -126,6 +147,30 @@ public class MyAccountFragment extends Fragment {
         };
         moreOrdersImageView.setOnClickListener(listener);
         moreOrdersTextView.setOnClickListener(listener);
+    }
+
+    private void attachExamHistoryViewMoreListener() {
+        final ImageView moreExamsImageView = (ImageView) getView().findViewById(R.id.examHistoryImageView3);
+        final TextView moreExamsTextView = (TextView) getView().findViewById(R.id.examHistoryTextView6);
+
+        final View.OnClickListener listener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final ListView methodListView = (ListView) getView().findViewById(R.id.examHistoryListView);
+                mNumExamHistoryItemToShow =
+                        (mNumExamHistoryItemToShow+VIEW_MORE_ITEMS_NUM > methodListView.getCount())
+                                ? methodListView.getCount()
+                                : mNumExamHistoryItemToShow + VIEW_MORE_ITEMS_NUM;
+                setListViewHeightBasedOnItems(methodListView, mNumExamHistoryItemToShow);
+                // hide the view more layout if all items are showing
+                if (mNumExamHistoryItemToShow >= methodListView.getCount()) {
+                    final View viewMoreLayout = getView().findViewById(R.id.examHistoryViewMoreLayout);
+                    viewMoreLayout.setVisibility(View.GONE);
+                }
+            }
+        };
+        moreExamsImageView.setOnClickListener(listener);
+        moreExamsTextView.setOnClickListener(listener);
     }
 
     /**
