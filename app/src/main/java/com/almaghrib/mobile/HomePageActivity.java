@@ -297,6 +297,7 @@ public class HomePageActivity extends AppCompatActivity implements NavigationVie
         final String tag = fragment.getClass().getSimpleName();
         // only add fragment if it isn't already showing
         if (fragmentManager.findFragmentByTag(tag) == null) {
+            fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE);
             fragmentTransaction.replace(R.id.content_frame, fragment, tag);
             fragmentTransaction.commit();
         }
