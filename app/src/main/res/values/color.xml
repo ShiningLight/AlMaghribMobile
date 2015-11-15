@@ -2,6 +2,8 @@
 <resources>
     <color name="almaghrib_purple">#630460</color>
 
+    <color name="app_background_gray">#E6E3E7</color>
+
     <color name="home_screen_button_purple">#893BA2</color>
     <color name="startup_screen_purple">#724B84</color>
 
