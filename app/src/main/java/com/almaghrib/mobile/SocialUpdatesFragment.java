@@ -57,20 +57,21 @@ public class SocialUpdatesFragment extends Fragment {
                 final FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
 
                 final SparseArray<Fragment> fragments = adapter.getAllFragments();
-                if (fragments != null) {
-                    for (int i = 0; i < fragments.size(); i++) {
-                        final Fragment fragment = fragments.get(i);
-                        if (fragment != null && getActivity().getSupportFragmentManager().getFragments().contains(fragment)) {
-                            fragmentManager.beginTransaction().remove(fragment).commitAllowingStateLoss();
-                        }
-                    }
-                }
+                // TODO: Fix leak of Social fragments but make sure Twitter still works after signing in
+//                if (fragments != null) {
+//                    for (int i = 0; i < fragments.size(); i++) {
+//                        final Fragment fragment = fragments.get(i);
+//                        if (fragment != null && getActivity().getSupportFragmentManager().getFragments().contains(fragment)) {
+//                            fragmentManager.beginTransaction().remove(fragment).commitAllowingStateLoss();
+//                        }
+//                    }
+//                }
             }
         }
 
-        if (getActivity().getSupportFragmentManager().getFragments().contains(this)) {
-            getActivity().getSupportFragmentManager().beginTransaction().remove(this).commitAllowingStateLoss();
-        }
+//        if (getActivity().getSupportFragmentManager().getFragments().contains(this)) {
+//            getActivity().getSupportFragmentManager().beginTransaction().remove(this).commitAllowingStateLoss();
+//        }
         super.onStop();
     }
 
