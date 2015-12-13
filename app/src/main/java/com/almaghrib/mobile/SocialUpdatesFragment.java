@@ -59,11 +59,15 @@ public class SocialUpdatesFragment extends Fragment {
                 final SparseArray<Fragment> fragments = adapter.getAllFragments();
                 if (fragments != null) {
                     for (int i = 0; i < fragments.size(); i++) {
-                        fragmentManager.beginTransaction().remove(fragments.get(i)).commitAllowingStateLoss();
+                        final Fragment fragment = fragments.get(i);
+                        if (fragment != null && getActivity().getSupportFragmentManager().getFragments().contains(fragment)) {
+                            fragmentManager.beginTransaction().remove(fragment).commitAllowingStateLoss();
+                        }
                     }
                 }
             }
         }
+
         if (getActivity().getSupportFragmentManager().getFragments().contains(this)) {
             getActivity().getSupportFragmentManager().beginTransaction().remove(this).commitAllowingStateLoss();
         }
