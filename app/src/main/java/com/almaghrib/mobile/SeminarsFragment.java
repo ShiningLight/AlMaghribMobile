@@ -9,6 +9,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.almaghrib.mobile.almaghribApi.jsonModels.AlMaghribUpcomingSeminarBannerModel;
+import com.github.florent37.materialviewpager.MaterialViewPagerHelper;
+import com.github.florent37.materialviewpager.adapter.RecyclerViewMaterialAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,7 +19,7 @@ public class SeminarsFragment extends Fragment{
 
     private RecyclerView mRecyclerView;
     private LinearLayoutManager mLayoutManager;
-    private SeminarCardAdapter mAdapter;
+    private RecyclerView.Adapter mAdapter;
 
     private List<AlMaghribUpcomingSeminarBannerModel> mDataset;
 
@@ -56,8 +58,11 @@ public class SeminarsFragment extends Fragment{
         mDataset.add(new AlMaghribUpcomingSeminarBannerModel("http://i1.imgiz.com/rshots/8818/islam-channelden-asad-lath-a9-icin-ne-dedi_8818494-6980_640x360.jpg",
                 "Upcoming in London","World of Funnnn", "February 1-10", "Regents Park Hall"));
 
-        mAdapter = new SeminarCardAdapter(getActivity().getApplicationContext(), mDataset);
+        mAdapter = new RecyclerViewMaterialAdapter(
+                new SeminarCardAdapter(getActivity().getApplicationContext(), mDataset));
         mRecyclerView.setAdapter(mAdapter);
+
+        MaterialViewPagerHelper.registerRecyclerView(getActivity(), mRecyclerView, null);
 
         return layoutView;
     }
