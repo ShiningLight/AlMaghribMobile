@@ -21,7 +21,6 @@ public class SeminarCardAdapter extends RecyclerView.Adapter<SeminarCardAdapter.
     // Provide a reference to the views for each data item
     public static class SeminarCardViewHolder extends RecyclerView.ViewHolder {
         protected FeedImageView mBannerImageView;
-        protected TextView mUpcomingTextView;
         protected TextView mSeminarNameTextView;
         protected TextView mDateView;
         protected TextView mVenueTextView;
@@ -29,7 +28,6 @@ public class SeminarCardAdapter extends RecyclerView.Adapter<SeminarCardAdapter.
         public SeminarCardViewHolder(View v) {
             super(v);
             mBannerImageView = (FeedImageView) v.findViewById(R.id.seminarBannerImageView);
-            mUpcomingTextView = (TextView) v.findViewById(R.id.upcomingTextView);
             mSeminarNameTextView = (TextView) v.findViewById(R.id.titleTextView);
             mDateView = (TextView) v.findViewById(R.id.dateTextView);
             mVenueTextView = (TextView) v.findViewById(R.id.venueTextView);
@@ -62,10 +60,9 @@ public class SeminarCardAdapter extends RecyclerView.Adapter<SeminarCardAdapter.
         holder.mBannerImageView.setDefaultImageResId(R.drawable.waleed);
         holder.mBannerImageView.setImageUrl(bannerModel.getBannerUrl(), mImageLoader);
 
-        holder.mUpcomingTextView.setText(bannerModel.getUpcomingLocation());
         holder.mSeminarNameTextView.setText(bannerModel.getSeminarName());
-        holder.mDateView.setText(bannerModel.getDate());
-        holder.mVenueTextView.setText(bannerModel.getVenue());
+        holder.mDateView.setText(bannerModel.getInstructorName());
+        holder.mVenueTextView.setText(bannerModel.getUpcomingLocation() + " - " + bannerModel.getDate());
     }
 
     // Return the size of your dataset (invoked by the layout manager)

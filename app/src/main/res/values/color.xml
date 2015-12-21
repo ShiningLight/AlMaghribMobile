@@ -7,6 +7,9 @@
     <color name="home_screen_button_purple">#893BA2</color>
     <color name="startup_screen_purple">#724B84</color>
 
+    <color name="register_button_purple">#86005C</color>
+    <color name="sub_header_text_colour">#2A2A2A</color>
+
     <color name="pager_tab_strip_background">#EDEDED</color>
     <color name="pager_tab_strip_background_bottom_line">#5F1C5D</color>
     <color name="pager_tab_strip_selected_text_colour">#D39DD9</color>

@@ -13,7 +13,8 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white">
+        android:background="@color/white"
+        android:padding="3dp">
 
         <com.almaghrib.mobile.util.view.FeedImageView
             android:id="@+id/seminarBannerImageView"
@@ -25,10 +26,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/seminarBannerImageView"
-            android:paddingLeft="15dp"
-            android:paddingRight="15dp"
-            android:paddingTop="10dp"
-            android:paddingBottom="10dp"
+            android:padding="5dp"
             android:orientation="horizontal">
 
             <RelativeLayout
@@ -44,24 +42,14 @@
                 android:layout_toStartOf="@+id/buttonsLayout">
 
                 <TextView
-                    android:id="@+id/upcomingTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="UPCOMING IN TORONTO"
-                    android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:textStyle="bold"
-                    android:gravity="left"
-                    android:ellipsize="marquee"
-                    android:lines="1"/>
-
-                <TextView
                     android:id="@+id/titleTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="WORLD OF DREAMS"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
                     android:textStyle="bold"
-                    android:layout_below="@+id/upcomingTextView"
+                    android:textSize="16sp"
+                    android:textColor="@color/black"
+                    android:textAllCaps="true"
                     android:gravity="left"
                     android:ellipsize="marquee"
                     android:maxLines="2"/>
@@ -70,20 +58,24 @@
                     android:id="@+id/dateTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="JANUARY 8-10"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="Shaykh Waleed Basyouni"
+                    android:textSize="14sp"
+                    android:textColor="@color/sub_header_text_colour"
                     android:layout_below="@+id/titleTextView"
                     android:gravity="left"
                     android:ellipsize="marquee"
+                    android:textAllCaps="true"
                     android:lines="1"/>
 
                 <TextView
                     android:id="@+id/venueTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="UNIVERSITY OF TORONTO"
-                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:text="TORONTO - JANUARY 8-10"
+                    android:textSize="14sp"
+                    android:textColor="@color/sub_header_text_colour"
                     android:layout_below="@+id/dateTextView"
+                    android:textAllCaps="true"
                     android:gravity="left"/>
             </RelativeLayout>
 
@@ -104,9 +96,11 @@
                     android:ellipsize="marquee"
                     android:lines="1"
                     android:text="@string/register"
+                    android:textSize="10sp"
                     android:textColor="@color/white"
                     android:background="@drawable/register_button"
-                    android:minHeight="35dp"
+                    android:minHeight="25dp"
+                    android:maxWidth="25dp"
                     android:layout_marginBottom="8dp"/>
 
                 <Button
@@ -119,7 +113,7 @@
                     android:ellipsize="marquee"
                     android:lines="1"
                     android:text="@string/more_info"
-                    android:textSize="11sp"
+                    android:textSize="10sp"
                     android:background="@drawable/more_info_button"
                     android:minHeight="25dp"/>
             </RelativeLayout>
