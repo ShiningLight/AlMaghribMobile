@@ -51,6 +51,8 @@ public class SeminarsFragment extends Fragment{
         mDataset = new ArrayList<AlMaghribUpcomingSeminarBannerModel>();
 
         // TODO : remove dummy data
+        mDataset.add(new AlMaghribUpcomingSeminarBannerModel("https://scontent.cdninstagram.com/hphotos-xap1/t51.2885-15/s480x480/e35/11939401_1389735914666697_1538854467_n.jpg",
+                "London", "Love Notes", "Shaykh Yahya Ibrahim", "January 8-10", "Queen Mary University"));
         mDataset.add(new AlMaghribUpcomingSeminarBannerModel("http://i.ytimg.com/vi/qhypWutXRqo/hqdefault.jpg",
                 "Toronto", "IlmFest 2016", "Multiple instructors", "January 8-10", "University of Toronto"));
         mDataset.add(new AlMaghribUpcomingSeminarBannerModel("https://fbcdn-photos-d-a.akamaihd.net/hphotos-ak-xal1/v/t1.0-0/s480x480/12088289_961360220603205_3150621638343165157_n.jpg?oh=b5b04443914eb87cc07fc433382d790b&oe=56CC5CCA&__gda__=1456602297_5a7f033b68d547318d1bd28aa6379d63",
