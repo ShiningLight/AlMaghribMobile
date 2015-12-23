@@ -236,4 +236,10 @@
     <string name="view_more">View More</string>
     <string name="view">View</string>
 
+    <string name="seminar_banner_name">seminar_banner_name</string>
+    <string name="seminar_info_price_title">Price</string>
+    <string name="seminar_info_price_date">Date</string>
+    <string name="seminar_info_title_venue">Venue</string>
+    <string name="seminar_info_about_me">About Me</string>
+
 </resources>

@@ -10,6 +10,10 @@
     <color name="register_button_purple">#86005C</color>
     <color name="sub_header_text_colour">#2A2A2A</color>
 
+    <color name="seminar_info_titles">#481895</color>
+    <color name="seminar_info_title_values">#6C499E</color>
+    <color name="instructor_view_bkgrd">#19191B</color>
+
     <color name="pager_tab_strip_background">#EDEDED</color>
     <color name="pager_tab_strip_background_bottom_line">#5F1C5D</color>
     <color name="pager_tab_strip_selected_text_colour">#D39DD9</color>

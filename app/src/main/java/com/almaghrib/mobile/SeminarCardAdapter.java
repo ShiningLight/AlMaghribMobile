@@ -1,10 +1,23 @@
 package com.almaghrib.mobile;
 
+import android.app.Activity;
 import android.content.Context;
+import android.os.Build;
+import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.RecyclerView;
+import android.transition.ChangeBounds;
+import android.transition.ChangeImageTransform;
+import android.transition.ChangeTransform;
+import android.transition.Fade;
+import android.transition.Slide;
+import android.transition.Transition;
+import android.transition.TransitionInflater;
+import android.transition.TransitionSet;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.almaghrib.mobile.almaghribApi.jsonModels.AlMaghribUpcomingSeminarBannerModel;
@@ -15,6 +28,7 @@ import java.util.List;
 
 public class SeminarCardAdapter extends RecyclerView.Adapter<SeminarCardAdapter.SeminarCardViewHolder> {
 
+    private final Activity mActivity;
     private final ImageLoader mImageLoader;
     private List<AlMaghribUpcomingSeminarBannerModel> mDataset;
 
@@ -34,9 +48,10 @@ public class SeminarCardAdapter extends RecyclerView.Adapter<SeminarCardAdapter.
         }
     }
 
-    public SeminarCardAdapter(Context context, List<AlMaghribUpcomingSeminarBannerModel> dataset) {
+    public SeminarCardAdapter(Activity activity, List<AlMaghribUpcomingSeminarBannerModel> dataset) {
+        mActivity = activity;
         mDataset = dataset;
-        mImageLoader = RequestQueueSingleton.getInstance(context).getImageLoader();
+        mImageLoader = RequestQueueSingleton.getInstance(activity.getApplicationContext()).getImageLoader();
     }
 
     // Create new views (invoked by the layout manager)
@@ -52,13 +67,22 @@ public class SeminarCardAdapter extends RecyclerView.Adapter<SeminarCardAdapter.
 
     // Replace the contents of a view (invoked by the layout manager)
     @Override
-    public void onBindViewHolder(SeminarCardViewHolder holder, int position) {
+    public void onBindViewHolder(final SeminarCardViewHolder holder, int position) {
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
         final AlMaghribUpcomingSeminarBannerModel bannerModel = mDataset.get(position);
 
         holder.mBannerImageView.setDefaultImageResId(R.drawable.waleed);
         holder.mBannerImageView.setImageUrl(bannerModel.getBannerUrl(), mImageLoader);
+        final String transitionName = mActivity.getString(R.string.seminar_banner_name) + position;
+        ViewCompat.setTransitionName(holder.mBannerImageView, transitionName);
+
+        holder.mBannerImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                addNextFragment(holder.mBannerImageView, false);
+            }
+        });
 
         holder.mSeminarNameTextView.setText(bannerModel.getSeminarName());
         holder.mDateView.setText(bannerModel.getInstructorName());
@@ -75,5 +99,45 @@ public class SeminarCardAdapter extends RecyclerView.Adapter<SeminarCardAdapter.
         mDataset = dataset;
         notifyDataSetChanged();
     }
-    
+
+    private void addNextFragment(ImageView imageView, boolean overlap) {
+        final String transitionName = ViewCompat.getTransitionName(imageView);
+        SeminarInfoFragment sharedElementFragment2 = SeminarInfoFragment.init(transitionName);
+
+        // Defines enter transition for all fragment views
+//        Slide slideTransition = new Slide(Gravity.BOTTOM);
+//        slideTransition.setDuration(800);//mContext.getResources().getInteger(R.integer.anim_duration_medium));
+//        sharedElementFragment2.setEnterTransition(slideTransition);
+//
+////        ChangeBounds changeBoundsTransition = new ChangeBounds();
+////        changeBoundsTransition.setDuration(1000);//getResources().getInteger(R.integer.anim_duration_medium));
+//        // Defines enter transition only for shared element
+//        Transition changeBoundsTransition = TransitionInflater.from(mActivity).inflateTransition(R.transition.change_bounds);
+//        sharedElementFragment2.setSharedElementEnterTransition(changeBoundsTransition);
+//
+//        sharedElementFragment2.setAllowEnterTransitionOverlap(overlap);
+//        sharedElementFragment2.setAllowReturnTransitionOverlap(overlap);
+
+        sharedElementFragment2.setSharedElementEnterTransition(new DetailsTransition());
+        sharedElementFragment2.setEnterTransition(new Fade());
+        //setExitTransition(new Fade());
+        sharedElementFragment2.setSharedElementReturnTransition(new DetailsTransition());
+
+
+        final HomePageActivity homePageActivity = (HomePageActivity) mActivity;
+        homePageActivity.getSupportFragmentManager().beginTransaction()
+                .replace(R.id.content_frame, sharedElementFragment2)
+                        //.addToBackStack(null)
+                .addSharedElement(imageView, transitionName)
+                .commit();
+    }
+
+    private class DetailsTransition extends TransitionSet {
+        public DetailsTransition() {
+            setOrdering(ORDERING_TOGETHER);
+            addTransition(new ChangeBounds()).
+                    addTransition(new ChangeTransform()).
+                    addTransition(new ChangeImageTransform());
+        }
+    }
 }

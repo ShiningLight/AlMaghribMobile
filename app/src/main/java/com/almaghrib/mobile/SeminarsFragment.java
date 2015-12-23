@@ -61,7 +61,7 @@ public class SeminarsFragment extends Fragment{
                 "London","World of Funnnn", "Shaykh Asad Lath", "February 1-10", "Regents Park Hall"));
 
         mAdapter = new RecyclerViewMaterialAdapter(
-                new SeminarCardAdapter(getActivity().getApplicationContext(), mDataset));
+                new SeminarCardAdapter(getActivity(), mDataset));
         mRecyclerView.setAdapter(mAdapter);
 
         MaterialViewPagerHelper.registerRecyclerView(getActivity(), mRecyclerView, null);

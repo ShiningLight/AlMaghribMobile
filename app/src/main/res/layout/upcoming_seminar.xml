@@ -20,7 +20,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:tint="#9900000F"
-            android:src="@drawable/waleed" />
+            android:src="@drawable/waleed"/>
 
         <LinearLayout
             android:layout_width="match_parent"
