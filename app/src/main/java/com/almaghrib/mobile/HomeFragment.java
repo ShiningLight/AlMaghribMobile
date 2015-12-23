@@ -75,13 +75,13 @@ public class HomeFragment extends Fragment {
             public HeaderDesign getHeaderDesign(int page) {
                 switch (page) {
                     case 0:
-//                        return HeaderDesign.fromColorResAndUrl(
-//                                R.color.green,
-//                                "https://fs01.androidpit.info/a/63/0e/android-l-wallpapers-630ea6-h900.jpg");
+                        return HeaderDesign.fromColorAndDrawable(
+                                getResources().getColor(R.color.almaghrib_purple),
+                                getResources().getDrawable(R.drawable.banner_one));
                     case 1:
-//                        return HeaderDesign.fromColorResAndUrl(
-//                                R.color.blue,
-//                                "http://cdn1.tnwcdn.com/wp-content/blogs.dir/1/files/2014/06/wallpaper_51.jpg");
+                        return HeaderDesign.fromColorAndDrawable(
+                                getResources().getColor(R.color.almaghrib_purple),
+                                getResources().getDrawable(R.drawable.banner_two));
                     case 2:
 //                        return HeaderDesign.fromColorResAndUrl(
 //                                R.color.cyan,
@@ -93,7 +93,7 @@ public class HomeFragment extends Fragment {
                     default:
                         return HeaderDesign.fromColorAndDrawable(
                                 getResources().getColor(R.color.almaghrib_purple),
-                                getResources().getDrawable(R.drawable.almaghrib_purple_banner));
+                                getResources().getDrawable(R.drawable.banner_one));
                 }
 
             }

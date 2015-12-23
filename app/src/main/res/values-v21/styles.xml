@@ -7,11 +7,10 @@
                 <!-- colorPrimary is used for the default action bar background -->
                 <item name="colorPrimary">@color/almaghrib_purple</item>
                 <!-- colorPrimaryDark is used for the status bar -->
-                <!--<item name="colorPrimaryDark">@color/pager_tab_strip_background_bottom_line</item>-->
-                <item name="colorPrimaryDark">@color/pager_tab_strip_selected_text_colour</item>
+                <item name="colorPrimaryDark">@color/almaghrib_purple_color_primary_dark</item>
                 <!-- colorAccent is used as the default value for colorControlActivated,
                  which is used to tint widgets -->
-                <item name="colorAccent">@color/pager_tab_strip_selected_text_colour</item>
+                <item name="colorAccent">@color/almaghrib_purple_color_primary_dark</item>
 
                 <!-- For the resting Spinner style -->
                 <item name="android:spinnerItemStyle">@style/SpinnerItemStyle</item>

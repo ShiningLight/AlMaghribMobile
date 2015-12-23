@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="170dp"
     android:id="@+id/header"
-    android:background="@color/startup_screen_purple"
+    android:background="@drawable/nav_header_banner"
     android:orientation="vertical">
 
     <com.almaghrib.mobile.util.view.CircleNetworkImageView
