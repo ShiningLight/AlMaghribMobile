@@ -220,6 +220,9 @@ public class HomePageActivity extends AppCompatActivity implements NavigationVie
             case R.id.home: // Home
                 startFragment(HomePageActivity.this, new HomeFragment());
                 break;
+            case R.id.social: // Social
+                startFragment(HomePageActivity.this, new SocialUpdatesFragment());
+                break;
             case R.id.instructors: // Instructors
                 startFragment(HomePageActivity.this, new OurInstructorsFragment());
                 break;
