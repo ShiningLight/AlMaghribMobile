@@ -35,17 +35,8 @@
             android:layout_alignParentRight="true"
             android:layout_alignParentTop="true"
             android:layout_toRightOf="@+id/qrCodeImageView"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/yourQRCodeForTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:singleLine="true"
-                android:text="@string/your_qr_code_for"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:textAllCaps="true"
-                android:textSize="15sp"/>
+            android:orientation="vertical"
+            android:gravity="center">
 
             <TextView
                 android:id="@+id/seminarTextView"
@@ -53,7 +44,7 @@
                 android:layout_height="wrap_content"
                 android:maxLines="2"
                 android:text="ILMFEST 2016"
-                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textSize="16sp"
                 android:textStyle="bold"
                 android:textAllCaps="true"/>
 
@@ -63,7 +54,7 @@
                 android:layout_height="wrap_content"
                 android:singleLine="true"
                 android:text="JANUARY 8-10"
-                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textSize="14sp"
                 android:textAllCaps="true"/>
 
             <TextView
@@ -71,8 +62,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="UNIVERSITY OF TORONTO"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:textSize="14sp"
+                android:textSize="12sp"
                 android:textAllCaps="true"/>
 
             <TextView
@@ -82,20 +72,23 @@
                 android:layout_marginBottom="5dp"
                 android:layout_marginTop="10dp"
                 android:text="@string/qr_code_instructions"
-                android:textAppearance="?android:attr/textAppearanceSmall" />
+                android:textSize="10sp"
+                android:textStyle="italic"/>
 
             <Button
                 android:id="@+id/checkInButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="left"
-                android:layout_marginBottom="8dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="5dp"
                 android:background="@drawable/register_button"
                 android:ellipsize="marquee"
                 android:lines="1"
                 android:minHeight="35dp"
                 android:text="@string/check_in"
-                android:textColor="@color/white" />
+                android:textColor="@color/white"
+                android:textSize="12sp"
+                android:layout_marginTop="5dp"/>
         </LinearLayout>
 
     </RelativeLayout>
