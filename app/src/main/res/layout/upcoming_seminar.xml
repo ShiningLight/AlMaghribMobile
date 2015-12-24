@@ -44,7 +44,7 @@
                 <View
                     android:id="@+id/topDivider"
                     android:layout_width="match_parent"
-                    android:layout_height="2dp"
+                    android:layout_height="1dp"
                     android:layout_marginBottom="15dp"
                     android:background="@color/white" />
                 <TextView
@@ -75,7 +75,7 @@
                 <View
                     android:id="@+id/bottomDivider"
                     android:layout_width="match_parent"
-                    android:layout_height="2dp"
+                    android:layout_height="1dp"
                     android:layout_marginTop="15dp"
                     android:background="@color/white" />
             </LinearLayout>
