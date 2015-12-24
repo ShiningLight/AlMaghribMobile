@@ -77,16 +77,17 @@ public class SeminarCardAdapter extends RecyclerView.Adapter<SeminarCardAdapter.
         final String transitionName = mActivity.getString(R.string.seminar_banner_name) + position;
         ViewCompat.setTransitionName(holder.mBannerImageView, transitionName);
 
-        holder.mBannerImageView.setOnClickListener(new View.OnClickListener() {
+        holder.mSeminarNameTextView.setText(bannerModel.getSeminarName());
+        holder.mDateView.setText(bannerModel.getInstructorName());
+        holder.mVenueTextView.setText(bannerModel.getUpcomingLocation() + " - " + bannerModel.getDate());
+
+        // set on click listener on view so we still get ripple effect
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 addNextFragment(holder.mBannerImageView, false);
             }
         });
-
-        holder.mSeminarNameTextView.setText(bannerModel.getSeminarName());
-        holder.mDateView.setText(bannerModel.getInstructorName());
-        holder.mVenueTextView.setText(bannerModel.getUpcomingLocation() + " - " + bannerModel.getDate());
     }
 
     // Return the size of your dataset (invoked by the layout manager)
