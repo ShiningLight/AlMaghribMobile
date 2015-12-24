@@ -9,6 +9,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.almaghrib.mobile.almaghribApi.jsonModels.AlMaghribCheckInModelContainer;
+import com.github.florent37.materialviewpager.MaterialViewPagerHelper;
+import com.github.florent37.materialviewpager.adapter.RecyclerViewMaterialAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,12 +19,12 @@ public class CheckInFragment extends Fragment {
 
     private RecyclerView mRecyclerView;
     private LinearLayoutManager mLayoutManager;
-    private CheckInCardAdapter mAdapter;
+    private RecyclerView.Adapter mAdapter;
 
     private List<AlMaghribCheckInModelContainer> mDataset;
 
-    public static SeminarsFragment init() {
-        final SeminarsFragment fragment = new SeminarsFragment();
+    public static CheckInFragment init() {
+        final CheckInFragment fragment = new CheckInFragment();
         return fragment;
     }
 
@@ -58,8 +60,11 @@ public class CheckInFragment extends Fragment {
         mDataset.add(new AlMaghribCheckInModelContainer("http://qrickit.com/api/qr?d=123&fgdcolor=76103C&qrsize=180",
                 "World of Funnnn", "February 1-10", "Regents Park Hall"));
 
-        mAdapter = new CheckInCardAdapter(getActivity().getApplicationContext(), mDataset);
+        mAdapter = new RecyclerViewMaterialAdapter(
+                new CheckInCardAdapter(getActivity().getApplicationContext(), mDataset));
         mRecyclerView.setAdapter(mAdapter);
+
+        MaterialViewPagerHelper.registerRecyclerView(getActivity(), mRecyclerView, null);
 
         return layoutView;
     }

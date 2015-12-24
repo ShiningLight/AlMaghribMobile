@@ -154,7 +154,7 @@ public class HomeFragment extends Fragment {
                 case POSITION_NEWS:
                     return SeminarsFragment.init();
                 case POSITION_CHECK_IN:
-                    return SeminarsFragment.init();
+                    return CheckInFragment.init();
                 case POSITION_JOURNALS:
                     return SeminarsFragment.init();
                 default:
@@ -175,7 +175,7 @@ public class HomeFragment extends Fragment {
                 case POSITION_NEWS:
                     return SeminarsFragment.getFragmentName();
                 case POSITION_CHECK_IN:
-                    return SeminarsFragment.getFragmentName();
+                    return CheckInFragment.getFragmentName();
                 case POSITION_JOURNALS:
                     return SeminarsFragment.getFragmentName();
                 default:
