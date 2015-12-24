@@ -12,19 +12,21 @@
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:background="@color/white">
 
         <com.almaghrib.mobile.util.view.FeedImageView
             android:id="@+id/seminarBannerImageView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:tint="#9900000F"
-            android:src="@drawable/waleed"/>
+            android:src="@drawable/love_notes_card"
+            android:scaleType="fitXY"
+            android:adjustViewBounds="true"/>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:gravity="center"
             android:orientation="vertical"
@@ -36,15 +38,14 @@
                 android:id="@+id/seminar_info_layout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
                 android:gravity="center"
                 android:orientation="vertical"
-                android:layout_marginBottom="20dp">
+                android:paddingBottom="15dp">
                 <View
                     android:id="@+id/topDivider"
                     android:layout_width="match_parent"
                     android:layout_height="2dp"
-                    android:layout_marginBottom="20dp"
+                    android:layout_marginBottom="15dp"
                     android:background="@color/white" />
                 <TextView
                     android:id="@+id/titleTextView"
@@ -52,7 +53,7 @@
                     android:layout_height="wrap_content"
                     android:text="Large Text"
                     android:textAllCaps="true"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:textSize="16sp"
                     android:textColor="@color/white"
                     android:textStyle="bold" />
                 <TextView
@@ -61,7 +62,7 @@
                     android:layout_height="wrap_content"
                     android:text="Medium Text"
                     android:textAllCaps="true"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textSize="14sp"
                     android:textColor="@color/white" />
                 <TextView
                     android:id="@+id/venueTextView"
@@ -69,13 +70,13 @@
                     android:layout_height="wrap_content"
                     android:text="Small Text"
                     android:textAllCaps="true"
-                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:textSize="12sp"
                     android:textColor="@color/white" />
                 <View
                     android:id="@+id/bottomDivider"
                     android:layout_width="match_parent"
                     android:layout_height="2dp"
-                    android:layout_marginTop="20dp"
+                    android:layout_marginTop="15dp"
                     android:background="@color/white" />
             </LinearLayout>
 
@@ -83,8 +84,7 @@
                 android:id="@+id/imageView3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/more"
-                android:layout_below="@+id/seminar_info_layout"
+                android:src="@drawable/go_button"
                 android:layout_centerHorizontal="true" />
         </LinearLayout>
 

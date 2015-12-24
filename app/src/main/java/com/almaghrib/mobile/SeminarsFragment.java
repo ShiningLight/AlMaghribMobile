@@ -51,13 +51,13 @@ public class SeminarsFragment extends Fragment{
         mDataset = new ArrayList<AlMaghribUpcomingSeminarBannerModel>();
 
         // TODO : remove dummy data
-        mDataset.add(new AlMaghribUpcomingSeminarBannerModel("https://scontent.cdninstagram.com/hphotos-xap1/t51.2885-15/s480x480/e35/11939401_1389735914666697_1538854467_n.jpg",
+        mDataset.add(new AlMaghribUpcomingSeminarBannerModel(null,//"https://scontent.cdninstagram.com/hphotos-xap1/t51.2885-15/s480x480/e35/11939401_1389735914666697_1538854467_n.jpg",
                 "London", "Love Notes", "Shaykh Yahya Ibrahim", "January 8-10", "Queen Mary University"));
-        mDataset.add(new AlMaghribUpcomingSeminarBannerModel("http://i.ytimg.com/vi/qhypWutXRqo/hqdefault.jpg",
+        mDataset.add(new AlMaghribUpcomingSeminarBannerModel(null,//"http://i.ytimg.com/vi/qhypWutXRqo/hqdefault.jpg",
                 "Toronto", "IlmFest 2016", "Multiple instructors", "January 8-10", "University of Toronto"));
-        mDataset.add(new AlMaghribUpcomingSeminarBannerModel("https://fbcdn-photos-d-a.akamaihd.net/hphotos-ak-xal1/v/t1.0-0/s480x480/12088289_961360220603205_3150621638343165157_n.jpg?oh=b5b04443914eb87cc07fc433382d790b&oe=56CC5CCA&__gda__=1456602297_5a7f033b68d547318d1bd28aa6379d63",
+        mDataset.add(new AlMaghribUpcomingSeminarBannerModel(null,//"https://fbcdn-photos-d-a.akamaihd.net/hphotos-ak-xal1/v/t1.0-0/s480x480/12088289_961360220603205_3150621638343165157_n.jpg?oh=b5b04443914eb87cc07fc433382d790b&oe=56CC5CCA&__gda__=1456602297_5a7f033b68d547318d1bd28aa6379d63",
                 "Toronto", "World of Dreams", "Shaykh Waleed Basyouni", "January 1-10", "University of Egypt"));
-        mDataset.add(new AlMaghribUpcomingSeminarBannerModel("http://i1.imgiz.com/rshots/8818/islam-channelden-asad-lath-a9-icin-ne-dedi_8818494-6980_640x360.jpg",
+        mDataset.add(new AlMaghribUpcomingSeminarBannerModel(null,//"http://i1.imgiz.com/rshots/8818/islam-channelden-asad-lath-a9-icin-ne-dedi_8818494-6980_640x360.jpg",
                 "London","World of Funnnn", "Shaykh Asad Lath", "February 1-10", "Regents Park Hall"));
 
         mAdapter = new RecyclerViewMaterialAdapter(

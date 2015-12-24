@@ -72,7 +72,7 @@ public class SeminarCardAdapter extends RecyclerView.Adapter<SeminarCardAdapter.
         // - replace the contents of the view with that element
         final AlMaghribUpcomingSeminarBannerModel bannerModel = mDataset.get(position);
 
-        holder.mBannerImageView.setDefaultImageResId(R.drawable.waleed);
+        holder.mBannerImageView.setDefaultImageResId(R.drawable.love_notes_card);
         holder.mBannerImageView.setImageUrl(bannerModel.getBannerUrl(), mImageLoader);
         final String transitionName = mActivity.getString(R.string.seminar_banner_name) + position;
         ViewCompat.setTransitionName(holder.mBannerImageView, transitionName);

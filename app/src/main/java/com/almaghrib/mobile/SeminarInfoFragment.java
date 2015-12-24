@@ -46,8 +46,8 @@ public class SeminarInfoFragment extends Fragment {
         final View layoutView = inflater.inflate(R.layout.seminar_info_page, container, false);
 
         final FeedImageView bannerImageView = (FeedImageView) layoutView.findViewById(R.id.seminarBannerImageView);
-        bannerImageView.setDefaultImageResId(R.drawable.waleed);
-        bannerImageView.setImageUrl("https://scontent.cdninstagram.com/hphotos-xap1/t51.2885-15/s480x480/e35/11939401_1389735914666697_1538854467_n.jpg", mImageLoader);
+        bannerImageView.setDefaultImageResId(R.drawable.love_notes_card);
+        //bannerImageView.setImageUrl("https://scontent.cdninstagram.com/hphotos-xap1/t51.2885-15/s480x480/e35/11939401_1389735914666697_1538854467_n.jpg", mImageLoader);
 
         final Bundle bundle = getArguments();
         if (bundle != null) {
