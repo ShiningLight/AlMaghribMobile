@@ -1,10 +1,19 @@
 package com.almaghrib.mobile;
 
 import android.app.Activity;
+import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.RecyclerView;
+import android.transition.ChangeBounds;
+import android.transition.ChangeImageTransform;
+import android.transition.ChangeTransform;
+import android.transition.Fade;
+import android.transition.TransitionSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.almaghrib.mobile.almaghribApi.jsonModels.AlMaghribJournalModelContainer;
@@ -25,30 +34,24 @@ public class NewsCardAdapter extends RecyclerView.Adapter<NewsCardAdapter.NewsCa
 
     // Provide a reference to the views for each data item
     protected static class NewsCardViewHolder extends RecyclerView.ViewHolder {
+        protected FeedImageView mBannerImageView;
+        protected TextView mJournalTitleTextView;
+        protected Button mReadMoreButton;
+
         public NewsCardViewHolder(View v) {
             super(v);
+            mBannerImageView = (FeedImageView) v.findViewById(R.id.seminarBannerImageView);
+            mJournalTitleTextView = (TextView) v.findViewById(R.id.titleTextView);
+            mReadMoreButton = (Button) v.findViewById(R.id.readMoreButton);
         }
     }
     // Provide a reference to the views for each data item
     protected static class VideoNewsCardViewHolder extends NewsCardViewHolder {
-        protected FeedImageView mBannerImageView;
-        protected TextView mJournalTitleTextView;
+        protected ImageButton mPlayButton;
 
         public VideoNewsCardViewHolder(View v) {
             super(v);
-            mBannerImageView = (FeedImageView) v.findViewById(R.id.seminarBannerImageView);
-            mJournalTitleTextView = (TextView) v.findViewById(R.id.titleTextView);
-        }
-    }
-    // Provide a reference to the views for each data item
-    protected static class ArticleNewsCardViewHolder extends NewsCardViewHolder {
-        protected FeedImageView mBannerImageView;
-        protected TextView mJournalTitleTextView;
-
-        public ArticleNewsCardViewHolder(View v) {
-            super(v);
-            mBannerImageView = (FeedImageView) v.findViewById(R.id.seminarBannerImageView);
-            mJournalTitleTextView = (TextView) v.findViewById(R.id.titleTextView);
+            mPlayButton = (ImageButton) v.findViewById(R.id.playImageButton);
         }
     }
 
@@ -90,7 +93,7 @@ public class NewsCardAdapter extends RecyclerView.Adapter<NewsCardAdapter.NewsCa
                 final View v = LayoutInflater.from(parent.getContext())
                         .inflate(R.layout.latest_journal_card, parent, false);
                 // set the view's size, margins, paddings and layout parameters
-                return new ArticleNewsCardViewHolder(v);
+                return new NewsCardViewHolder(v);
         }
     }
 
@@ -104,25 +107,28 @@ public class NewsCardAdapter extends RecyclerView.Adapter<NewsCardAdapter.NewsCa
         switch (holder.getItemViewType()) {
             case TYPE_VIDEO:
                 final VideoNewsCardViewHolder videoNewsHolder = (VideoNewsCardViewHolder) holder;
-                videoNewsHolder.mBannerImageView.setDefaultImageResId(R.drawable.love_notes_card);
-                videoNewsHolder.mBannerImageView.setImageUrl(bannerModel.getBannerUrl(), mImageLoader);
-                videoNewsHolder.mJournalTitleTextView.setText(bannerModel.getTitle());
+                // TODO: something for play button click
+
                 break;
             case TYPE_ARTICLE:
-                final ArticleNewsCardViewHolder articleNewsHolder = (ArticleNewsCardViewHolder) holder;
-                articleNewsHolder.mBannerImageView.setDefaultImageResId(R.drawable.love_notes_card);
-                articleNewsHolder.mBannerImageView.setImageUrl(bannerModel.getBannerUrl(), mImageLoader);
-                articleNewsHolder.mJournalTitleTextView.setText(bannerModel.getTitle());
                 break;
         }
 
-        // set on click listener on view so we still get ripple effect
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
+        holder.mBannerImageView.setDefaultImageResId(R.drawable.love_notes_card);
+        holder.mBannerImageView.setImageUrl(bannerModel.getBannerUrl(), mImageLoader);
+        holder.mJournalTitleTextView.setText(bannerModel.getTitle());
+        final String transitionName = mActivity.getString(R.string.seminar_banner_name) + position;
+        ViewCompat.setTransitionName(holder.mBannerImageView, transitionName);
+
+        final View.OnClickListener openArticleListener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //addNextFragment(holder.mBannerImageView, false);
+                addNextFragment(holder.mBannerImageView);
             }
-        });
+        };
+        // set on click listener on view so we still get ripple effect
+        holder.itemView.setOnClickListener(openArticleListener);
+        holder.mReadMoreButton.setOnClickListener(openArticleListener);
     }
 
     // Return the size of your dataset (invoked by the layout manager)
@@ -134,6 +140,31 @@ public class NewsCardAdapter extends RecyclerView.Adapter<NewsCardAdapter.NewsCa
     public void updateItems(List<AlMaghribNewsModelContainer> dataset) {
         mDataset = dataset;
         notifyDataSetChanged();
+    }
+
+    private void addNextFragment(ImageView imageView) {
+        final String transitionName = ViewCompat.getTransitionName(imageView);
+        NewsArticleFragment sharedElementFragment2 = NewsArticleFragment.init(transitionName);
+
+        sharedElementFragment2.setSharedElementEnterTransition(new DetailsTransition());
+        sharedElementFragment2.setEnterTransition(new Fade());
+        //setExitTransition(new Fade());
+        sharedElementFragment2.setSharedElementReturnTransition(new DetailsTransition());
+
+        final HomePageActivity homePageActivity = (HomePageActivity) mActivity;
+        homePageActivity.getSupportFragmentManager().beginTransaction()
+                .replace(R.id.content_frame, sharedElementFragment2)
+                .addSharedElement(imageView, transitionName)
+                .commit();
+    }
+
+    private class DetailsTransition extends TransitionSet {
+        public DetailsTransition() {
+            setOrdering(ORDERING_TOGETHER);
+            addTransition(new ChangeBounds()).
+                    addTransition(new ChangeTransform()).
+                    addTransition(new ChangeImageTransform());
+        }
     }
 
 }

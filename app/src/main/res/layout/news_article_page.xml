@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true">
+
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/my_appbar_container"
+        android:layout_width="match_parent"
+        android:layout_height="192dp"
+        android:fitsSystemWindows="true"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
+        <android.support.design.widget.CollapsingToolbarLayout
+            android:id="@+id/collapsing_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:contentScrim="@color/almaghrib_purple"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed"
+            app:expandedTitleTextAppearance="@android:color/transparent">
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:fitsSystemWindows="true">
+
+                <com.almaghrib.mobile.util.view.FeedImageView
+                    android:id="@+id/seminarBannerImageView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:fitsSystemWindows="true"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/love_notes_card"
+                    app:layout_collapseMode="parallax" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    android:weightSum="4">
+                    <!-- Left side spacer -->
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1" />
+                    <LinearLayout
+                        android:id="@+id/journal_info_layout"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="2"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:paddingBottom="15dp">
+                        <View
+                            android:layout_width="wrap_content"
+                            android:layout_height="1dp"
+                            android:layout_marginBottom="15dp"
+                            android:background="@color/white" />
+                        <TextView
+                            android:id="@+id/titleTextView"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:text="AlMaghrib launches in Australia"
+                            android:textAllCaps="true"
+                            android:textColor="@color/white"
+                            android:textSize="16sp"
+                            android:textStyle="bold" />
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:layout_marginTop="15dp"
+                            android:background="@color/white" />
+                    </LinearLayout>
+                    <!-- Right side spacer -->
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1" />
+                </LinearLayout>
+
+            </FrameLayout>
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/technique_three_toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+                app:layout_collapseMode="pin" />
+
+        </android.support.design.widget.CollapsingToolbarLayout>
+
+    </android.support.design.widget.AppBarLayout>
+
+    <android.support.v4.widget.NestedScrollView
+        android:id="@+id/scrollView2"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingTop="15dp"
+                android:paddingLeft="20dp"
+                android:paddingRight="10dp"
+                android:paddingBottom="10dp">
+
+                <TextView
+                    android:id="@+id/seminarInfoTitleTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Posted by: Admin"
+                    android:textColor="@color/black"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/seminarInfoBodyTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="This is the course you hada llbeenwaitin gforand thisis thedum- mytextyouw antedtose eimplemente dinthisareawh ichwillgive
+informationinregardstothecourse,whatitoffersetc..
+
+However, this areawi llbelimitedt oacertai nnumb erofworsthen willdispl ayanarrowthatwillsho wmoreco ntentifneedbe displayed.
+
+This is the course you hada llbeenwaitin gforand thisis thedum- mytextyouw antedtose eimplemente dinthisareawh ichwillgive
+informationinregardstothecourse,whatitoffersetc..
+
+However, this areawi llbelimitedt oacertai nnumb erofworsthen willdispl ayanarrowthatwillsho wmoreco ntentifneedbe displayed
+
+This is the course you hada llbeenwaitin gforand thisis thedum- mytextyouw antedtose eimplemente dinthisareawh ichwillgive
+informationinregardstothecourse,whatitoffersetc..
+
+However, this areawi llbelimitedt oacertai nnumb erofworsthen willdispl ayanarrowthatwillsho wmoreco ntentifneedbe displayed
+
+This is the course you hada llbeenwaitin gforand thisis thedum- mytextyouw antedtose eimplemente dinthisareawh ichwillgive
+informationinregardstothecourse,whatitoffersetc..
+
+However, this areawi llbelimitedt oacertai nnumb erofworsthen willdispl ayanarrowthatwillsho wmoreco ntentifneedbe displayed
+
+This is the course you hada llbeenwaitin gforand thisis thedum- mytextyouw antedtose eimplemente dinthisareawh ichwillgive
+informationinregardstothecourse,whatitoffersetc..
+
+However, this areawi llbelimitedt oacertai nnumb erofworsthen willdispl ayanarrowthatwillsho wmoreco ntentifneedbe displayed
+
+This is the course you hada llbeenwaitin gforand thisis thedum- mytextyouw antedtose eimplemente dinthisareawh ichwillgive
+informationinregardstothecourse,whatitoffersetc..
+
+However, this areawi llbelimitedt oacertai nnumb erofworsthen willdispl ayanarrowthatwillsho wmoreco ntentifneedbe displayed. This is the course you hada llbeenwaitin gforand thisis thedum- mytextyouw antedtose eimplemente dinthisareawh ichwillgive
+informationinregardstothecourse,whatitoffersetc..
+
+However, this areawi llbelimitedt oacertai nnumb erofworsthen willdispl ayanarrowthatwillsho wmoreco ntentifneedbe displayed"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:textColor="@color/black" />
+
+            </LinearLayout>
+
+    </android.support.v4.widget.NestedScrollView>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fabPurchase"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:src="@drawable/add_cart_icon"
+        app:borderWidth="0dp"
+        app:layout_anchor="@id/my_appbar_container"
+        app:layout_anchorGravity="top|right|end" />
+
+</android.support.design.widget.CoordinatorLayout>
