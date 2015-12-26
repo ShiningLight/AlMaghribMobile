@@ -39,7 +39,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/playImageButton"
                 android:layout_gravity="center_horizontal"
-                android:background="@drawable/more"/>
+                android:background="@drawable/play_button_icon"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
