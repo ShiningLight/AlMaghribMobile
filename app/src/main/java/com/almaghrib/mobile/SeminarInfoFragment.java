@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewCompat;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
@@ -13,8 +14,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.almaghrib.mobile.instructors.jsonModels.InstructorModelContainer;
 import com.almaghrib.mobile.util.view.FeedImageView;
+import com.almaghrib.mobile.util.view.SimpleViewPagerIndicator;
 import com.android.volley.toolbox.ImageLoader;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class SeminarInfoFragment extends Fragment {
 
@@ -71,6 +77,32 @@ public class SeminarInfoFragment extends Fragment {
         CollapsingToolbarLayout collapsingToolbar =
                 (CollapsingToolbarLayout) layoutView.findViewById(R.id.collapsing_container);
         collapsingToolbar.setTitle("Love Notes");
+
+        final List<InstructorModelContainer> instructorList = new ArrayList<InstructorModelContainer>();
+        instructorList.add(new InstructorModelContainer("Shaykh Waleed Basyouni", "Vice President", "Euston", "fjesnkfe fe fwk"));
+        instructorList.add(new InstructorModelContainer("Shaykh Wadwaw eww", "President", "London", "fjesnkfe fe fwk"));
+        instructorList.add(new InstructorModelContainer("Shaykh Wadwaw eww", "President", "London", "fjesnkfe fe fwk"));
+        instructorList.add(new InstructorModelContainer("Shaykh Yasir Qadhi", "Dean", "Memphis", "fjesnkfe fe fwk"));
+        instructorList.add(new InstructorModelContainer("Shaykh Yasir Qadhi", "Dean", "Memphis", "fjesnkfe fe fwk"));
+        instructorList.add(new InstructorModelContainer("Shaykh Yasir Qadhi", "Dean", "Memphis", "fjesnkfe fe fwk"));
+        instructorList.add(new InstructorModelContainer("Shaykh Yasir Qadhi", "Dean", "Memphis", "fjesnkfe fe fwk"));
+        instructorList.add(new InstructorModelContainer("Shaykh Yasir Qadhi", "Dean", "Memphis", "fjesnkfe fe fwk"));
+        instructorList.add(new InstructorModelContainer("Shaykh Yasir Qadhi", "Dean", "Memphis", "fjesnkfe fe fwk"));
+        instructorList.add(new InstructorModelContainer("Shaykh Yasir Qadhi", "Dean", "Memphis", "fjesnkfe fe fwk"));
+
+        final InstructorViewPagerAdapter viewPagerAdapter = new InstructorViewPagerAdapter(getActivity(), instructorList);
+
+        final ViewPager viewPager = (ViewPager) layoutView.findViewById(R.id.instructor_viewPager);
+        viewPager.setAdapter(viewPagerAdapter);
+        viewPager.setCurrentItem(0, true);
+        viewPager.setOffscreenPageLimit(2);
+
+        final SimpleViewPagerIndicator pageIndicator = (SimpleViewPagerIndicator) layoutView.findViewById(R.id.page_indicator);
+        if (instructorList.size() > 1) {
+            pageIndicator.setViewPager(viewPager);
+        } else {
+            pageIndicator.setVisibility(View.GONE);
+        }
 
         return layoutView;
     }
