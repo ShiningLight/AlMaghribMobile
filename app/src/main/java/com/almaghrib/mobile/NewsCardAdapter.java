@@ -91,7 +91,7 @@ public class NewsCardAdapter extends RecyclerView.Adapter<NewsCardAdapter.NewsCa
             default:
                 // create a new view
                 final View v = LayoutInflater.from(parent.getContext())
-                        .inflate(R.layout.latest_journal_card, parent, false);
+                        .inflate(R.layout.news_regular_item_card, parent, false);
                 // set the view's size, margins, paddings and layout parameters
                 return new NewsCardViewHolder(v);
         }

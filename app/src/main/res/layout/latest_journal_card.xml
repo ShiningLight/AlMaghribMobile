@@ -24,82 +24,47 @@
             android:src="@drawable/love_notes_card"
             android:tint="#7900000F" />
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:orientation="vertical"
-            android:padding="5dp"
+            android:layout_gravity="bottom"
+            android:gravity="center_vertical"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
             android:paddingBottom="10dp"
-            android:paddingTop="10dp">
+            android:paddingTop="10dp"
+            android:background="#79CA6959">
 
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal"
-                android:weightSum="5">
-                <!-- Left side spacer -->
-                <View
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1" />
-                <LinearLayout
-                    android:id="@+id/journal_info_layout"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_weight="3"
-                    android:gravity="center"
-                    android:orientation="vertical"
-                    android:paddingBottom="15dp">
-                    <View
-                        android:id="@+id/topDivider"
-                        android:layout_width="wrap_content"
-                        android:layout_height="1dp"
-                        android:layout_marginBottom="15dp"
-                        android:background="@color/white" />
-                    <TextView
-                        android:id="@+id/titleTextView"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:text="Large Text"
-                        android:textAllCaps="true"
-                        android:textColor="@color/white"
-                        android:textSize="16sp"
-                        android:textStyle="bold" />
-                    <View
-                        android:id="@+id/bottomDivider"
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:layout_marginTop="15dp"
-                        android:background="@color/white" />
-                </LinearLayout>
-                <!-- Right side spacer -->
-                <View
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1" />
-            </LinearLayout>
-
-            <Button
-                android:id="@+id/readMoreButton"
+            <TextView
+                android:id="@+id/titleTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:background="@drawable/circular_button"
-                android:paddingLeft="20dp"
-                android:paddingRight="20dp"
-                android:minHeight="30dp"
-                android:gravity="center"
-                android:text="@string/read_more"
-                android:textAllCaps="false"
+                android:gravity="left|center_vertical"
+                android:text="Large Text"
+                android:textAllCaps="true"
                 android:textColor="@color/white"
-                android:textSize="12sp" />
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:maxLines="2"
+                android:layout_centerVertical="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_toLeftOf="@+id/journalIconImageView"
+                android:layout_alignTop="@+id/journalIconImageView"
+                android:layout_alignBottom="@+id/journalIconImageView"/>
 
-        </LinearLayout>
+            <ImageView
+                android:id="@+id/journalIconImageView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/myaccount_book"
+                android:layout_marginLeft="20dp"
+                android:minHeight="30dp"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:gravity="center_vertical"/>
+
+        </RelativeLayout>
 
     </FrameLayout>
 
