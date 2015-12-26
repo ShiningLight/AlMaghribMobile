@@ -67,7 +67,7 @@
                             android:text="AlMaghrib launches in Australia"
                             android:textAllCaps="true"
                             android:textColor="@color/white"
-                            android:textSize="16sp"
+                            android:textSize="14sp"
                             android:textStyle="bold" />
                         <View
                             android:layout_width="match_parent"
