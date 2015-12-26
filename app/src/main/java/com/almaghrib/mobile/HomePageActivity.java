@@ -256,10 +256,13 @@ public class HomePageActivity extends AppCompatActivity implements NavigationVie
         if (mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
             mDrawerLayout.closeDrawers();
         } else {
-            // If not in Home, move back to Home - just checking action bar title here
-            if (!getString(R.string.title_home).equals(getSupportActionBar().getTitle())) {
+            // If not in Home, move back to Home - just checking if fragment present
+            final FragmentManager fragmentManager = getSupportFragmentManager();
+            final String tag = "HomeFragment";
+            if (fragmentManager.findFragmentByTag(tag) == null) {
                 onNavigationItemSelected(mNavigationView.getMenu().findItem(R.id.home));
             } else {
+                // must be on home page with home fragment present
                 super.onBackPressed();
             }
         }
