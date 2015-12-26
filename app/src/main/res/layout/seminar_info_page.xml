@@ -222,7 +222,7 @@ However, this areawi llbelimitedt oacertai nnumb erofworsthen willdispl ayanarro
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:background="@drawable/ilmfest"
+                    android:background="@drawable/expand_arrow"
                     android:layout_marginTop="8dp"
                     android:layout_marginBottom="15dp"/>
             </LinearLayout>
