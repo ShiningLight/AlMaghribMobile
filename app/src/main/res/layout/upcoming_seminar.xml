@@ -19,7 +19,7 @@
             android:id="@+id/seminarBannerImageView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:tint="#9900000F"
+            android:tint="#7900000F"
             android:src="@drawable/love_notes_card"
             android:scaleType="fitXY"
             android:adjustViewBounds="true"/>

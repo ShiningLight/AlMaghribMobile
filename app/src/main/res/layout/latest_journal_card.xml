@@ -22,7 +22,7 @@
             android:adjustViewBounds="true"
             android:scaleType="fitXY"
             android:src="@drawable/love_notes_card"
-            android:tint="#9900000F" />
+            android:tint="#7900000F" />
 
         <LinearLayout
             android:layout_width="match_parent"
