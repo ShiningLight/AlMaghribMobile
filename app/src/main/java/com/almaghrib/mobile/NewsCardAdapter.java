@@ -123,7 +123,7 @@ public class NewsCardAdapter extends RecyclerView.Adapter<NewsCardAdapter.NewsCa
         final View.OnClickListener openArticleListener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                addNextFragment(holder.mBannerImageView);
+                addNextFragment(holder.mBannerImageView, bannerModel);
             }
         };
         // set on click listener on view so we still get ripple effect
@@ -142,9 +142,9 @@ public class NewsCardAdapter extends RecyclerView.Adapter<NewsCardAdapter.NewsCa
         notifyDataSetChanged();
     }
 
-    private void addNextFragment(ImageView imageView) {
+    private void addNextFragment(ImageView imageView, AlMaghribNewsModelContainer model) {
         final String transitionName = ViewCompat.getTransitionName(imageView);
-        NewsArticleFragment sharedElementFragment2 = NewsArticleFragment.init(transitionName);
+        NewsArticleFragment sharedElementFragment2 = NewsArticleFragment.init(transitionName, model);
 
         sharedElementFragment2.setSharedElementEnterTransition(new DetailsTransition());
         sharedElementFragment2.setEnterTransition(new Fade());

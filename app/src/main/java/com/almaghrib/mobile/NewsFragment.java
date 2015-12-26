@@ -50,7 +50,28 @@ public class NewsFragment extends Fragment {
         mDataset = new ArrayList<AlMaghribNewsModelContainer>();
 
         // TODO : remove dummy data
-        mDataset.add(new AlMaghribNewsModelContainer(null, "AlMaghrib launches in Australia", "Admin", "ef sf fuifehf ef hw wf", null));
+        mDataset.add(new AlMaghribNewsModelContainer(null, "AlMaghrib launches in Australia", "Admin", "ef sf fuifehf ef hw wf This is the course you hada llbeenwaitin gforand thisis thedum- mytextyouw antedtose eimplemente dinthisareawh ichwillgive\n" +
+                "informationinregardstothecourse,whatitoffersetc..\n" +
+                "\n" +
+                "However, this areawi llbelimitedt oacertai nnumb erofworsthen willdispl ayanarrowthatwillsho wmoreco ntentifneedbe displayed.\n" +
+                "\n" +
+                "This is the course you hada llbeenwaitin gforand thisis thedum- mytextyouw antedtose eimplemente dinthisareawh ichwillgive\n" +
+                "informationinregardstothecourse,whatitoffersetc..\n" +
+                "\n" +
+                "However, this areawi llbelimitedt oacertai nnumb erofworsthen willdispl ayanarrowthatwillsho wmoreco ntentifneedbe displayed\n" +
+                "\n" +
+                "This is the course you hada llbeenwaitin gforand thisis thedum- mytextyouw antedtose eimplemente dinthisareawh ichwillgive\n" +
+                "informationinregardstothecourse,whatitoffersetc..\n" +
+                "\n" +
+                "However, this areawi llbelimitedt oacertai nnumb erofworsthen willdispl ayanarrowthatwillsho wmoreco ntentifneedbe displayed\n" +
+                "\n" +
+                "This is the course you hada llbeenwaitin gforand thisis thedum- mytextyouw antedtose eimplemente dinthisareawh ichwillgive\n" +
+                "informationinregardstothecourse,whatitoffersetc..\n" +
+                "\n" +
+                "However, this areawi llbelimitedt oacertai nnumb erofworsthen willdispl ayanarrowthatwillsho wmoreco ntentifneedbe displayed\n" +
+                "\n" +
+                "This is the course you hada llbeenwaitin gforand thisis thedum- mytextyouw antedtose eimplemente dinthisareawh ichwillgive\n" +
+                "informationinregardstothecourse,whatitoffersetc..\n", "video url"));
         mDataset.add(new AlMaghribNewsModelContainer(null, "Global Impact Day makes an entrance", "Admin", "ef sf fuifehf ef hw wf", null));
         mDataset.add(new AlMaghribNewsModelContainer(null, "QShams wins Liwa Cup", "Admin", "ef sf fuifehf ef hw wf", "dummyurl"));
         mDataset.add(new AlMaghribNewsModelContainer(null, "AlMaghrib launches in Jamaica", "Admin", "ef sf fuifehf ef hw wf", null));

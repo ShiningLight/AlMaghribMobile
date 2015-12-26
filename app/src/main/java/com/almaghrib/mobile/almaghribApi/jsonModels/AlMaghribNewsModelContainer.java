@@ -1,6 +1,8 @@
 package com.almaghrib.mobile.almaghribApi.jsonModels;
 
-public class AlMaghribNewsModelContainer {
+import java.io.Serializable;
+
+public class AlMaghribNewsModelContainer implements Serializable {
     private String bannerUrl;
     private String title;
     private String author;
