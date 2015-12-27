@@ -1,18 +1,23 @@
 package com.almaghrib.mobile.almaghribApi.jsonModels;
 
-public class AlMaghribUpcomingSeminarBannerModel {
+import java.io.Serializable;
+
+public class AlMaghribUpcomingSeminarBannerModel implements Serializable {
     private String url;
     private String upcomingLocation;
     private String seminarName;
+    private String seminarSubName;
     private String intructorName;
     private String date;
     private String venue;
 
     public AlMaghribUpcomingSeminarBannerModel(String url, String upcomingLocation,
-                                               String seminarName, String intructorName, String date, String venue) {
+                                               String seminarName, String seminarSubName,
+                                               String intructorName, String date, String venue) {
         this.url = url;
         this.upcomingLocation = upcomingLocation;
         this.seminarName = seminarName;
+        this.seminarSubName = seminarSubName;
         this.intructorName = intructorName;
         this.date = date;
         this.venue = venue;
@@ -28,6 +33,10 @@ public class AlMaghribUpcomingSeminarBannerModel {
 
     public String getSeminarName() {
         return seminarName;
+    }
+
+    public String getSeminarSubName() {
+        return seminarSubName;
     }
 
     public String getInstructorName() {

@@ -85,7 +85,7 @@ public class SeminarCardAdapter extends RecyclerView.Adapter<SeminarCardAdapter.
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                addNextFragment(holder.mBannerImageView, false);
+                addNextFragment(holder.mBannerImageView, false, bannerModel);
             }
         });
     }
@@ -101,9 +101,9 @@ public class SeminarCardAdapter extends RecyclerView.Adapter<SeminarCardAdapter.
         notifyDataSetChanged();
     }
 
-    private void addNextFragment(ImageView imageView, boolean overlap) {
+    private void addNextFragment(ImageView imageView, boolean overlap, AlMaghribUpcomingSeminarBannerModel bannerModel) {
         final String transitionName = ViewCompat.getTransitionName(imageView);
-        SeminarInfoFragment sharedElementFragment2 = SeminarInfoFragment.init(transitionName);
+        SeminarInfoFragment sharedElementFragment2 = SeminarInfoFragment.init(transitionName, bannerModel);
 
         // Defines enter transition for all fragment views
 //        Slide slideTransition = new Slide(Gravity.BOTTOM);
