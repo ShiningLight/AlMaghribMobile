@@ -391,7 +391,8 @@ However, this areawi llbelimitedt oacertai nnumb erofworsthen willdispl ayanarro
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/instructor_view_bkgrd"
-                android:gravity="center_horizontal" />
+                android:gravity="center_horizontal"
+                android:paddingBottom="5dp"/>
 
         </LinearLayout>
 

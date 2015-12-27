@@ -88,22 +88,25 @@ public class SimpleViewPagerIndicator extends LinearLayout implements OnPageChan
                 ImageView item = new ImageView(context);
 
                 if (i == pager.getCurrentItem()) {
-                    item.setImageResource(R.drawable.bulb_lit);
+                    item.setImageResource(R.drawable.selecteditem_dot);//bulb_lit);
                 } else {
-                    item.setImageResource(R.drawable.bulb_unlit);
+                    item.setImageResource(R.drawable.nonselecteditem_dot);//bulb_unlit);
                 }
 
-                final LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
-                        LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-                int leftMargin = -35;
-                int rightMargin = -35;
+                final LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                        LinearLayout.LayoutParams.WRAP_CONTENT,
+                        LinearLayout.LayoutParams.WRAP_CONTENT
+                );
+                int leftMargin = 6;
+                int rightMargin = 6;
                 if (i == 0) {
                     leftMargin = 0;
-                } else if (i == pager.getAdapter().getCount()-1) {
+                } else if (i == pager.getAdapter().getCount() - 1) {
                     rightMargin = 0;
                 }
-                lp.setMargins(leftMargin, 0, rightMargin, 0);
-                item.setLayoutParams(lp);
+                params.setMargins(leftMargin, 0, rightMargin, 0);
+
+                item.setLayoutParams(params);
 
                 item.setTag(i);
                 item.setOnClickListener(itemClickListener);
@@ -140,9 +143,9 @@ public class SimpleViewPagerIndicator extends LinearLayout implements OnPageChan
                 ImageView item = items.get(i);
                 if (item != null) {
                     if (i == position) {
-                        item.setImageResource(R.drawable.bulb_lit);
+                        item.setImageResource(R.drawable.selecteditem_dot);//bulb_lit);
                     } else {
-                        item.setImageResource(R.drawable.bulb_unlit);
+                        item.setImageResource(R.drawable.nonselecteditem_dot);//bulb_unlit);
                     }
                 }
             }
