@@ -1,31 +1,16 @@
 package com.almaghrib.mobile;
 
-import android.graphics.Color;
-import android.os.Bundle;
+import android.content.res.Resources;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.view.LayoutInflater;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Toast;
+import android.support.v4.view.PagerAdapter;
 
 import com.github.florent37.materialviewpager.MaterialViewPager;
 import com.github.florent37.materialviewpager.header.HeaderDesign;
 
-public class HomeFragment extends Fragment {
+public class HomeFragment extends MaterialViewPagerFragment {
     private static final String TAG = HomeFragment.class.getSimpleName();
-
-    private MaterialViewPager mViewPager;
-    private Toolbar mToolbar;
-    private ActionBarDrawerToggle mDrawerToggle;
-    private DrawerLayout mDrawer;
 
     public HomeFragment() {
         super();
@@ -36,98 +21,47 @@ public class HomeFragment extends Fragment {
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-
+    protected PagerAdapter getFragmentStatePagerAdaper(FragmentManager childFragmentManager) {
+        return new HomeScreenTabsAdapter(childFragmentManager);
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        final View layoutView = inflater.inflate(R.layout.home_page, container, false);
+    protected MaterialViewPager.Listener getMaterialViewPagerListener(Resources resources) {
+        return new HomeMaterialViewPagerListener(resources);
+    }
 
-        getActivity().setTitle("");
+    private static class HomeMaterialViewPagerListener implements MaterialViewPager.Listener {
+        private final Resources mResources;
 
-        mViewPager = (MaterialViewPager) layoutView.findViewById(R.id.materialViewPager);
-
-        mToolbar = mViewPager.getToolbar();
-
-        if (mToolbar != null) {
-            final AppCompatActivity parentActivity = (AppCompatActivity) getActivity();
-            parentActivity.getSupportActionBar().hide();
-            parentActivity.setSupportActionBar(mToolbar);
-
-            final ActionBar actionBar = parentActivity.getSupportActionBar();
-            if (actionBar != null) {
-                actionBar.setDisplayHomeAsUpEnabled(true);
-                actionBar.setDisplayShowHomeEnabled(true);
-                actionBar.setDisplayShowTitleEnabled(true);
-                actionBar.setDisplayUseLogoEnabled(false);
-                actionBar.setHomeButtonEnabled(true);
-            }
+        public HomeMaterialViewPagerListener(final Resources resources) {
+            mResources = resources;
         }
 
-        mViewPager.getViewPager().setAdapter(new HomeScreenTabsAdapter(getChildFragmentManager()));
-
-        mViewPager.setMaterialViewPagerListener(new MaterialViewPager.Listener() {
-            @Override
-            public HeaderDesign getHeaderDesign(int page) {
-                switch (page) {
-                    case 0:
-                        return HeaderDesign.fromColorAndDrawable(
-                                getResources().getColor(R.color.almaghrib_purple),
-                                getResources().getDrawable(R.drawable.banner_one));
-                    case 1:
-                        return HeaderDesign.fromColorAndDrawable(
-                                getResources().getColor(R.color.almaghrib_purple),
-                                getResources().getDrawable(R.drawable.banner_two));
-                    case 2:
+        @Override
+        public HeaderDesign getHeaderDesign(int page) {
+            switch (page) {
+                case 0:
+                    return HeaderDesign.fromColorAndDrawable(
+                            mResources.getColor(R.color.almaghrib_purple),
+                            mResources.getDrawable(R.drawable.banner_one));
+                case 1:
+                    return HeaderDesign.fromColorAndDrawable(
+                            mResources.getColor(R.color.almaghrib_purple),
+                            mResources.getDrawable(R.drawable.banner_two));
+                case 2:
 //                        return HeaderDesign.fromColorResAndUrl(
 //                                R.color.cyan,
 //                                "http://www.droid-life.com/wp-content/uploads/2014/10/lollipop-wallpapers10.jpg");
-                    case 3:
+                case 3:
 //                        return HeaderDesign.fromColorResAndUrl(
 //                                R.color.red,
 //                                "http://www.tothemobile.com/wp-content/uploads/2014/07/original.jpg");
-                    default:
-                        return HeaderDesign.fromColorAndDrawable(
-                                getResources().getColor(R.color.almaghrib_purple),
-                                getResources().getDrawable(R.drawable.banner_one));
-                }
-
+                default:
+                    return HeaderDesign.fromColorAndDrawable(
+                            mResources.getColor(R.color.almaghrib_purple),
+                            mResources.getDrawable(R.drawable.banner_one));
             }
-        });
-
-        mViewPager.getViewPager().setOffscreenPageLimit(mViewPager.getViewPager().getAdapter().getCount());
-        mViewPager.getPagerTitleStrip().setViewPager(mViewPager.getViewPager());
-
-        View logo = layoutView.findViewById(R.id.logo_white);
-        if (logo != null)
-            logo.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    mViewPager.notifyHeaderChanged();
-                    Toast.makeText(getActivity().getApplicationContext(), "Yes, the title is clickable", Toast.LENGTH_SHORT).show();
-                }
-            });
-
-        return layoutView;
-    }
-
-
-    @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        mDrawer = (DrawerLayout) getActivity().findViewById(R.id.drawer_layout);
-        mDrawerToggle = new ActionBarDrawerToggle(getActivity(), mDrawer, 0, 0);
-        mDrawer.setDrawerListener(mDrawerToggle);
-        mDrawerToggle.syncState();
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        return mDrawerToggle.onOptionsItemSelected(item);
+        }
     }
 
     /**

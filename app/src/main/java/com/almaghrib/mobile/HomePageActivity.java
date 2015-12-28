@@ -2,7 +2,6 @@ package com.almaghrib.mobile;
 
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -66,7 +65,7 @@ public class HomePageActivity extends AppCompatActivity implements NavigationVie
             }
             final String title = savedInstanceState.getString(CURRENT_TITLE, "");
             if (!title.isEmpty()) {
-                getSupportActionBar().setTitle(title);
+                //getSupportActionBar().setTitle(title);
             }
         }
         // set and open first item on launch
@@ -230,12 +229,8 @@ public class HomePageActivity extends AppCompatActivity implements NavigationVie
                 startFragment(HomePageActivity.this, new MyAccountFragment());
                 break;
             case R.id.register: // Register
-                // Don't set as selected item as it will open an external app
-                final Intent browserIntent = new Intent(Intent.ACTION_VIEW,
-                        Uri.parse(getApplicationContext().getString(R.string.register_url)));
-                startActivity(browserIntent);
-                mDrawerLayout.closeDrawers();
-                return true;
+                startFragment(HomePageActivity.this, new UpcomingSeminarsFragment());
+                break;
 //            case R.id.ilmfest:
 //                break;
 //            case R.id.ilmsummit:
@@ -244,7 +239,7 @@ public class HomePageActivity extends AppCompatActivity implements NavigationVie
 
         menuItem.setChecked(true);
         mCurrentlySelectedItem = menuItem.getItemId();
-        getSupportActionBar().setTitle(menuItem.getTitle());
+        //getSupportActionBar().setTitle(menuItem.getTitle());
         mDrawerLayout.closeDrawers();
 
         return true;
@@ -271,28 +266,7 @@ public class HomePageActivity extends AppCompatActivity implements NavigationVie
     public void setDrawerItem(int itemId, String title) {
         mNavigationView.getMenu().findItem(itemId).setChecked(true);
         mCurrentlySelectedItem = itemId;
-        getSupportActionBar().setTitle(title);
-    }
-
-
-    public void upcomingButtonAction(View view) {
-        startFragment(this, new UpcomingSeminarsFragment());
-        getSupportActionBar().setTitle(R.string.upcoming_title);
-    }
-
-    public void almaghribTalksButtonAction(View view) {
-        startFragment(HomePageActivity.this, new SocialUpdatesFragment());
-        getSupportActionBar().setTitle(R.string.title_social);
-    }
-
-    public void blogAndSocialButtonAction(View view) {
-        startFragment(HomePageActivity.this, new SocialUpdatesFragment());
-        getSupportActionBar().setTitle(R.string.title_social);
-    }
-
-    public void checkInButtonAction(View view) {
-        startFragment(this, new CheckInFragment());
-        getSupportActionBar().setTitle(R.string.check_in);
+        //getSupportActionBar().setTitle(title);
     }
 
     public static void startFragment(FragmentActivity fragmentActivity, Fragment fragment) {
@@ -302,7 +276,7 @@ public class HomePageActivity extends AppCompatActivity implements NavigationVie
         final String tag = fragment.getClass().getSimpleName();
         // only add fragment if it isn't already showing
         if (fragmentManager.findFragmentByTag(tag) == null) {
-            fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE);
+            //fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE);
             fragmentTransaction.replace(R.id.content_frame, fragment, tag);
             fragmentTransaction.commit();
         }

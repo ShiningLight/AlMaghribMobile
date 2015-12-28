@@ -1,40 +1,27 @@
 package com.almaghrib.mobile;
 
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-public class UpcomingSeminarsFragment extends Fragment {
+import com.github.florent37.materialviewpager.MaterialViewPager;
+import com.github.florent37.materialviewpager.header.HeaderDesign;
+
+public class UpcomingSeminarsFragment extends MaterialViewPagerFragment {
 
     private static final String TAG = SocialUpdatesFragment.class.getSimpleName();
 
-    private static final int TAB_ITEMS = 2;
-
     public UpcomingSeminarsFragment() {
         super();
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        final View layoutView = inflater.inflate(R.layout.home_page_main_content, container, false);
-
-        // Create the adapter that will return a fragment for each of the three
-        // primary sections of the app.
-        final UpcomingSeminarsAdapter adapter =
-                new UpcomingSeminarsAdapter(getActivity().getSupportFragmentManager());
-
-        // The {@link ViewPager} that will host the section contents.
-        final ViewPager viewPager = (ViewPager) layoutView.findViewById(R.id.pager);
-        viewPager.setAdapter(adapter);
-
-        return layoutView;
     }
 
     @Override
@@ -61,13 +48,51 @@ public class UpcomingSeminarsFragment extends Fragment {
         super.onStop();
     }
 
+    @Override
+    protected PagerAdapter getFragmentStatePagerAdaper(FragmentManager childFragmentManager) {
+        return new UpcomingSeminarsAdapter(childFragmentManager);
+    }
+
+    @Override
+    protected MaterialViewPager.Listener getMaterialViewPagerListener(Resources resources) {
+        return new UpcomingSeminarsMaterialViewPagerListener(resources);
+    }
+
+    private static class UpcomingSeminarsMaterialViewPagerListener implements MaterialViewPager.Listener {
+        private final Resources mResources;
+
+        public UpcomingSeminarsMaterialViewPagerListener(final Resources resources) {
+            mResources = resources;
+        }
+
+        @Override
+        public HeaderDesign getHeaderDesign(int page) {
+            switch (page) {
+                case 0:
+                    return HeaderDesign.fromColorAndDrawable(
+                            mResources.getColor(R.color.almaghrib_purple),
+                            mResources.getDrawable(R.drawable.banner_one));
+                case 1:
+                    return HeaderDesign.fromColorAndDrawable(
+                            mResources.getColor(R.color.almaghrib_purple),
+                            mResources.getDrawable(R.drawable.banner_two));
+                default:
+                    return HeaderDesign.fromColorAndDrawable(
+                            mResources.getColor(R.color.almaghrib_purple),
+                            mResources.getDrawable(R.drawable.banner_one));
+            }
+        }
+    }
+
     /**
      * A {@link android.support.v4.app.FragmentStatePagerAdapter} that returns a fragment corresponding to
      * one of the sections/tabs/pages.
      */
-    protected static class UpcomingSeminarsAdapter extends FragmentStatePagerAdapter {
-        protected static final int POSITION_SEMINARS  = 0;
-        protected static final int POSITION_ONLINE = 1;
+    private static class UpcomingSeminarsAdapter extends FragmentStatePagerAdapter {
+        private static final int POSITION_SEMINARS  = 0;
+        private static final int POSITION_ONLINE = 1;
+
+        private static final int TAB_ITEMS = 2;
 
         private SparseArray<Fragment> mPageReferenceArray;
 
@@ -86,13 +111,13 @@ public class UpcomingSeminarsFragment extends Fragment {
             final Fragment fragment;
             switch (position) {
                 case POSITION_SEMINARS:  // 0
-                    fragment = SeminarsFragment.init();
+                    fragment = OnlineSeminarsFragment.init();
                     break;
                 case POSITION_ONLINE: // 1
                     fragment = OnlineSeminarsFragment.init();
                     break;
                 default:
-                    fragment = SeminarsFragment.init();
+                    fragment = OnlineSeminarsFragment.init();
             }
             mPageReferenceArray.put(position, fragment);
             return fragment;
@@ -102,11 +127,11 @@ public class UpcomingSeminarsFragment extends Fragment {
         public CharSequence getPageTitle(int position) {
             switch (position) {
                 case POSITION_SEMINARS:  // 0
-                    return SeminarsFragment.getFragmentName();
+                    return OnlineSeminarsFragment.getFragmentName();
                 case POSITION_ONLINE: // 1
                     return OnlineSeminarsFragment.getFragmentName();
                 default:
-                    return SeminarsFragment.getFragmentName();
+                    return OnlineSeminarsFragment.getFragmentName();
             }
         }
 

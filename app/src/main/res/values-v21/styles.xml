@@ -19,5 +19,8 @@
 
                 <item name="android:windowContentTransitions">true</item>
 
+                <!--<item name="colorControlHighlight">@color/darker_gray</item>-->
+                <item name="android:colorControlNormal">@color/white</item>
+            
         </style>
 </resources>
