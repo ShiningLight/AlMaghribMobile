@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.almaghrib.mobile.almaghribApi.jsonModels.AlMaghribHomeSeminarModelContainer;
 import com.almaghrib.mobile.almaghribApi.jsonModels.AlMaghribUpcomingSeminarBannerModel;
 import com.almaghrib.mobile.almaghribApi.jsonModels.AlMaghribUpcomingSeminarsLocationListModelContainer;
+import com.almaghrib.mobile.util.view.AVLoadingIndicatorButton;
 import com.almaghrib.mobile.util.view.FeedImageView;
 import com.github.florent37.materialviewpager.MaterialViewPagerHelper;
 import com.github.florent37.materialviewpager.adapter.RecyclerViewMaterialAdapter;
@@ -20,7 +21,7 @@ import com.github.florent37.materialviewpager.adapter.RecyclerViewMaterialAdapte
 import java.util.ArrayList;
 import java.util.List;
 
-public class OnlineSeminarsFragment extends Fragment{
+public class OnlineSeminarsFragment extends Fragment implements UpcomingSeminarCardAdapter.onRetrieveDataSelectedListener {
 
     private RecyclerView mRecyclerView;
     private LinearLayoutManager mLayoutManager;
@@ -47,8 +48,6 @@ public class OnlineSeminarsFragment extends Fragment{
                              Bundle savedInstanceState) {
         final View layoutView = inflater.inflate(R.layout.seminars_list_page, container, false);
 
-        //populateHeaderCard(layoutView);
-
         mRecyclerView = (RecyclerView) layoutView.findViewById(R.id.recyclerView);
         mRecyclerView.setHasFixedSize(true);
 
@@ -71,7 +70,7 @@ public class OnlineSeminarsFragment extends Fragment{
         cities.add("London");
         cities.add("Toronto");
 
-        final UpcomingSeminarCardAdapter upcomingSeminarCardAdapter = new UpcomingSeminarCardAdapter(getActivity(), mDataset);
+        final UpcomingSeminarCardAdapter upcomingSeminarCardAdapter = new UpcomingSeminarCardAdapter(getActivity(), mDataset, this);
         upcomingSeminarCardAdapter.setHeader(new AlMaghribUpcomingSeminarsLocationListModelContainer("", "Select your country", cities));
         mAdapter = new RecyclerViewMaterialAdapter(upcomingSeminarCardAdapter);
 
@@ -82,14 +81,16 @@ public class OnlineSeminarsFragment extends Fragment{
         return layoutView;
     }
 
-    private void populateHeaderCard(View layoutView) {
-        final FeedImageView bannerImageView = (FeedImageView) layoutView.findViewById(R.id.seminarBannerImageView);
-        bannerImageView.setDefaultImageResId(R.drawable.love_notes_card);
-        //bannerImageView.setImageUrl(bannerModel.getBannerUrl(), mImageLoader);
+    @Override
+    public void onDataSelected(String selectedItem, AVLoadingIndicatorButton button, boolean makeRequest) {
+        if (makeRequest) {
+            // Trigger request for data
 
-        final TextView titleTextView = (TextView) layoutView.findViewById(R.id.titleTextView);
-        titleTextView.setText("Select Your Country");
-
-        final Spinner spinner = (Spinner) layoutView.findViewById(R.id.getFeedSpinner);
+            // on response finish resst button
+//            button.setShowIndicator(false);
+//            button.setText(R.string.startup_screen_go_text);
+        } else {
+            // Cancel request for data
+        }
     }
 }

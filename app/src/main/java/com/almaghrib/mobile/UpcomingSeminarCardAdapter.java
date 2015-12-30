@@ -12,12 +12,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.almaghrib.mobile.almaghribApi.jsonModels.AlMaghribUpcomingSeminarBannerModel;
 import com.almaghrib.mobile.almaghribApi.jsonModels.AlMaghribUpcomingSeminarsLocationListModelContainer;
+import com.almaghrib.mobile.util.view.AVLoadingIndicatorButton;
 import com.almaghrib.mobile.util.view.FeedImageView;
 import com.almaghrib.mobile.util.view.HeaderRecyclerViewAdapter;
 import com.android.volley.toolbox.ImageLoader;
@@ -30,28 +32,38 @@ public class UpcomingSeminarCardAdapter extends HeaderRecyclerViewAdapter<
 
     private final Activity mActivity;
     private final ImageLoader mImageLoader;
+    private final onRetrieveDataSelectedListener mDataSelectedListener;
     private List<AlMaghribUpcomingSeminarBannerModel> mDataset;
 
+    /**
+     * Interface to react to changes in value of item selection triggered by button click
+     */
+    public interface onRetrieveDataSelectedListener {
+        void onDataSelected(String selectedItem, AVLoadingIndicatorButton button, boolean makeRequest);
+    }
+
     // Provide a reference to the views for each data item
-    protected static class HeaderSeminarCardViewHolder extends RecyclerView.ViewHolder {
-        protected FeedImageView mBannerImageView;
-        protected TextView mSeminarNameTextView;
-        protected Spinner mSpinner;
+    private static class HeaderSeminarCardViewHolder extends RecyclerView.ViewHolder {
+        private FeedImageView mBannerImageView;
+        private TextView mSeminarNameTextView;
+        private Spinner mSpinner;
+        private AVLoadingIndicatorButton mGoButton;
 
         public HeaderSeminarCardViewHolder(View v) {
             super(v);
             mBannerImageView = (FeedImageView) v.findViewById(R.id.seminarBannerImageView);
             mSeminarNameTextView = (TextView) v.findViewById(R.id.titleTextView);
             mSpinner = (Spinner) v.findViewById(R.id.spinner);
+            mGoButton = (AVLoadingIndicatorButton) v.findViewById(R.id.goButton);
         }
     }
 
     // Provide a reference to the views for each data item
-    protected static class SeminarCardViewHolder extends RecyclerView.ViewHolder {
-        protected FeedImageView mBannerImageView;
-        protected TextView mSeminarNameTextView;
-        protected TextView mDateView;
-        protected TextView mVenueTextView;
+    private static class SeminarCardViewHolder extends RecyclerView.ViewHolder {
+        private FeedImageView mBannerImageView;
+        private TextView mSeminarNameTextView;
+        private TextView mDateView;
+        private TextView mVenueTextView;
 
         public SeminarCardViewHolder(View v) {
             super(v);
@@ -62,9 +74,17 @@ public class UpcomingSeminarCardAdapter extends HeaderRecyclerViewAdapter<
         }
     }
 
-    public UpcomingSeminarCardAdapter(Activity activity, List<AlMaghribUpcomingSeminarBannerModel> dataset) {
+    /**
+     * Constructor for adapter to create list of cards for upcoming seminars page
+     * @param activity
+     * @param dataset
+     * @param dataSelectedListener
+     */
+    public UpcomingSeminarCardAdapter(Activity activity, List<AlMaghribUpcomingSeminarBannerModel> dataset,
+                                      onRetrieveDataSelectedListener dataSelectedListener) {
         mActivity = activity;
         mDataset = dataset;
+        mDataSelectedListener = dataSelectedListener;
         mImageLoader = RequestQueueSingleton.getInstance(activity.getApplicationContext()).getImageLoader();
     }
 
@@ -113,6 +133,24 @@ public class UpcomingSeminarCardAdapter extends HeaderRecyclerViewAdapter<
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         headerItemHolder.mSpinner.setAdapter(adapter);
 
+        headerItemHolder.mGoButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (headerItemHolder.mGoButton.getText().equals("")) {
+                    headerItemHolder.mGoButton.setShowIndicator(false);
+                    headerItemHolder.mGoButton.setText(R.string.startup_screen_go_text);
+                    mDataSelectedListener.onDataSelected(
+                            headerItemHolder.mSpinner.getSelectedItem().toString(),
+                            headerItemHolder.mGoButton, false);
+                } else {
+                    headerItemHolder.mGoButton.setText("");
+                    headerItemHolder.mGoButton.setShowIndicator(true);
+                    mDataSelectedListener.onDataSelected(
+                            headerItemHolder.mSpinner.getSelectedItem().toString(),
+                            headerItemHolder.mGoButton, true);
+                }
+            }
+        });
     }
 
     @Override
